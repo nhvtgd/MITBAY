@@ -34,6 +34,10 @@
             android:name="com.example.myapp.Listing"
             android:label="@string/title_activity_listing" >
         </activity>
+        <activity
+            android:name="com.example.myapp.LogInPage"
+            android:label="@string/title_activity_log_in_page" >
+        </activity>
     </application>
 
 </manifest>
