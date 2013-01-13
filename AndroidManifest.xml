@@ -38,6 +38,14 @@
             android:name="com.example.myapp.LogInPage"
             android:label="@string/title_activity_log_in_page" >
         </activity>
+        <activity
+            android:name="com.example.myapp.LogIn"
+            android:label="@string/title_activity_log_in" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.Register"
+            android:label="@string/title_activity_register" >
+        </activity>
     </application>
 
 </manifest>
