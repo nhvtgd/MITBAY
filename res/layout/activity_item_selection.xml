@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ItemSelection" >
+
+    <Button
+        android:id="@+id/textbook_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/textbook"
+        android:text="@string/textbook_string" />
+
+    <Button
+        android:id="@+id/furniture_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/furniture"
+        android:text="@string/furniture_string" />
+
+    <Button
+        android:id="@+id/bike_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/bike"
+        android:text="@string/bike_string" />
+
+    <Button
+        android:id="@+id/miscellaneous_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/miscellaneous"
+        android:text="@string/miscellaneous_string" />
+    
+    <ImageView 
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/mit_logo"
+        android:background="@color/maroon"
+        
+        
+        
+        />
+
+
+
+</LinearLayout>

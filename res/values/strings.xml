@@ -5,4 +5,16 @@
     <string name="hello_world">Hello war</string>
     <string name="menu_settings">Settings</string>
 
+    <!-- Item Selection page String -->
+    <string name="title_activity_item_selection">Item Selection</string>
+    <string name="textbook_string">Text Book Exchange</string>
+    <string name="furniture_string">Furniture Exchange</string>
+    <string name="bike_string">Bike Exchange</string>
+    <string name="miscellaneous_string">Miscellaneous</string>
+    <string name="title_activity_splash_screen">MITBAY</string>
+
+    <!-- SplashScreen Page -->
+    <string name="logo_description">This is the place where MIT students can find the fastest way to buy and sell items </string>
+    <string name="version">Version 1.0.0\nCopyright © 2012 MITBAY. All Rights Reserved.</string>
+
 </resources>
