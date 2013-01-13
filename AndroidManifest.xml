@@ -30,6 +30,10 @@
             android:name="com.example.myapp.MainActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.example.myapp.Listing"
+            android:label="@string/title_activity_listing" >
+        </activity>
     </application>
 
 </manifest>

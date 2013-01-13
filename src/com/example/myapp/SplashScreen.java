@@ -16,8 +16,7 @@ import android.widget.TextView;
 
 /**
  * This class will be the first screen to show an animation to transition to the
- * Item Selection Page
- * 
+ * Item Selection Page   
  * @author trannguyen
  * 
  */
