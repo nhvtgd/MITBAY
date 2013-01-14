@@ -36,7 +36,8 @@
         </activity>
         <activity
             android:name="com.example.myapp.LogInPage"
-            android:label="@string/title_activity_log_in_page" >
+            android:label="@string/title_activity_log_in_page" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.example.myapp.LogIn"
