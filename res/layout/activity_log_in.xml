@@ -1,14 +1,49 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogIn" >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
-
-</RelativeLayout>
+    android:gravity="center_horizontal"
+    android:orientation="vertical" 
+    android:paddingTop="10sp"
+    >
+    
+    <!-- Email -->
+	<EditText
+	    android:id="@+id/signInEmailAddress"
+	    android:layout_width="200sp"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="15sp"
+	    android:hint="your university email"
+	    android:inputType="textEmailAddress"
+	></EditText>
+	
+	<!-- Password -->
+	<EditText
+	    android:id="@+id/signInPassword"
+	    android:layout_width="200sp"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="15sp"
+	    android:hint="password"
+	    android:inputType="textPassword"
+	></EditText>
+	
+	<!-- Confirm -->
+	<Button
+	    android:id="@+id/signInConfirmButton"
+	    android:layout_width="100sp"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="15sp"
+	    android:text="Log in"
+	    android:textColor="@color/white"
+	    android:textStyle="bold"
+	></Button>
+	
+	<!-- Error Checking -->
+	<TextView
+	    android:id="@+id/signInErrorMassage"
+	    android:layout_width="200sp"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="15sp"
+	    android:textStyle="italic"
+	    />
+</LinearLayout>

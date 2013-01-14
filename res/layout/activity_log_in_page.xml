@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -5,7 +6,6 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_gravity="center"
-    tools:context=".MainActivity" 
     >
     
     <!-- App Name -->
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:gravity="center_horizontal"
-        android:text="@string/app_name"
+        android:text="MIT Bay"
         android:textSize="30sp"
         android:textColor="@color/red"
         android:textStyle="italic"
@@ -23,7 +23,7 @@
 
     <!-- Log in -->
     <Button
-        android:id="@+id/logIn"
+        android:id="@+id/LogIn_LogInPage"
         android:layout_width="200sp"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
@@ -35,7 +35,7 @@
     
     <!-- Register -->
     <Button
-        android:id="@+id/register"
+        android:id="@+id/Register_LogInPage"
         android:layout_width="200sp"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
@@ -52,7 +52,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:src="@drawable/mit_great_dome"
-       android:contentDescription="MIT"
     ></ImageView>
 	
 </LinearLayout>

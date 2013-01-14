@@ -1,11 +1,11 @@
-package Login;
+package com.example.myapp;
 
-import com.example.myapp.ItemSelection;
 import com.example.myapp.R;
 import com.example.myapp.R.layout;
 import com.example.myapp.R.menu;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.LauncherActivity.ListItem;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.Menu;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Register extends Activity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class Register extends Activity {
 					prefEditor.putString("password", password);
 					prefEditor.commit();
 					// Move to ListItems action
-					Intent i = new Intent(v.getContext(), ItemSelection.class);
+					Intent i = new Intent(v.getContext(), ListItem.class);
 					startActivity(i);
 				}
 				Toast.makeText(v.getContext(), "get email and password", Toast.LENGTH_LONG).show();
@@ -74,4 +75,3 @@ public class Register extends Activity {
 		return true;
 	}
 }
-
