@@ -36,8 +36,8 @@
         </activity>
         <activity
             android:name="com.example.myapp.LogInPage"
-            android:label="@string/title_activity_log_in_page" 
-            android:screenOrientation="portrait">
+            android:label="@string/title_activity_log_in_page"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.myapp.LogIn"
@@ -46,6 +46,10 @@
         <activity
             android:name="com.example.myapp.Register"
             android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.SellOneItem"
+            android:label="@string/title_activity_sell_one_item" >
         </activity>
     </application>
 

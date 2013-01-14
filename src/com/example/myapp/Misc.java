@@ -6,5 +6,4 @@ public class Misc extends Sellable{
 		super(user, name, price);
 		// TODO Auto-generated constructor stub
 	}
-
 }

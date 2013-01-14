@@ -20,5 +20,6 @@
     <string name="title_activity_log_in_page">LogInPage</string>
     <string name="title_activity_log_in">LogIn</string>
     <string name="title_activity_register">Register</string>
+    <string name="title_activity_sell_one_item">SellOneItem</string>
 
 </resources>
