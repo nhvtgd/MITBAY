@@ -1,6 +1,10 @@
-package com.example.myapp;
+package com.login;
 
 import com.example.myapp.R;
+import com.example.myapp.R.id;
+import com.example.myapp.R.layout;
+import com.example.myapp.R.menu;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;

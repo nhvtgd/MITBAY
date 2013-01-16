@@ -1,6 +1,11 @@
-package com.example.myapp;
+package com.login;
 
+import com.example.myapp.ItemSelection;
 import com.example.myapp.R;
+import com.example.myapp.R.id;
+import com.example.myapp.R.layout;
+import com.example.myapp.R.menu;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.LauncherActivity.ListItem;
@@ -23,6 +28,9 @@ public class LogIn extends Activity {
 		setContentView(R.layout.activity_log_in);
 		// Set backgroundColor is gray
 		Button logIn = (Button) findViewById(R.id.signInConfirmButton);
+		
+		
+		
 		logIn.setBackgroundColor(Color.RED);
 		// Check Remember the last password
 		// SharedPreferences
@@ -61,7 +69,7 @@ public class LogIn extends Activity {
 					prefEditor.putString("password", password);
 					prefEditor.commit();
 					// Move to ListItems action
-					Intent i = new Intent(v.getContext(), ListItem.class);
+					Intent i = new Intent(v.getContext(), ItemSelection.class);
 					startActivity(i);
 				} else {
 					// Incorrect email or password

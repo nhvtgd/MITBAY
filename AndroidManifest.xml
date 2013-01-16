@@ -35,16 +35,16 @@
             android:label="@string/title_activity_listing" >
         </activity>
         <activity
-            android:name="com.example.myapp.LogInPage"
+            android:name="com.login.LogInPage"
             android:label="@string/title_activity_log_in_page"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.example.myapp.LogIn"
+            android:name="com.login.LogIn"
             android:label="@string/title_activity_log_in" >
         </activity>
         <activity
-            android:name="com.example.myapp.Register"
+            android:name="com.login.Register"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
