@@ -48,32 +48,77 @@ public final class R {
         public static final int ic_launcher=0x7f020002;
         public static final int logo=0x7f020003;
         public static final int miscellaneous=0x7f020004;
-        public static final int mit_logo=0x7f020005;
-        public static final int mit_seal=0x7f020006;
-        public static final int textbook=0x7f020007;
+        public static final int mit_great_dome=0x7f020005;
+        public static final int mit_logo=0x7f020006;
+        public static final int mit_seal=0x7f020007;
+        public static final int textbook=0x7f020008;
     }
     public static final class id {
-        public static final int TableLayout_Splash=0x7f0a0005;
-        public static final int TableRow01_Splash=0x7f0a0006;
-        public static final int TableRow02=0x7f0a0007;
+        public static final int Address=0x7f0a0019;
+        public static final int AddressText=0x7f0a0018;
+        public static final int ConfirmButton_Register=0x7f0a0012;
+        public static final int ConfirmPassword_Register=0x7f0a0011;
+        public static final int Email=0x7f0a0017;
+        public static final int EmailAddress_Register=0x7f0a000f;
+        public static final int EmailText=0x7f0a0016;
+        public static final int Item=0x7f0a001b;
+        public static final int ItemText=0x7f0a001a;
+        public static final int LogIn_LogInPage=0x7f0a0008;
+        public static final int MITGreatDome=0x7f0a000a;
+        public static final int MessageError_Register=0x7f0a0013;
+        public static final int Password_Register=0x7f0a0010;
+        public static final int Price=0x7f0a001d;
+        public static final int PriceText=0x7f0a001c;
+        public static final int Register_LogInPage=0x7f0a0009;
+        public static final int TableLayout_Splash=0x7f0a001f;
+        public static final int TableRow01_Splash=0x7f0a0020;
+        public static final int TableRow02=0x7f0a0021;
+        public static final int UserName=0x7f0a0015;
+        public static final int UserNameText=0x7f0a0014;
+        public static final int UserName_Register=0x7f0a000e;
+        public static final int agree_to_take_picture=0x7f0a000d;
         public static final int bike_button=0x7f0a0002;
-        public static final int description_text=0x7f0a0008;
+        public static final int choose_picture_button=0x7f0a0025;
+        public static final int decline_to_choose_pic=0x7f0a000c;
+        public static final int description_text=0x7f0a0022;
         public static final int furniture_button=0x7f0a0001;
-        public static final int logo_image=0x7f0a0004;
-        public static final int menu_settings=0x7f0a000a;
+        public static final int logo_image=0x7f0a001e;
+        public static final int menu_settings=0x7f0a0026;
         public static final int miscellaneous_button=0x7f0a0003;
+        public static final int preview_picture=0x7f0a000b;
+        public static final int signInConfirmButton=0x7f0a0006;
+        public static final int signInEmailAddress=0x7f0a0004;
+        public static final int signInErrorMassage=0x7f0a0007;
+        public static final int signInPassword=0x7f0a0005;
+        public static final int take_picture_button=0x7f0a0024;
         public static final int textbook_button=0x7f0a0000;
-        public static final int version_text=0x7f0a0009;
+        public static final int version_text=0x7f0a0023;
     }
     public static final class layout {
         public static final int activity_item_selection=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int activity_splash_screen=0x7f030002;
+        public static final int activity_listing=0x7f030001;
+        public static final int activity_log_in=0x7f030002;
+        public static final int activity_log_in_page=0x7f030003;
+        public static final int activity_main=0x7f030004;
+        public static final int activity_mitbay=0x7f030005;
+        public static final int activity_picture_preview=0x7f030006;
+        public static final int activity_register=0x7f030007;
+        public static final int activity_sell_one_item=0x7f030008;
+        public static final int activity_splash_screen=0x7f030009;
+        public static final int activity_test_camera=0x7f03000a;
     }
     public static final class menu {
         public static final int activity_item_selection=0x7f090000;
-        public static final int activity_main=0x7f090001;
-        public static final int activity_splash_screen=0x7f090002;
+        public static final int activity_listing=0x7f090001;
+        public static final int activity_log_in=0x7f090002;
+        public static final int activity_log_in_page=0x7f090003;
+        public static final int activity_main=0x7f090004;
+        public static final int activity_mitbay=0x7f090005;
+        public static final int activity_picture_preview=0x7f090006;
+        public static final int activity_register=0x7f090007;
+        public static final int activity_sell_one_item=0x7f090008;
+        public static final int activity_splash_screen=0x7f090009;
+        public static final int activity_test_camera=0x7f09000a;
     }
     public static final class string {
         public static final int app_name=0x7f070000;
@@ -89,6 +134,11 @@ public final class R {
         /**  Item Selection page String 
          */
         public static final int title_activity_item_selection=0x7f070003;
+        public static final int title_activity_listing=0x7f07000b;
+        public static final int title_activity_log_in=0x7f07000d;
+        public static final int title_activity_log_in_page=0x7f07000c;
+        public static final int title_activity_register=0x7f07000e;
+        public static final int title_activity_sell_one_item=0x7f07000f;
         public static final int title_activity_splash_screen=0x7f070008;
         public static final int version=0x7f07000a;
     }

@@ -5,6 +5,10 @@ import com.example.myapp.R;
 import com.example.myapp.R.id;
 import com.example.myapp.R.layout;
 import com.example.myapp.R.menu;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -26,11 +30,25 @@ public class LogIn extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_log_in);
+		ParseUser user = new ParseUser();
+		user.setUsername("my name");
+		user.setPassword("my pass");
+		user.setEmail("email@example.com");
+
+		// other fields can be set just like with ParseObject
+		user.put("phone", "650-253-0000");
+
+		user.signUpInBackground(new SignUpCallback() {
+
+			@Override
+			public void done(ParseException arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		// Set backgroundColor is gray
 		Button logIn = (Button) findViewById(R.id.signInConfirmButton);
-		
-		
-		
+
 		logIn.setBackgroundColor(Color.RED);
 		// Check Remember the last password
 		// SharedPreferences
@@ -52,7 +70,8 @@ public class LogIn extends Activity {
 		confirm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(v.getContext(), "sign in", Toast.LENGTH_SHORT).show();
+				Toast.makeText(v.getContext(), "sign in", Toast.LENGTH_SHORT)
+						.show();
 				// SharedPreferences
 				SharedPreferences settings = getSharedPreferences("sign in", 0);
 				SharedPreferences.Editor prefEditor = settings.edit();
@@ -73,13 +92,15 @@ public class LogIn extends Activity {
 					startActivity(i);
 				} else {
 					// Incorrect email or password
-					// Set message 
+					// Set message
 					TextView errorMessage = (TextView) findViewById(R.id.signInErrorMassage);
-					errorMessage.setText("The email and password are not correct. Can you try again?");
+					errorMessage
+							.setText("The email and password are not correct. Can you try again?");
 				}
 			}
 		});
 	}
+
 	public boolean isValidLogIn(String email, String password) {
 		long time = System.currentTimeMillis();
 		return (time % 4 == 0);
