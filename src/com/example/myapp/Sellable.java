@@ -13,6 +13,7 @@ public class Sellable {
 	private int id;
 	
 	public enum Condition {NEW,	USED, ACCEPTABLE};
+	public enum SellType {TEXTBOOK, ELECTRONIC, TRANSPORTATION, MISC};
 	
 	/**
 	 * 
