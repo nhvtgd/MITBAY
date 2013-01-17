@@ -5,6 +5,8 @@ import com.example.myapp.R;
 import com.example.myapp.R.id;
 import com.example.myapp.R.layout;
 import com.example.myapp.R.menu;
+import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -25,11 +27,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class LogIn extends Activity {
-
+	private boolean validLogin;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_log_in);
+		// Parse Initialization
+		Parse.initialize(this, "2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
+				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
+		
 		// Set backgroundColor is gray
 		Button logIn = (Button) findViewById(R.id.signInConfirmButton);
 
@@ -38,8 +44,8 @@ public class LogIn extends Activity {
 		// SharedPreferences
 		SharedPreferences settings = getSharedPreferences("sign in", 0);
 		// Email Address
-		EditText emailField = (EditText) findViewById(R.id.signInEmailAddress);
-		String previousEmail = settings.getString("email", "");
+		EditText emailField = (EditText) findViewById(R.id.signInUsername);
+		String previousEmail = settings.getString("username", "");
 		if (previousEmail != "") {
 			emailField.setText(previousEmail);
 		}
@@ -54,13 +60,11 @@ public class LogIn extends Activity {
 		confirm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(v.getContext(), "sign in", Toast.LENGTH_SHORT)
-						.show();
 				// SharedPreferences
 				SharedPreferences settings = getSharedPreferences("sign in", 0);
 				SharedPreferences.Editor prefEditor = settings.edit();
 				// Email Address
-				EditText emailField = (EditText) findViewById(R.id.signInEmailAddress);
+				EditText emailField = (EditText) findViewById(R.id.signInUsername);
 				String email = emailField.getText().toString();
 				// Password
 				EditText passwordField = (EditText) findViewById(R.id.signInPassword);
@@ -68,7 +72,7 @@ public class LogIn extends Activity {
 				// Update
 				if (isValidLogIn(email, password)) {
 					// Correct email and password
-					prefEditor.putString("email", email);
+					prefEditor.putString("user name", email);
 					prefEditor.putString("password", password);
 					prefEditor.commit();
 					// Move to ListItems action
@@ -79,15 +83,26 @@ public class LogIn extends Activity {
 					// Set message
 					TextView errorMessage = (TextView) findViewById(R.id.signInErrorMassage);
 					errorMessage
-							.setText("The email and password are not correct. Can you try again?");
+							.setText("The username and password are not correct. Can you try again?");
 				}
 			}
 		});
 	}
 
-	public boolean isValidLogIn(String email, String password) {
-		long time = System.currentTimeMillis();
-		return (time % 4 == 0);
+	public boolean isValidLogIn(String name, String password) {
+		ParseUser user = new ParseUser();
+		user.setUsername(name);
+		user.setPassword(password);
+		ParseUser.logInInBackground(name, password, new LogInCallback() {
+			  public void done(ParseUser user, ParseException e) {
+			    if (user != null) {
+			      validLogin = true;
+			    } else {
+			      validLogin = false;
+			    }
+			  }
+			});
+		return validLogin;
 	}
 
 	@Override

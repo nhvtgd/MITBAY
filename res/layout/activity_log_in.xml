@@ -9,12 +9,12 @@
     
     <!-- Email -->
 	<EditText
-	    android:id="@+id/signInEmailAddress"
+	    android:id="@+id/signInUsername"
 	    android:layout_width="200sp"
 	    android:layout_height="wrap_content"
 	    android:layout_margin="15sp"
-	    android:hint="your university email"
-	    android:inputType="textEmailAddress"
+	    android:hint="your username"
+	    android:inputType="textPersonName"
 	></EditText>
 	
 	<!-- Password -->
