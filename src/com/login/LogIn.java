@@ -30,22 +30,6 @@ public class LogIn extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_log_in);
-		ParseUser user = new ParseUser();
-		user.setUsername("my name");
-		user.setPassword("my pass");
-		user.setEmail("email@example.com");
-
-		// other fields can be set just like with ParseObject
-		user.put("phone", "650-253-0000");
-
-		user.signUpInBackground(new SignUpCallback() {
-
-			@Override
-			public void done(ParseException arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 		// Set backgroundColor is gray
 		Button logIn = (Button) findViewById(R.id.signInConfirmButton);
 
