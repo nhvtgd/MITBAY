@@ -1,113 +1,277 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".SellOneItem" 
-    android:paddingLeft="10sp"
-    android:paddingBottom="10sp"
-    android:textSize="15sp" 
-    >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true" >
 
-    <!-- Menu (Cancel  Done) -->
-    
-    <!-- Seller -->
-    <TextView
-        android:id="@+id/UserNameText"
-        android:layout_width="100sp"
+   <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="User name" 
-        />
-    <TextView
-        android:id="@+id/UserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/UserNameText"
-        android:text="Duy Ha" 
-        />
+        android:orientation="vertical"
+        android:padding="@dimen/separation" >
+        
+        <!-- User Name -->
 
-    <!-- Email -->
-    <TextView
-        android:id="@+id/EmailText"
-        android:layout_width="100sp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/UserNameText"
-        android:text="Email" 
-        />
-    <TextView
-        android:id="@+id/Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/EmailText"
-        android:layout_below="@+id/UserNameText"
-        android:text="duyha@mit.edu" 
-        />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
- 	<!-- Address -->
-    <TextView
-        android:id="@+id/AddressText"
-        android:layout_width="100sp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/EmailText"
-        android:text="Address" 
-        />
-    <TextView
-        android:id="@+id/Address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/AddressText"
-        android:layout_below="@+id/EmailText"
-        android:text="500 Memorial Drive #316" 
-        />
+            <TextView
+                android:id="@+id/sell_one_item_UserNameText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="User name" >
+            </TextView>
 
-    <!-- Item -->
-    <TextView
-        android:id="@+id/ItemText"
-        android:layout_width="100sp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/AddressText"
-        android:text="Item"
-        />
-    <EditText
-        android:id="@+id/Item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/ItemText"
-        android:layout_below="@+id/AddressText"
-        android:layout_alignBottom="@+id/ItemText"
-        android:layout_alignTop="@+id/ItemText"
-        android:inputType="text"
-        android:padding="0sp" 
-        />
+            <TextView
+                android:id="@+id/sell_one_item_UserName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:text="Duy Ha" >
+            </TextView>
+        </LinearLayout>
 
-	<!-- Price -->
-    <TextView
-        android:id="@+id/PriceText"
-        android:layout_width="100sp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/ItemText"
-        android:text="Price"
-        />
-    <EditText
-        android:id="@+id/Price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/PriceText"
-        android:layout_below="@+id/ItemText"
-        android:layout_alignBottom="@+id/PriceText"
-        android:layout_alignTop="@+id/PriceText"
-        android:padding="0sp" 
-        android:text="$ "
-        android:inputType="numberDecimal"
-        />
-    
+        <!-- Email -->
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
+            <TextView
+                android:id="@+id/sell_one_item_EmailText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Email" >
+            </TextView>
 
-    
-</RelativeLayout>
+            <TextView
+                android:id="@+id/sell_one_item_Email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:text="duyha@mit.edu" >
+            </TextView>
+        </LinearLayout>
+
+        <!-- Address -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/sell_one_item_AddressText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Address" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/sell_one_item_Address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:text="Next house, #316" >
+            </TextView>
+        </LinearLayout>
+		<View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" 
+            android:layout_marginTop="@dimen/separation"
+            android:layout_marginBottom="@dimen/separation"/>
+        <!-- Item -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/sell_one_item_ItemText"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Item" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/sell_one_item_Item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:inputType="text" >
+            </EditText>
+        </LinearLayout>
+        
+        <!-- Price -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/sell_one_item_PriceText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="Price ($)" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/sell_one_item_Price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:inputType="numberDecimal" >
+            </EditText>
+        </LinearLayout>
+        
+        <!-- Category -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Spinner
+                android:id="@+id/sell_one_item_Quality"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:entries="@array/QualityItem"
+                android:prompt="@string/quality_item" >
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/sell_one_item_Category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:entries="@array/CategoryItem"
+                android:prompt="@string/category_item" >
+            </Spinner>
+        </LinearLayout>
+        
+		<View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" 
+            android:layout_marginTop="@dimen/separation"
+            android:layout_marginBottom="@dimen/separation"/>
+        <!-- Picture -->
+        <!-- Take photo button -->
+
+       <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageButton
+                android:id="@+id/sell_one_item_AddPhotoButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:onClick="takePhoto"
+                android:src="@drawable/ic_camera"
+                android:textSize="10sp" />
+
+            <ImageButton
+                android:id="@+id/sell_one_item_GalleryPicture"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:onClick="chosePicture"
+                android:src="@drawable/ic_upload"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Images -->
+
+        <LinearLayout
+            android:id="@+id/sell_one_item_FramePicture"
+            android:layout_width="fill_parent"
+            android:layout_height="200sp"
+            android:paddingTop="10dp" >
+
+            <ImageButton
+                android:id="@+id/sell_one_item_PreviousPicture"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:onClick="previousPicture"
+                android:src="@drawable/ic_navigation_previous"
+                android:text="previous"
+                android:textSize="10sp" >
+            </ImageButton>
+
+            <ImageView
+                android:id="@+id/sell_one_item_Piture"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="4"
+                android:adjustViewBounds="true"
+                android:longClickable="true"
+                android:onClick="pictureOptions"
+                android:src="@drawable/mit_great_dome" >
+            </ImageView>
+
+            <ImageButton
+                android:id="@+id/sell_one_item_NextPicture"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:onClick="nextPicture"
+                android:src="@drawable/ic_navigation_next"
+                android:text="next"
+                android:textSize="10sp" >
+            </ImageButton>
+        </LinearLayout>
+
+        <!-- Status for pictures -->
+
+        <TextView
+            android:id="@+id/sell_one_item_Status"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="status"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" 
+            android:layout_marginTop="@dimen/separation"
+            android:layout_marginBottom="@dimen/separation"/>
+        
+        <!-- Description -->
+        <EditText
+            android:id="@+id/sell_one_item_Description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Add your description " />
+
+        <!-- Button Confirmation -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/sell_one_item_CancelButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel" 
+                android:onClick="cancelSellTheItem" />
+
+            <Button
+                android:id="@+id/sell_one_item_DoneButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Done" 
+                android:onClick="doneSellTheItem"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

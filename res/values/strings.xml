@@ -21,5 +21,18 @@
     <string name="title_activity_log_in">LogIn</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_sell_one_item">SellOneItem</string>
+    <string name="quality_item">Quality</string>
+    <string name="category_item">Category</string>
+    <string-array name="QualityItem">
+        <item>new</item>
+        <item>used</item>
+        <item>old</item> 
+        </string-array>
+   <string-array name="CategoryItem">
+        <item>Text Book</item>
+        <item>Furniture</item>
+        <item>Bike</item>
+        <item>Miscellaneous</item>
+        </string-array>
 
 </resources>
