@@ -4,9 +4,14 @@ import static android.provider.MediaStore.Images.Media.getBitmap;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.myapp.Sellable.Condition;
+import com.example.myapp.Sellable.SellType;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,27 +35,38 @@ public class SellOneItem extends Activity {
 	// Keep track of choosing photo from storage
 	final int PICK_PHOTO = 271828;
 	// Save multiple images
-	List<Bitmap> IMAGES = new ArrayList<Bitmap>();
+	ArrayList<Bitmap> IMAGES = new ArrayList<Bitmap>();
 	// Options for picture
 	final String[] options = {"Set Avarta", "Delete"};
 	final int MAX_NUMBER_PICTURES = 3;
 	int current_photo_index = -1;
 	int avarta_photo_index = 0;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sell_one_item);
-		// Need to load data from user: Name, email, address
+		loadSettingData(); 	// Load setting data from user
 		setStatus();
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		MenuInflater inflater = getMenuInflater(); 
 		inflater.inflate(R.menu.activity_sell_one_item, menu);
 		return true;
+	}
+	// Load data from User: name, email, address
+	public void loadSettingData() {
+		// GetSharedPreferences
+		SharedPreferences settings = getSharedPreferences("Setting", 0);
+		String userName = settings.getString("user name", "DUY HA");
+		String email = settings.getString("email", "duyha@MIT.EDU");
+		String address = settings.getString("address", "Next house, room 316");
+		// Set Text View
+		((TextView) findViewById(R.id.sell_one_item_UserName)).setText(userName);
+		((TextView) findViewById(R.id.sell_one_item_Email)).setText(email);
+		((TextView) findViewById(R.id.sell_one_item_Address)).setText(address);
 	}
 	// Take Photo
 	public void takePhoto(View view) {
@@ -196,28 +213,45 @@ public class SellOneItem extends Activity {
 		try {
 			double price = Double.parseDouble(priceString);
 		} catch (NumberFormatException nfe) {
-			return false; }
-		return true;
-	}
-	// Button Cancel and Done
-	public void cancelSellTheItem(View view) {
-		Toast.makeText(view.getContext(), "will cancel", Toast.LENGTH_SHORT).show();
-	}
-	public void doneSellTheItem(View view) {
-		Toast.makeText(view.getContext(), "will be continued", Toast.LENGTH_SHORT).show();
-		String priceString = ((EditText) findViewById(R.id.sell_one_item_Price)).getText().toString();
-		if (!isValidPrice(priceString)) {
-			// Build a dialog
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("The price "+priceString+" you suggest is not valid");
+			builder.setTitle("The price \""+priceString+"\" you suggest is not valid");
 			builder.setPositiveButton("Ok", new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 				} // do nothing
 			});
 			builder.create().show();
-		}
+			return false; }
+		return true;
+	}
+	// Button Cancel and Done
+	public void cancelSellTheItem(View view) {
+		// Go back to the ItemSelection
+		startActivity(new Intent(view.getContext(), ItemSelection.class));
+		// Destroy the activity
+		this.finish();
+	}
+	public void doneSellTheItem(View view) {
+		Toast.makeText(view.getContext(), "will be continued", Toast.LENGTH_SHORT).show();
+		String priceString = ((EditText) findViewById(R.id.sell_one_item_Price)).getText().toString();
+		if (!isValidPrice(priceString)) return;
 		// else { create Sellable object/ confirm / send to the server}
+		// Create a Sellable object
+		SharedPreferences settings = getSharedPreferences("Setting", 0);
+//		Condition condition = Condition.valueOf(((Spinner)findViewById(R.id.sell_one_item_Quality)).getResources().toString().toUpperCase());
+//		Sellable.SellType category = Sellable.SellType.valueOf(((Spinner)findViewById(R.id.sell_one_item_Category)).getResources().toString().toUpperCase());
+//		User user = new User(settings.getString("user name", ""), 
+//							 settings.getString("email", ""), 
+//							 settings.getString("password", ""));
+//		// Convert to enum type
+//		Sellable item = new Sellable(settings.getString("user name", ""), 	// seller  
+//									((EditText)findViewById(R.id.sell_one_item_Item)).getResources().toString(), // name item 
+//									((EditText)findViewById(R.id.sell_one_item_Price)).getResources().toString(), // price 
+//									 SellType.ELECTRONIC, // category 
+//									((EditText)findViewById(R.id.sell_one_item_Description)).getResources().toString(), // description 
+//									 Condition.NEW, // quality 
+//									IMAGES);
+		
 	}
 }
 
