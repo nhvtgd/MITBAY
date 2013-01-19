@@ -1,7 +1,7 @@
 package com.example.myapp;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 /**
  * This class is the base class that will keep all of the preferences 
@@ -11,6 +11,8 @@ import android.view.Menu;
  */
 public class MITBAYActivity extends Activity {
 
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

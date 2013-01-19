@@ -23,7 +23,7 @@
     <string name="title_activity_sell_one_item">SellOneItem</string>
     <string name="quality_item">Quality</string>
     <string name="category_item">Category</string>
-	
+
     <!-- Sell one item screen -->
     <string-array name="CategoryItem">
         <item>TEXT BOOK</item>
@@ -35,8 +35,10 @@
         <item>New</item>
         <item>Used</item>
         <item>Acceptable</item>
-	</string-array>
+    </string-array>
 
     <string name="title_activity_confirm_sell_item">ConfirmSellItem</string>
+    <string name="title_activity_list_view_item">ListViewItem</string>
+    <string name="title_activity_customized_list_view">CustomizedListView</string>
 
 </resources>

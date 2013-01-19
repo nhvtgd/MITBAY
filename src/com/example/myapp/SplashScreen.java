@@ -1,9 +1,13 @@
 package com.example.myapp;
 
+import com.example.myapp.Sellable.SellType;
+import com.parse.ParseObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -80,7 +84,7 @@ public class SplashScreen extends Activity {
 					public void run() {
 
 						Intent intent = new Intent(SplashScreen.this,
-								ItemSelection.class);
+								CustomizedListView.class);
 						SplashScreen.this.startActivity(intent);
 						SplashScreen.this.finish();
 

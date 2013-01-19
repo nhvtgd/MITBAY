@@ -18,6 +18,7 @@ public class Sellable {
 	private SellType type;
 	private ArrayList<Bitmap> images;
 	private Condition condition;
+	private String location;
 	private static final String DEFAULT_DESCRIPTION = "Descibe as above";
 	private static final Condition DEFAULT_CONDITION = Condition.ACCEPTABLE;
 
@@ -28,6 +29,8 @@ public class Sellable {
 	 */
 	public enum Condition {
 		NEW, USED, ACCEPTABLE
+		
+		
 	};
 
 	/**
@@ -95,7 +98,6 @@ public class Sellable {
 		this.setType(type);
 		this.setDate(getCurrentDate());
 		this.description = DEFAULT_DESCRIPTION;
-		this.setImages(getDefaultImage(type));
 		this.setCondition(DEFAULT_CONDITION);
 
 	}

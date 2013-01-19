@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
  
 /**
  * This class is called before any activity that requires internet connection
+ * such as a search or buy or sell items
  * @author trannguyen
  *
  */
