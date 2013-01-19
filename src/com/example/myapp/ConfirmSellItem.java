@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +78,7 @@ public class ConfirmSellItem extends Activity {
 		ImageView image = (ImageView) findViewById(R.id.Piture);
 		Bitmap pic = null;
 		TextView textStatus = (TextView) findViewById(R.id.status);
+		// Set Image view
 		if (IMAGES.size() == 0) {
 			textStatus.setText("No picture");
 		} else {
@@ -84,5 +86,10 @@ public class ConfirmSellItem extends Activity {
 			pic = IMAGES.get(current_photo_index);
 		}
 		image.setImageBitmap(pic);
+		// Set Button next and previous
+		if (IMAGES.size() < 2) {
+			((ImageButton)findViewById(R.id.nextPicture)).setVisibility(ImageButton.INVISIBLE);
+			((ImageButton)findViewById(R.id.previousPicture)).setVisibility(ImageButton.INVISIBLE);
+		}
 	}
 }
