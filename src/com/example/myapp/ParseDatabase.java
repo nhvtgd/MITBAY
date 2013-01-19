@@ -5,11 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
-import com.example.myapp.Sellable.Condition;
-import com.example.myapp.Sellable.SellType;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -35,14 +33,11 @@ public class ParseDatabase {
 	public static ParseObject createSellableParseObj(Sellable sell) {
 		ParseObject obj = new ParseObject("Sellable");
 		obj.put("name", sell.getName());
-		obj.put("seller", sell.getSeller());
-		obj.put("type", sell.getType());
 		obj.put("price", sell.getPrice());
-		obj.put("description", sell.getDescription());
-		obj.put("enabled", sell.isEnabled());
+		obj.put("type", sell.getType());
 		obj.put("condition", sell.getCondition());
-		obj.put("date", sell.getDate());
-		obj.put("images", sell.getImages());
+		obj.put("seller", sell.getSeller().getName());
+		obj.put("enabled", sell.isEnabled());
 		return obj;
 	}
 
@@ -52,9 +47,10 @@ public class ParseDatabase {
 	 * @param sell
 	 *            : sellable
 	 */
-	public void sendSellableToServer(Sellable sell) {
+	public String sendSellableToServer(Sellable sell) {
 		ParseObject sellobj = createSellableParseObj(sell);
-		sellobj.saveEventually();
+		sellobj.saveInBackground();
+		return sellobj.getObjectId();
 	}
 
 	/**
@@ -73,21 +69,13 @@ public class ParseDatabase {
 	 *            : instance of User
 	 * @param name
 	 *            : name of sellable
-	 * @return a list of sellable objects with that name belonging to user
+	 * @return parsequery you can use to query in parse server
 	 */
-	public List<Sellable> getSellableWithNameAndUser(User user, String name) {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery getSellableWithNameAndUser(User user, String name) {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("seller", user.getName());
 		query.whereEqualTo("name", name);
-		CustomFindCallback c = new CustomFindCallback();
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
@@ -96,18 +84,10 @@ public class ParseDatabase {
 	 *            : instance of User
 	 * @return a list of sellable objects sold by user
 	 */
-	public List<Sellable> getSellableOfUser(User user) {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery getSellableOfUser(User user) {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("seller", user.getName());
-		CustomFindCallback c = new CustomFindCallback();
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
@@ -117,54 +97,30 @@ public class ParseDatabase {
 	 *            : Selltype enum
 	 * @return a list of sellable objects of that selltype
 	 */
-	public List<Sellable> getType(SellType type) {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery getType(String type) {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("type", type);
-		CustomFindCallback c = new CustomFindCallback();
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
 	 * 
 	 * @return a list of sellable objects that are enabled
 	 */
-	public List<Sellable> getEnabled() {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery getEnabled() {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("enabled", true);
-		CustomFindCallback c = new CustomFindCallback();
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
 	 * 
 	 * @return a list of sellable objects that are disabled
 	 */
-	public List<Sellable> getDisabled() {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery getDisabled() {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("enabled", false);
-		CustomFindCallback c = new CustomFindCallback();
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
@@ -173,18 +129,10 @@ public class ParseDatabase {
 	 *            : Condition enum, parameter of sellable
 	 * @return a list of sellables that have the specified condition
 	 */
-	public List<Sellable> getCondition(Condition cond) {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery getCondition(String cond) {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("condition", cond);
-		CustomFindCallback c = new CustomFindCallback();
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
@@ -193,35 +141,20 @@ public class ParseDatabase {
 	 *            : instance of Date
 	 * @return a list of sellable objects created on date
 	 */
-	public List<Sellable> getDate(Date date) {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery getDate(Date date) {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("date", date);
-		CustomFindCallback c = new CustomFindCallback();
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
 	 * 
 	 * @return a list of all sellable objects in the parse server
+	 * @throws ParseException
 	 */
-	public List<Sellable> getAllSellable() {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery getAllSellable() throws ParseException {
 		ParseQuery query = new ParseQuery("Sellable");
-		CustomFindCallback c = new CustomFindCallback();
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
@@ -231,18 +164,10 @@ public class ParseDatabase {
 	 * @return a list of all sellable objects that skip the specified number of
 	 *         entries
 	 */
-	public List<Sellable> getAllSellableSetSkip(int skip) {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery getAllSellableSetSkip(int skip) {
 		ParseQuery query = new ParseQuery("Sellable");
-		CustomFindCallback c = new CustomFindCallback();
 		query.setSkip(skip);
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
@@ -252,18 +177,10 @@ public class ParseDatabase {
 	 *            : parameter eg: name, price
 	 * @return: a list of objects sorted by parameter
 	 */
-	public List<Sellable> returnInOrderByAscending(String parameter) {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery returnInOrderByAscending(String parameter) {
 		ParseQuery query = new ParseQuery("Sellable");
-		CustomFindCallback c = new CustomFindCallback();
 		query.orderByAscending(parameter);
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
@@ -273,18 +190,10 @@ public class ParseDatabase {
 	 *            : parameter eg: name, price
 	 * @return: a list of objects sorted by parameter
 	 */
-	public List<Sellable> returnInOrderByDescending(String parameter) {
-		List<Sellable> sellables = new ArrayList<Sellable>();
+	public ParseQuery returnInOrderByDescending(String parameter) {
 		ParseQuery query = new ParseQuery("Sellable");
-		CustomFindCallback c = new CustomFindCallback();
 		query.orderByDescending(parameter);
-		query.findInBackground(c);
-		List<ParseObject> list = c.getList();
-		for (ParseObject obj : list) {
-			Sellable sell = createSellableWithParse(obj);
-			sellables.add(sell);
-		}
-		return sellables;
+		return query;
 	}
 
 	/**
@@ -295,16 +204,17 @@ public class ParseDatabase {
 	 * @return a sellable that has the same parameters as obj
 	 */
 	public static Sellable createSellableWithParse(ParseObject obj) {
-		User seller = (User) obj.get("seller");
+
 		String name = (String) obj.get("name");
 		String price = (String) obj.get("price");
-		SellType type = (SellType) obj.get("type");
+
 		String description = (String) obj.get("description");
-		Condition condition = (Condition) obj.get("condition");
-		@SuppressWarnings("unchecked")
-		ArrayList<Bitmap> images = (ArrayList<Bitmap>) obj.get("images");
-		Sellable sell = new Sellable(seller, name, price, type, description,
-				condition, images);
+		String type = (String) obj.get("type");
+		String condition = (String) obj.get("condition");
+		String seller = (String) obj.get("seller");
+		User user = new User(seller, seller);
+		Sellable sell = new Sellable(user, name, price, type, description,
+				condition, null);
 		return sell;
 	}
 
