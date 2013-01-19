@@ -3,23 +3,22 @@ import static android.provider.MediaStore.Images.Media.getBitmap;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.example.myapp.Sellable.Condition;
-import com.example.myapp.Sellable.SellType;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,8 +27,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapp.Sellable.Condition;
+import com.example.myapp.Sellable.SellType;
+
 public class SellOneItem extends Activity {
-	
 	// Keep track of camera request
 	private final int CAMERA_PIC_REQUEST = 314156;
 	// Keep track of choosing photo from storage
@@ -94,7 +95,6 @@ public class SellOneItem extends Activity {
 			if (resultCode == Activity.RESULT_CANCELED) return;
 			//get the returned data
 			Bundle extras = data.getExtras();
-			
 			//get the cropped bitmap
 			Bitmap thePic = extras.getParcelable("data");
 			//retrieve a reference to the ImageView
@@ -184,10 +184,9 @@ public class SellOneItem extends Activity {
 		// Set View picture
 		if (IMAGES.size()==0) {
 			thePic = null;
-			LinearLayout framePicture = (LinearLayout) findViewById(R.id.sell_one_item_FramePicture);
-			framePicture.setLayoutParams(new LinearLayout.LayoutParams(20, 20));
+		} else {
+			thePic = IMAGES.get(current_photo_index);
 		}
-		else thePic = IMAGES.get(current_photo_index);
 		picView.setImageBitmap(thePic);
 		
 		// Set visibility of next and previous buttons, and status bar
@@ -201,7 +200,9 @@ public class SellOneItem extends Activity {
 			// Set navigation bars and textStatus invisible if there are less than 2 pictures
 			next.setVisibility(ImageButton.INVISIBLE);
 			previous.setVisibility(ImageButton.INVISIBLE);
-			textStatus.setText("");
+			if (IMAGES.size() == 1) textStatus.setText("");
+			else textStatus.setText("no picture in description");
+			
 		}
 	}
 	/**
@@ -228,30 +229,72 @@ public class SellOneItem extends Activity {
 	public void cancelSellTheItem(View view) {
 		// Go back to the ItemSelection
 		startActivity(new Intent(view.getContext(), ItemSelection.class));
-		// Destroy the activity
-		this.finish();
 	}
 	public void doneSellTheItem(View view) {
 		Toast.makeText(view.getContext(), "will be continued", Toast.LENGTH_SHORT).show();
 		String priceString = ((EditText) findViewById(R.id.sell_one_item_Price)).getText().toString();
 		if (!isValidPrice(priceString)) return;
-		// else { create Sellable object/ confirm / send to the server}
+		// else { create Sellable object/ send to the server}
 		// Create a Sellable object
+		int i = 1000; 
+		Log.d("",""+(i++));
+		Sellable obj = createSellableObject();
+		// Send to server
+		// (new ParseDatabase(view.getContext())).sendSellableToServer(obj);
+		// Create intent for the next activity
+		Intent intent = new Intent(view.getContext(), ConfirmSellItem.class);
+		Log.d("",""+(i++));
+		// Put Images
+		intent.putExtra("IMAGES", obj.getImages());
+		Log.d("",""+(i++));
+		// Put item, price, condition, category, description
+		intent.putExtra("item", obj.getName());
+		Log.d("",""+(i++));
+		intent.putExtra("price", obj.getPrice());
+		Log.d("","OKKK");
+		intent.putExtra("condition", ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString().toUpperCase());
+		Log.d("",""+(i++));
+		intent.putExtra("category", ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString().toUpperCase());
+		Log.d("",""+(i++));
+		intent.putExtra("description", obj.getDescription());
+		Log.d("",""+(i++));
+		startActivity(intent);
+		Log.d("",""+(i++));
+	}
+	
+	/**
+	 * This construct a Sellable object based on information that the seller fills out
+	 * @return Sellable
+	 */
+	public Sellable createSellableObject() {
+		// User
 		SharedPreferences settings = getSharedPreferences("Setting", 0);
-//		Condition condition = Condition.valueOf(((Spinner)findViewById(R.id.sell_one_item_Quality)).getResources().toString().toUpperCase());
-//		Sellable.SellType category = Sellable.SellType.valueOf(((Spinner)findViewById(R.id.sell_one_item_Category)).getResources().toString().toUpperCase());
-//		User user = new User(settings.getString("user name", ""), 
-//							 settings.getString("email", ""), 
-//							 settings.getString("password", ""));
-//		// Convert to enum type
-//		Sellable item = new Sellable(settings.getString("user name", ""), 	// seller  
-//									((EditText)findViewById(R.id.sell_one_item_Item)).getResources().toString(), // name item 
-//									((EditText)findViewById(R.id.sell_one_item_Price)).getResources().toString(), // price 
-//									 SellType.ELECTRONIC, // category 
-//									((EditText)findViewById(R.id.sell_one_item_Description)).getResources().toString(), // description 
-//									 Condition.NEW, // quality 
-//									IMAGES);
-		
+		User user = new User(settings.getString("user name", "Duy Ha"), 
+								settings.getString("email", "duyha@mit.edu"), 
+							 settings.getString("password", "thelife"));
+		// Item
+		String item = ((EditText)findViewById(R.id.sell_one_item_Item)).getText().toString();
+		// Price
+		String price = ((EditText)findViewById(R.id.sell_one_item_Price)).getText().toString();
+		// Condition
+		String stringCondition = ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString().toUpperCase();
+		Condition condition = null;
+		for (Condition c: Condition.values()) 
+			if (stringCondition.equals(c.name())) condition = c;
+		// Category
+		String stringCategory = ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString().toUpperCase();
+		SellType category = null;
+		for (SellType s: SellType.values())
+			if (stringCategory.equals(s.name())) category = s;
+		// Description
+		String description = ((EditText)findViewById(R.id.sell_one_item_Description)).getText().toString();
+		// Images, notice that the main picture has an index of 0
+		ArrayList<Bitmap> pictures = new ArrayList<Bitmap>();
+		if (avarta_photo_index>=0 && avarta_photo_index<IMAGES.size())  pictures.add(IMAGES.get(avarta_photo_index));
+		for (int i=0; i<IMAGES.size(); i++) 
+			if (i!=avarta_photo_index) pictures.add(IMAGES.get(i));
+		// Return Sellable Object 
+		return new Sellable(user, item, price, category, description, condition, pictures);
 	}
 }
 
