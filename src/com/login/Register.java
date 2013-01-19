@@ -93,6 +93,7 @@ public class Register extends Activity {
 					registered = true;
 				} else {
 					registered = false;
+					Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
