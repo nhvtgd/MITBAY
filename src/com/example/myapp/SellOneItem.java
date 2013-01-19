@@ -38,7 +38,7 @@ public class SellOneItem extends Activity {
 	// Keep track of choosing photo from storage
 	final int PICK_PHOTO = 271828;
 	// Save multiple images
-	ArrayList<Bitmap> IMAGES = new ArrayList<Bitmap>();
+	public ArrayList<Bitmap> IMAGES = new ArrayList<Bitmap>();
 	// Options for picture
 	final String[] options = {"Set Avarta", "Delete"};
 	final int MAX_NUMBER_PICTURES = 3;
@@ -255,8 +255,9 @@ public class SellOneItem extends Activity {
 		// Images, notice that the main picture has an index of 0
 		ArrayList<Bitmap> pictures = new ArrayList<Bitmap>();
 		if (avarta_photo_index>=0 && avarta_photo_index<IMAGES.size())  pictures.add(IMAGES.get(avarta_photo_index));
-		for (int i=0; i<IMAGES.size(); i++) 
+		for (int i=0; i<IMAGES.size(); i++)
 			if (i!=avarta_photo_index) pictures.add(IMAGES.get(i));
+		IMAGES.clear(); IMAGES = pictures;
 		// Return Sellable Object 
 		return new Sellable(user, item, price, category, description, condition, pictures);
 	}
