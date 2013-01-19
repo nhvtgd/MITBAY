@@ -3,7 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/silver"
     tools:context=".ItemSelection" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/search_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            android:soundEffectsEnabled="true"
+            android:src="@drawable/search_item" />
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_complete_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:completionThreshold="1"
+            android:ems="10" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/textbook_button"
@@ -32,19 +60,13 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/miscellaneous"
         android:text="@string/miscellaneous_string" />
-    
-    <ImageView 
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/mit_logo"
+        android:adjustViewBounds="true"
         android:background="@color/maroon"
-        
-        
-        
-        />
-
-
+        android:scaleType="fitCenter"
+        android:src="@drawable/mit_logo" />
 
 </LinearLayout>

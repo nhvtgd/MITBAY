@@ -1,8 +1,11 @@
 package com.example.myapp;
 
-import android.os.Bundle;
+import com.example.myapp.helper.ItemsAutoCompleteAdapter;
+
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
+import android.widget.AutoCompleteTextView;
 
 public class ItemSelection extends Activity {
 
@@ -10,6 +13,11 @@ public class ItemSelection extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item_selection);
+		
+	    
+	    AutoCompleteTextView autoCompView = (AutoCompleteTextView) findViewById(R.id.auto_complete_item);
+	    autoCompView.setAdapter(new ItemsAutoCompleteAdapter(this, android.R.layout.simple_dropdown_item_1line));
+
 	}
 
 	@Override

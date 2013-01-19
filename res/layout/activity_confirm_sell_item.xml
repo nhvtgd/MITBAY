@@ -1,0 +1,200 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10sp" >
+
+        <!-- Picture -->
+        <LinearLayout
+            android:id="@+id/FramePicture"
+            android:layout_width="fill_parent"
+            android:layout_height="200sp" >
+
+            <ImageButton
+                android:id="@+id/previousPicture"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_navigation_previous"
+                android:textSize="10sp" 
+                android:onClick="goPreviousPicture"/>
+
+            <ImageView
+                android:id="@+id/Piture"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="4"
+                android:adjustViewBounds="true"
+                android:src="@drawable/mit_great_dome" />
+
+            <ImageButton
+                android:id="@+id/nextPicture"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_navigation_next"
+                android:textSize="10sp" 
+                android:onClick="goNextPicture"/>
+        </LinearLayout>
+
+        <!-- Status for pictures -->
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Status"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+	
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" 
+            android:layout_marginTop="@dimen/separation"
+            android:layout_marginBottom="@dimen/separation"/>
+        
+		<!-- Item information -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+            <ImageView
+                android:id="@+id/ImageForItem"
+                android:layout_width="@dimen/icon_for_buy_width"
+                android:layout_height="@dimen/icon_for_buy_height"
+                android:src="@drawable/ic_green_cart" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/paddingLeft_for_buy"
+                android:orientation="vertical" >
+                <!-- Name Item -->
+                <TextView
+                    android:id="@+id/ItemName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/Category"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+                <!-- Quality -->
+                <TextView
+                    android:id="@+id/Quality"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold|italic"/>
+            </LinearLayout>
+		</LinearLayout>
+		<View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" 
+            android:layout_marginTop="@dimen/separation"
+            android:layout_marginBottom="@dimen/separation"/>
+        <!-- Price -->
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+            <ImageView
+                android:id="@+id/MoneyImage"
+                android:layout_width="@dimen/icon_for_buy_width"
+                android:layout_height="@dimen/icon_for_buy_height"
+                android:src="@drawable/ic_money_coin" 
+                />
+            <TextView
+                android:id="@+id/Price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/paddingLeft_for_buy"
+                android:layout_gravity="center_vertical"
+                android:textSize="20sp"
+                android:textColor="@color/red"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" 
+            android:layout_marginTop="@dimen/separation"
+            android:layout_marginBottom="@dimen/separation"/>
+        <!-- Description -->
+        <LinearLayout
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" >
+            <ImageView 
+                android:id="@+id/DescriptionIcon"
+                android:layout_width="@dimen/icon_for_buy_width"
+                android:layout_height="@dimen/icon_for_buy_height"
+                android:src="@drawable/ic_desciption_item"/>
+        <TextView
+            android:id="@+id/Description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/paddingLeft_for_buy"
+            android:layout_gravity="center_vertical" />
+        </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" 
+            android:layout_marginTop="@dimen/separation"
+            android:layout_marginBottom="@dimen/separation"/>
+        <!-- Seller name, email, address-->
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/UserPhotoIcon"
+            android:layout_width="@dimen/icon_for_buy_width"
+            android:layout_height="@dimen/icon_for_buy_height" 
+            android:src="@drawable/ic_user"/>
+        <TextView
+            android:id="@+id/Seller"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/paddingLeft_for_buy"
+            android:layout_gravity="center_vertical"
+            android:text="Duy Ha" />
+		</LinearLayout>
+		
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" 
+            android:layout_marginTop="@dimen/separation"
+            android:layout_marginBottom="@dimen/separation"/>
+        <!-- Confirm -->
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/Cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="cancelSellItem"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/Edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="editSellItem"
+                android:text="Edit" />
+            
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

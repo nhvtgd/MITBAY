@@ -52,7 +52,12 @@
         </activity>
         <activity
             android:name="com.example.myapp.SellOneItem"
-            android:label="@string/title_activity_sell_one_item" >
+            android:label="@string/title_activity_sell_one_item" 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.ConfirmSellItem"
+            android:label="@string/title_activity_confirm_sell_item" >
         </activity>
     </application>
 
