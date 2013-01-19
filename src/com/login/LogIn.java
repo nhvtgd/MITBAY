@@ -35,17 +35,15 @@ public class LogIn extends Activity {
 		// Parse Initialization
 		Parse.initialize(this, "2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
 				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
-		
 		// Set backgroundColor is gray
 		Button logIn = (Button) findViewById(R.id.signInConfirmButton);
-
 		logIn.setBackgroundColor(Color.RED);
 		// Check Remember the last password
 		// SharedPreferences
 		SharedPreferences settings = getSharedPreferences("sign in", 0);
 		// Email Address
 		EditText emailField = (EditText) findViewById(R.id.signInUsername);
-		String previousEmail = settings.getString("username", "");
+		String previousEmail = settings.getString("user name", "");
 		if (previousEmail != "") {
 			emailField.setText(previousEmail);
 		}
@@ -70,21 +68,7 @@ public class LogIn extends Activity {
 				EditText passwordField = (EditText) findViewById(R.id.signInPassword);
 				String password = passwordField.getText().toString();
 				// Update
-				if (isValidLogIn(email, password)) {
-					// Correct email and password
-					prefEditor.putString("user name", email);
-					prefEditor.putString("password", password);
-					prefEditor.commit();
-					// Move to ListItems action
-					Intent i = new Intent(v.getContext(), ItemSelection.class);
-					startActivity(i);
-				} else {
-					// Incorrect email or password
-					// Set message
-					TextView errorMessage = (TextView) findViewById(R.id.signInErrorMassage);
-					errorMessage
-							.setText("The username and password are not correct. Can you try again?");
-				}
+				isValidLogIn(email, password);
 			}
 		});
 	}
@@ -94,14 +78,19 @@ public class LogIn extends Activity {
 		user.setUsername(name);
 		user.setPassword(password);
 		ParseUser.logInInBackground(name, password, new LogInCallback() {
-			  public void done(ParseUser user, ParseException e) {
-			    if (user != null) {
-			      validLogin = true;
-			    } else {
-			      validLogin = false;
-			    }
-			  }
-			});
+			public void done(ParseUser user, ParseException e) {
+				if (user != null) {
+					validLogin = true;
+					Intent i = new Intent(getApplicationContext(), ItemSelection.class);
+					startActivity(i); 
+				} else {
+					validLogin = false;
+					TextView errorMessage = (TextView) findViewById(R.id.signInErrorMassage);
+					errorMessage
+					.setText("The username and password are not correct. Can you try again?");
+				}
+			}
+		});
 		return validLogin;
 	}
 
