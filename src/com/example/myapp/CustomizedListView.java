@@ -18,7 +18,7 @@ import com.parse.ParseQuery;
 
 /**
  * This class creates the list selection screen when the user click on a
- * paticular category
+ * paticular category, will need to work out how to push image to server
  * 
  * @author trannguyen
  * 
