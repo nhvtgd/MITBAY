@@ -1,6 +1,7 @@
 package com.example.myapp;
-import static android.provider.MediaStore.Images.Media.getBitmap;
+import static android.graphics.BitmapFactory.decodeFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,19 +11,20 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +51,7 @@ public class SellOneItem extends Activity {
 		loadSettingData(); 	// Load setting data from user
 		setStatus();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -83,43 +85,12 @@ public class SellOneItem extends Activity {
 	public void chosePicture(View view) {
 		if (IMAGES.size() >= MAX_NUMBER_PICTURES) {
 			overPictures(); 
-			return;
-		}
-		Toast.makeText(getApplicationContext(), "Browers", Toast.LENGTH_SHORT).show();
+			return; }
 		Intent pickPhoto = new Intent(Intent.ACTION_PICK);
 		pickPhoto.setType("image/*");
 		startActivityForResult(pickPhoto, PICK_PHOTO);
 	}
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == CAMERA_PIC_REQUEST) {
-			if (resultCode == Activity.RESULT_CANCELED) return;
-			//get the returned data
-			Bundle extras = data.getExtras();
-			//get the cropped bitmap
-			Bitmap thePic = extras.getParcelable("data");
-			//retrieve a reference to the ImageView
-			ImageView picView = (ImageView)findViewById(R.id.sell_one_item_Piture);
-			//display the returned image
-			picView.setImageBitmap(thePic);
-			IMAGES.add(thePic);
-			current_photo_index += 1;
-			setStatus();
-			Toast.makeText(this, "Bitmap has "+IMAGES.size()+" pictures", Toast.LENGTH_SHORT).show();
-		} else if (requestCode == PICK_PHOTO) {
-			if (resultCode == Activity.RESULT_CANCELED) return;
-			Uri photoUri = data.getData();
-			Bitmap thePic = null;
-			try {
-				thePic = getBitmap(this.getContentResolver(), photoUri);
-			} catch (IOException e) {}
-			ImageView picView = (ImageView)findViewById(R.id.sell_one_item_Piture);
-			picView.setImageBitmap(thePic);
-			IMAGES.add(thePic);
-			current_photo_index += 1;
-			setStatus();
-			Toast.makeText(this, "Bitmap has "+IMAGES.size()+" pictures", Toast.LENGTH_SHORT).show();
-		}		
-	}
+
 	// Click on the picture
 	// there are 2 options: set main picture,delete
 	public void pictureOptions(View view) {
@@ -180,15 +151,18 @@ public class SellOneItem extends Activity {
 		ImageButton next = (ImageButton) findViewById(R.id.sell_one_item_NextPicture);
 		ImageButton previous = (ImageButton) findViewById(R.id.sell_one_item_PreviousPicture);
 		Bitmap thePic;
-		
+
 		// Set View picture
 		if (IMAGES.size()==0) {
-			thePic = null;
+			thePic = BitmapFactory.decodeResource(getResources(), R.drawable.bike);
 		} else {
 			thePic = IMAGES.get(current_photo_index);
 		}
+		int width = picView.getWidth();
+		picView.setMinimumHeight(width);
+		picView.setMaxHeight(width);
 		picView.setImageBitmap(thePic);
-		
+
 		// Set visibility of next and previous buttons, and status bar
 		if (IMAGES.size() >= 2) {
 			// Set navigation bar visible
@@ -202,7 +176,7 @@ public class SellOneItem extends Activity {
 			previous.setVisibility(ImageButton.INVISIBLE);
 			if (IMAGES.size() == 1) textStatus.setText("");
 			else textStatus.setText("no picture in description");
-			
+
 		}
 	}
 	/**
@@ -236,32 +210,22 @@ public class SellOneItem extends Activity {
 		if (!isValidPrice(priceString)) return;
 		// else { create Sellable object/ send to the server}
 		// Create a Sellable object
-		int i = 1000; 
-		Log.d("",""+(i++));
 		Sellable obj = createSellableObject();
 		// Send to server
 		// (new ParseDatabase(view.getContext())).sendSellableToServer(obj);
 		// Create intent for the next activity
 		Intent intent = new Intent(view.getContext(), ConfirmSellItem.class);
-		Log.d("",""+(i++));
 		// Put Images
 		intent.putExtra("IMAGES", obj.getImages());
-		Log.d("",""+(i++));
 		// Put item, price, condition, category, description
 		intent.putExtra("item", obj.getName());
-		Log.d("",""+(i++));
 		intent.putExtra("price", obj.getPrice());
-		Log.d("","OKKK");
 		intent.putExtra("condition", ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString().toUpperCase());
-		Log.d("",""+(i++));
 		intent.putExtra("category", ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString().toUpperCase());
-		Log.d("",""+(i++));
 		intent.putExtra("description", obj.getDescription());
-		Log.d("",""+(i++));
 		startActivity(intent);
-		Log.d("",""+(i++));
 	}
-	
+
 	/**
 	 * This construct a Sellable object based on information that the seller fills out
 	 * @return Sellable
@@ -270,8 +234,8 @@ public class SellOneItem extends Activity {
 		// User
 		SharedPreferences settings = getSharedPreferences("Setting", 0);
 		User user = new User(settings.getString("user name", "Duy Ha"), 
-								settings.getString("email", "duyha@mit.edu"), 
-							 settings.getString("password", "thelife"));
+				settings.getString("email", "duyha@mit.edu"), 
+				settings.getString("password", "thelife"));
 		// Item
 		String item = ((EditText)findViewById(R.id.sell_one_item_Item)).getText().toString();
 		// Price
@@ -296,5 +260,64 @@ public class SellOneItem extends Activity {
 		// Return Sellable Object 
 		return new Sellable(user, item, price, category, description, condition, pictures);
 	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == CAMERA_PIC_REQUEST) {
+			if (resultCode == Activity.RESULT_CANCELED) return;
+			//get the returned data
+			Bundle extras = data.getExtras();
+			//get the cropped bitmap
+			Bitmap thePic = extras.getParcelable("data");
+			//retrieve a reference to the ImageView
+			ImageView picView = (ImageView)findViewById(R.id.sell_one_item_Piture);
+			//display the returned image
+			picView.setImageBitmap(thePic);
+			IMAGES.add(thePic);
+			current_photo_index += 1;
+			setStatus();
+			Toast.makeText(this, "Bitmap has "+IMAGES.size()+" pictures", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "height, width = "+ thePic.getHeight(), Toast.LENGTH_SHORT).show();
+		} else if (requestCode == PICK_PHOTO) {
+			if (resultCode == Activity.RESULT_CANCELED) return;
+			Uri pickedUri = data.getData();
+			//declare the bitmap
+			Bitmap thePic = null;
+			// Find the ImageView
+			ImageView picView = (ImageView)findViewById(R.id.sell_one_item_Piture);
+			// Declare the path string
+			String imgPath = "";
+			// Retrieve the string using media data
+			String[] medData = { MediaStore.Images.Media.DATA };
+			// Query the data
+			Cursor picCursor = managedQuery(pickedUri, medData, null, null, null);
+			if(picCursor!=null) {
+			    // Get the path string
+			    int index = picCursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			    picCursor.moveToFirst();
+			    imgPath = picCursor.getString(index);
+			} else imgPath = pickedUri.getPath();
+			
+			thePic = loadingBitmapEfficiently(imgPath);
+			// Put image in ImageView
+			picView.setImageBitmap(thePic);
+			IMAGES.add(thePic);
+			current_photo_index += 1;
+			setStatus();
+			Toast.makeText(this, "Bitmap has "+IMAGES.size()+" pictures", Toast.LENGTH_SHORT).show();
+		}		
+	}
+	// Load image efficient 
+	public Bitmap loadingBitmapEfficiently(String imgPath) {
+		int width = 200, height = 1000;
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		// Find dimension of the picture
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(imgPath, options);
+		options.inSampleSize = Math.min(options.outHeight/height, options.outWidth/width);
+		// Decode the image
+		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeFile(imgPath, options);
+	}
+
 }
 

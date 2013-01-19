@@ -3,12 +3,12 @@
     android:layout_height="fill_parent"
     android:fillViewport="true" >
 
-   <LinearLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/separation" >
-        
+
         <!-- User Name -->
 
         <LinearLayout
@@ -77,12 +77,13 @@
                 android:text="Next house, #316" >
             </TextView>
         </LinearLayout>
-		<View
+
+        <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#cccccc" 
+            android:layout_marginBottom="@dimen/separation"
             android:layout_marginTop="@dimen/separation"
-            android:layout_marginBottom="@dimen/separation"/>
+            android:background="#cccccc" />
         <!-- Item -->
 
         <LinearLayout
@@ -105,8 +106,9 @@
                 android:inputType="text" >
             </EditText>
         </LinearLayout>
-        
+
         <!-- Price -->
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
@@ -127,10 +129,10 @@
                 android:inputType="numberDecimal" >
             </EditText>
         </LinearLayout>
-        
-        <!-- Category -->  
+
+        <!-- Category -->
+
         <LinearLayout
-            
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 
@@ -152,19 +154,19 @@
                 android:prompt="@string/category_item" >
             </Spinner>
         </LinearLayout>
-        
-		<View
+
+        <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#cccccc" 
+            android:layout_marginBottom="@dimen/separation"
             android:layout_marginTop="@dimen/separation"
-            android:layout_marginBottom="@dimen/separation"/>
+            android:background="#cccccc" />
         <!-- Picture -->
         <!-- Take photo button -->
 
-       <LinearLayout
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="wrap_content" >
 
             <ImageButton
                 android:id="@+id/sell_one_item_AddPhotoButton"
@@ -196,33 +198,34 @@
             <ImageButton
                 android:id="@+id/sell_one_item_PreviousPicture"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
                 android:onClick="previousPicture"
                 android:src="@drawable/ic_navigation_previous"
-                android:text="previous"
                 android:textSize="10sp" >
             </ImageButton>
 
             <ImageView
                 android:id="@+id/sell_one_item_Piture"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:adjustViewBounds="true"
                 android:longClickable="true"
                 android:onClick="pictureOptions"
-                android:src="@drawable/mit_great_dome" >
+                android:background="@color/silver"
+                android:src="@drawable/bike" >
             </ImageView>
 
             <ImageButton
                 android:id="@+id/sell_one_item_NextPicture"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
                 android:onClick="nextPicture"
                 android:src="@drawable/ic_navigation_next"
-                android:text="next"
                 android:textSize="10sp" >
             </ImageButton>
         </LinearLayout>
@@ -237,14 +240,16 @@
             android:text="status"
             android:textSize="15sp"
             android:textStyle="bold" />
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#cccccc" 
+            android:layout_marginBottom="@dimen/separation"
             android:layout_marginTop="@dimen/separation"
-            android:layout_marginBottom="@dimen/separation"/>
-        
+            android:background="#cccccc" />
+
         <!-- Description -->
+
         <EditText
             android:id="@+id/sell_one_item_Description"
             android:layout_width="fill_parent"
@@ -262,16 +267,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cancel" 
-                android:onClick="cancelSellTheItem" />
+                android:onClick="cancelSellTheItem"
+                android:text="Cancel" />
 
             <Button
                 android:id="@+id/sell_one_item_DoneButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Done" 
-                android:onClick="doneSellTheItem"/>
+                android:onClick="doneSellTheItem"
+                android:text="Done" />
         </LinearLayout>
     </LinearLayout>
 
