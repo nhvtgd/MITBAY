@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ConfirmSellItem extends SellOneItem {
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,17 +36,16 @@ public class ConfirmSellItem extends SellOneItem {
 		SharedPreferences settings = getSharedPreferences("Setting", 0);
 		((TextView) findViewById(R.id.Seller)).setText(
 				String.format("%s %n%s %n%s",settings.getString("user name", "Duy Ha"), 
-										settings.getString("email", "duyha@mit.edu"), 
-										settings.getString("address", "Next house, #316")));
+						settings.getString("email", "duyha@mit.edu"), 
+						settings.getString("address", "Next house, #316")));
 		// Set Images
 		Bitmap picture = null;
 		String status = "No picture";
 		ImageView picView = (ImageView)findViewById(R.id.Piture);
-		if (!bundle.getBoolean("isNullImage")) {
-			String imgPath = bundle.getString("imgPath").toString();
-			int req_height =  1, req_width = bundle.getInt("widthPicture");
-			picture = super.loadingBitmapEfficiently(imgPath, req_height, req_width);
-			status = ""; }
+		String imgPath = bundle.getString("imgPath").toString();
+		int req_height =  1, req_width = bundle.getInt("widthPicture");
+		picture = super.loadingBitmapEfficiently(imgPath, req_height, req_width);
+		if (picture != null) status = ""; 
 		picView.setImageBitmap(picture);
 		((TextView) findViewById(R.id.Status)).setText(status);
 	}
