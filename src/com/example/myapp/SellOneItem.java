@@ -186,11 +186,8 @@ public class SellOneItem extends Activity {
 		String category = ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString();
 		// Description
 		String description = ((EditText)findViewById(R.id.sell_one_item_Description)).getText().toString();
-		// Images, notice that the main picture has an index of 0
-		ArrayList<Bitmap> pictures = new ArrayList<Bitmap>();
-		pictures.add(IMAGE);
 		// Return Sellable Object 
-		return new Sellable(user, item, price, category, description, condition, pictures);
+		return new Sellable(user, item, price, category, description, condition, IMAGE);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
