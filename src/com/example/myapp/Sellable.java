@@ -15,32 +15,10 @@ public class Sellable {
 	private String description;
 	private boolean enabled;
 	private int id;
-	private SellType type;
+	private String type;
 	private ArrayList<Bitmap> images;
-	private Condition condition;
-	private String location;
-	private static final String DEFAULT_DESCRIPTION = "Descibe as above";
-	private static final Condition DEFAULT_CONDITION = Condition.ACCEPTABLE;
+	private String condition;
 
-	/**
-	 * enum type represents condition
-	 * @author trannguyen
-	 *
-	 */
-	public enum Condition {
-		NEW, USED, ACCEPTABLE
-		
-		
-	};
-
-	/**
-	 * enum type represents condition
-	 * @author trannguyen
-	 *
-	 */
-	public enum SellType {
-		TEXTBOOK, ELECTRONIC, TRANSPORTATION, MISC
-	};
 
 	/**
 	 * This is a constructor to initialize the Sellable object after the seller
@@ -63,8 +41,8 @@ public class Sellable {
 	 * 
 	 */
 
-	public Sellable(User seller, String name, String price, SellType type,
-			String description, Condition condition, ArrayList<Bitmap> images) {
+	public Sellable(User seller, String name, String price, String type,
+			String description, String condition, ArrayList<Bitmap> images) {
 		this.setSeller(seller);
 		this.name = name;
 		this.setPrice(price);
@@ -88,7 +66,7 @@ public class Sellable {
 	 * @param price
 	 */
 
-	public Sellable(User seller, String name, String price, SellType type) {
+	public Sellable(User seller, String name, String price, String type) {
 		this.setSeller(seller);
 		this.name = name;
 		this.setPrice(price);
@@ -97,12 +75,13 @@ public class Sellable {
 		this.setId(getIDFromServer());
 		this.setType(type);
 		this.setDate(getCurrentDate());
-		this.description = DEFAULT_DESCRIPTION;
-		this.setCondition(DEFAULT_CONDITION);
+		this.description = "NONE";
+		this.setImages(getDefaultImage(type));
+		this.setCondition("NEW");
 
 	}
 
-	private ArrayList<Bitmap> getDefaultImage(SellType type2) {
+	private ArrayList<Bitmap> getDefaultImage(String type2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -195,12 +174,12 @@ public class Sellable {
 		this.enabled = enabled;
 	}
 
-	public SellType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(SellType type) {
-		this.type = type;
+	public void setType(String type2) {
+		this.type = type2;
 	}
 
 	public ArrayList<Bitmap> getImages() {
@@ -211,11 +190,11 @@ public class Sellable {
 		this.images = images;
 	}
 
-	public Condition getCondition() {
+	public String getCondition() {
 		return condition;
 	}
 
-	public void setCondition(Condition condition) {
+	public void setCondition(String condition) {
 		this.condition = condition;
 	}
 
