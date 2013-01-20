@@ -16,7 +16,7 @@ public class Sellable {
 	private boolean enabled;
 	private int id;
 	private String type;
-	private ArrayList<Bitmap> images;
+	private Bitmap images;
 	private String condition;
 
 
@@ -42,7 +42,7 @@ public class Sellable {
 	 */
 
 	public Sellable(User seller, String name, String price, String type,
-			String description, String condition, ArrayList<Bitmap> images) {
+			String description, String condition, Bitmap images) {
 		this.setSeller(seller);
 		this.name = name;
 		this.setPrice(price);
@@ -81,7 +81,7 @@ public class Sellable {
 
 	}
 
-	private ArrayList<Bitmap> getDefaultImage(String type2) {
+	private Bitmap getDefaultImage(String type2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -182,12 +182,12 @@ public class Sellable {
 		this.type = type2;
 	}
 
-	public ArrayList<Bitmap> getImages() {
+	public Bitmap getImages() {
 		return images;
 	}
 
-	public void setImages(ArrayList<Bitmap> images) {
-		this.images = images;
+	public void setImages(Bitmap images2) {
+		this.images = images2;
 	}
 
 	public String getCondition() {
