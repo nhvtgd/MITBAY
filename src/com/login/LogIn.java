@@ -25,7 +25,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/**
+ * Log In Page
+ * @author Duy
+ * get email, password
+ */
 public class LogIn extends Activity {
 	private boolean validLogin;
 	@Override
