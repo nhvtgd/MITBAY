@@ -63,12 +63,12 @@
             android:label="@string/title_activity_confirm_sell_item" >
         </activity>
         <activity
-            android:name="com.example.myapp.ConfirmBuyItem"
-            android:label="@string/title_activity_confirm_buy_item" >
-        </activity>
-        <activity
             android:name="com.example.myapp.ItemDetail"
             android:label="@string/title_activity_item_detail" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.ConfirmBuyItem"
+            android:label="@string/title_activity_confirm_buy_item" >
         </activity>
     </application>
 

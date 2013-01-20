@@ -1,0 +1,181 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/separation" >
+
+        <!-- Text confirmation -->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20sp"
+            android:text="you need to confirm to buy the following item:" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/separation"
+            android:layout_marginTop="@dimen/separation"
+            android:background="#cccccc" />
+
+        <!-- Item information -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="@dimen/icon_for_buy_width"
+                android:layout_height="@dimen/icon_for_buy_height"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_green_cart" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/paddingLeft_for_buy" >
+
+                <!-- Name Item -->
+
+                <TextView
+                    android:id="@+id/ItemName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="18.100 text book" />
+                <!-- Quality -->
+
+                <TextView
+                    android:id="@+id/Classify"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Used"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/separation"
+            android:layout_marginTop="@dimen/separation"
+            android:background="#cccccc" />
+        <!-- Price -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="@dimen/icon_for_buy_width"
+                android:layout_height="@dimen/icon_for_buy_height"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_money" />
+
+            <TextView
+                android:id="@+id/Price"
+                android:layout_width="fill_parent"
+                android:layout_height="50sp"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/paddingLeft_for_buy"
+                android:text="$100"
+                android:textColor="@color/red"
+                android:textSize="@dimen/paddingLeft_for_buy"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/separation"
+            android:layout_marginTop="@dimen/separation"
+            android:background="#cccccc" />
+
+        <!-- Buyer -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="@dimen/icon_for_buy_width"
+                android:layout_height="@dimen/icon_for_buy_height"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_customer_shopping" />
+
+            <TextView
+                android:id="@+id/Seller"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/paddingLeft_for_buy"
+                android:text="Duy Ha, duyha@mit.edu" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/separation"
+            android:layout_marginTop="@dimen/separation"
+            android:background="#cccccc" />
+        <!-- Seller -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="@dimen/icon_for_buy_width"
+                android:layout_height="@dimen/icon_for_buy_height"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_happy_seller" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/paddingLeft_for_buy"
+                android:text="microsoft corp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/separation"
+            android:layout_marginTop="@dimen/separation"
+            android:background="#cccccc" />
+        <!-- Confirmation button -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textStyle="bold" 
+                android:onClick="cancelBuyItem"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Confirm"
+                android:textStyle="bold"
+                android:textColor="@color/red"
+                android:onClick="confirmBuyItem" 
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
