@@ -40,5 +40,7 @@
     <string name="title_activity_confirm_sell_item">ConfirmSellItem</string>
     <string name="title_activity_list_view_item">ListViewItem</string>
     <string name="title_activity_customized_list_view">CustomizedListView</string>
+    <string name="title_activity_confirm_buy_item">ConfirmBuyItem</string>
+    <string name="title_activity_item_detail">ItemDetail</string>
 
 </resources>
