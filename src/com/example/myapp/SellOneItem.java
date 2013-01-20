@@ -31,8 +31,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapp.Sellable.Condition;
-import com.example.myapp.Sellable.SellType;
 
 public class SellOneItem extends Activity {
 	// Keep track of camera request
@@ -183,15 +181,9 @@ public class SellOneItem extends Activity {
 		// Price
 		String price = ((EditText)findViewById(R.id.sell_one_item_Price)).getText().toString();
 		// Condition
-		String stringCondition = ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString().toUpperCase();
-		Condition condition = null;
-		for (Condition c: Condition.values()) 
-			if (stringCondition.equals(c.name())) condition = c;
+		String condition = ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString();
 		// Category
-		String stringCategory = ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString().toUpperCase();
-		SellType category = null;
-		for (SellType s: SellType.values())
-			if (stringCategory.equals(s.name())) category = s;
+		String category = ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString();
 		// Description
 		String description = ((EditText)findViewById(R.id.sell_one_item_Description)).getText().toString();
 		// Images, notice that the main picture has an index of 0
