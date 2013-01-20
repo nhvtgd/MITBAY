@@ -68,19 +68,19 @@ public class SellOneItem extends Activity {
 		((TextView) findViewById(R.id.sell_one_item_Email)).setText(email);
 		((TextView) findViewById(R.id.sell_one_item_Address)).setText(address);
 	}
-	// Take Photo
+	/**
+	 * Take picture by camera
+	 * @param view
+	 */
 	public void takePhoto(View view) {
 		Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 		startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST); 
-//		ContentValues values = new ContentValues();
-//		values.put(MediaStore.Images.Media.TITLE, "MIT Bay");
-//		mCapturedImageURI = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-//		Intent intentPicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//		intentPicture.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
-//		startActivityForResult(intentPicture, CAMERA_PIC_REQUEST);
 	}
 
-	// Chose photo from directory
+	/**
+	 * Take picture form directory
+	 * @param view
+	 */
 	public void chosePicture(View view) {
 		Intent pickPhoto = new Intent(Intent.ACTION_PICK);
 		pickPhoto.setType("image/*");
@@ -91,7 +91,9 @@ public class SellOneItem extends Activity {
 		IMAGE = null;
 		setView();
 	}
-
+	/**
+	 * Set view for Image and text status
+	 */
 	public void setView() {
 		ImageView picView = (ImageView)findViewById(R.id.sell_one_item_Piture);
 		TextView takePicture = (TextView) findViewById(R.id.sell_one_item_TakePictureText);
@@ -127,17 +129,22 @@ public class SellOneItem extends Activity {
 			return false; }
 		return true;
 	}
-	// Button Cancel and Done
+	/**
+	 * Cancel selling item
+	 * @param view
+	 * go back to home screen
+	 */
 	public void cancelSellTheItem(View view) {
-		// Go back to the ItemSelection
-//		startActivity(new Intent(view.getContext(), ItemSelection.class));
-		long start = System.currentTimeMillis();
-		for (int i = 0; i < 2; i++) {
-			Bitmap a = loadingBitmapEfficiently(imgPath, 1, getWidthPicture(R.id.sell_one_item_Piture));
-		}
-		long end = System.currentTimeMillis();
-		Toast.makeText(view.getContext(), "running time = " +(end-start), Toast.LENGTH_SHORT).show();
+//		 Go back to the ItemSelection
+		startActivity(new Intent(view.getContext(), ItemSelection.class));
 	}
+	/**
+	 * Handle click Done button
+	 * @param view
+	 * check valid information
+	 * send to server
+	 * start next activity (confirm)
+	 */
 	public void doneSellTheItem(View view) {
 		Toast.makeText(view.getContext(), "will be continued", Toast.LENGTH_SHORT).show();
 		String priceString = ((EditText) findViewById(R.id.sell_one_item_Price)).getText().toString();
@@ -146,24 +153,19 @@ public class SellOneItem extends Activity {
 		// Create a Sellable object
 		Sellable obj = createSellableObject();
 		// Send to server
-		Log.d("sending server", ""+System.currentTimeMillis());
-		ParseDatabase parse = new ParseDatabase(getApplicationContext());
-		parse.sendSellableToServer(obj);
-		Log.d("send server", ""+System.currentTimeMillis());
+//		long start = System.currentTimeMillis();
+//		Log.d("sending server", ""+System.currentTimeMillis());
+//		ParseDatabase parse = new ParseDatabase(getApplicationContext());
+//		parse.sendSellableToServer(obj);
+//		long end = System.currentTimeMillis();
+//		Log.d("sent server", ""+System.currentTimeMillis());
+//		Log.d("Running time", ""+(end - start));
 		// Create intent for the next activity
 		Intent intent = new Intent(view.getContext(), ConfirmSellItem.class);
-		// Put Images
-		intent.putExtra("imgPath", imgPath);
-		if (IMAGE == null) intent.putExtra("isNullImage", true);
-		intent.putExtra("widthPicture", getWidthPicture(R.id.sell_one_item_Piture));
-		// Put item, price, condition, category, description
-		intent.putExtra("item", obj.getName());
-		intent.putExtra("price", obj.getPrice());
-		intent.putExtra("condition", ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString().toUpperCase());
-		intent.putExtra("category", ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString().toUpperCase());
-		intent.putExtra("description", obj.getDescription());
+		putExtraIntent(intent, obj);
 		startActivity(intent);
 		Log.d("load Ok", "------------------");
+		startActivity(intent);
 	}
 
 	/**
@@ -190,6 +192,26 @@ public class SellOneItem extends Activity {
 		return new Sellable(user, item, price, category, description, condition, IMAGE);
 	}
 
+	/**
+	 * Put extra information of Sellable object to intent for the next activity
+	 * @param intent intent need to put extra information
+	 * @param obj Sellable object
+	 */
+	public void putExtraIntent(Intent intent, Sellable obj) {
+		// Put Images
+		intent.putExtra("imgPath", imgPath);
+		intent.putExtra("widthPicture", getWidthPicture(R.id.sell_one_item_Piture));
+		// Put item, price, condition, category, description
+		intent.putExtra("item", obj.getName());
+		intent.putExtra("price", obj.getPrice());
+		intent.putExtra("condition", ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString());
+		intent.putExtra("category", ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString());
+		intent.putExtra("description", obj.getDescription());
+	}
+	
+	/**
+	 * Get result from taking photo and picking photo
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == CAMERA_PIC_REQUEST) {
 			if (resultCode == Activity.RESULT_CANCELED) return;
@@ -217,7 +239,14 @@ public class SellOneItem extends Activity {
 	public int getWidthPicture(int ID) {
 		return ((ImageView)findViewById(ID)).getWidth();
 	}
-	// Load image efficient 
+	
+	/**
+	 * Loading picture with a desired size
+	 * @param imgPath: directory of the picture
+	 * @param required_height: desired height
+	 * @param required_width: desired width
+	 * @return
+	 */
 	public Bitmap loadingBitmapEfficiently(String imgPath, int required_height, int required_width) {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		// Find dimension of the picture
@@ -230,6 +259,11 @@ public class SellOneItem extends Activity {
 		return BitmapFactory.decodeFile(imgPath, options);
 	}
 	
+	/**
+	 * Get path from Uri
+	 * @param uri
+	 * @return
+	 */
 	public String getPathFromUri(Uri uri) {
 		// Declare media
 		String[] medData = { MediaStore.Images.Media.DATA };

@@ -47,14 +47,14 @@
                 <!-- Name Item -->
 
                 <TextView
-                    android:id="@+id/ItemName"
+                    android:id="@+id/cbi_ItemName"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="18.100 text book" />
                 <!-- Quality -->
 
                 <TextView
-                    android:id="@+id/Classify"
+                    android:id="@+id/cbi_Classify"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Used"
@@ -81,7 +81,7 @@
                 android:src="@drawable/ic_money" />
 
             <TextView
-                android:id="@+id/Price"
+                android:id="@+id/cbi_Price"
                 android:layout_width="fill_parent"
                 android:layout_height="50sp"
                 android:gravity="center_vertical"
@@ -112,7 +112,7 @@
                 android:src="@drawable/ic_customer_shopping" />
 
             <TextView
-                android:id="@+id/Seller"
+                android:id="@+id/cbi_Seller"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -162,19 +162,46 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="cancelBuyItem"
                 android:text="Cancel"
-                android:textStyle="bold" 
-                android:onClick="cancelBuyItem"/>
+                android:textStyle="bold" />
 
             <Button
+                android:id="@+id/cbi_ConfirmBuy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="confirmBuyItem"
                 android:text="Confirm"
-                android:textStyle="bold"
                 android:textColor="@color/red"
-                android:onClick="confirmBuyItem" 
-                />
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Confirm Message -->
+
+        <LinearLayout
+            android:id="@+id/cbi_Progress"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" >
+
+            <ProgressBar
+                style="Widget.ProgressBar.Large"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/silver"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/cbi_RemindText"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/paddingLeft_for_buy"
+                android:text="It would be great if you send email for the seller" />
         </LinearLayout>
     </LinearLayout>
 

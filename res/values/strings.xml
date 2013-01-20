@@ -42,5 +42,6 @@
     <string name="title_activity_customized_list_view">CustomizedListView</string>
     <string name="title_activity_confirm_buy_item">ConfirmBuyItem</string>
     <string name="title_activity_item_detail">ItemDetail</string>
+    <string name="title_activity_setting_preferences">SettingPreferences</string>
 
 </resources>

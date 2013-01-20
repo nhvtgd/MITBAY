@@ -14,16 +14,10 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/Theme.mitbay" >
+        android:label="@string/app_name">
         <activity
-            android:name="com.example.myapp.SplashScreen"
+            android:name="com.example.myapp.CustomizedListView"
             android:label="@string/title_activity_splash_screen" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.example.myapp.ItemSelection"
@@ -53,9 +47,14 @@
         <activity
             android:name="com.example.myapp.SellOneItem"
             android:label="@string/title_activity_sell_one_item" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
-            android:name="com.example.myapp.CustomizedListView"
+            android:name="com.example.myapp.SplashScreen"
             android:label="@string/title_activity_customized_list_view" >
         </activity>
         <activity
@@ -63,12 +62,16 @@
             android:label="@string/title_activity_confirm_sell_item" >
         </activity>
         <activity
+            android:name="com.example.myapp.ItemDetail"
+            android:label="@string/title_activity_item_detail" >
+        </activity>
+        <activity
             android:name="com.example.myapp.ConfirmBuyItem"
             android:label="@string/title_activity_confirm_buy_item" >
         </activity>
         <activity
-            android:name="com.example.myapp.ItemDetail"
-            android:label="@string/title_activity_item_detail" >
+            android:name="com.example.myapp.SettingPreferences"
+            android:label="@string/title_activity_setting_preferences" >
         </activity>
     </application>
 
