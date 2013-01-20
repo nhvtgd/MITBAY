@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.myapp.CustomizedListView"
+            android:name="com.example.myapp.SplashScreen"
             android:label="@string/title_activity_splash_screen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,24 +51,16 @@
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name="com.example.myapp.SellOneItem"
+            android:name="com.example.myapp.CustomizeListView"
             android:label="@string/title_activity_sell_one_item" >
         </activity>
         <activity
-            android:name="com.example.myapp.SplashScreen"
+            android:name="com.example.myapp.SellOneItem"
             android:label="@string/title_activity_customized_list_view" >
         </activity>
         <activity
             android:name="com.example.myapp.ConfirmSellItem"
             android:label="@string/title_activity_confirm_sell_item" >
-        </activity>
-        <activity
-            android:name="com.example.myapp.ConfirmBuyItem"
-            android:label="@string/title_activity_confirm_buy_item" >
-        </activity>
-        <activity
-            android:name="com.example.myapp.ItemDetail"
-            android:label="@string/title_activity_item_detail" >
         </activity>
     </application>
 

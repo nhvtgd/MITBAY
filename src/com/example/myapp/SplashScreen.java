@@ -1,6 +1,5 @@
 package com.example.myapp;
 
-import com.example.myapp.Sellable.SellType;
 import com.parse.ParseObject;
 
 import android.app.Activity;
