@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="CommonLinearLayout">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    
+    <style name="Line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginBottom">@dimen/separation</item>
+        <item name="android:layout_marginTop">@dimen/separation</item>
+        <item name="android:background">#cccccc</item>
+    </style>
+    
+    <style name="TextViewElement">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ImageViewElement">
+        <item name="android:layout_width">20sp</item>
+        <item name="android:layout_height">20sp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="RelativeLayoutElement">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_margin">2sp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:padding">20sp</item>
+    </style>
+    
+    <style name="ImageViewForSettingPreferences">
+        <item name="android:layout_width">@dimen/icon_for_buy_width</item>
+        <item name="android:layout_height">@dimen/icon_for_buy_height</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+    
+    <style name="TextForSettingPreferences">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/paddingLeft_for_buy</item>
+    </style>
+    
+
+</resources>

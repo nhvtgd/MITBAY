@@ -1,14 +1,90 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".UserProfile" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:padding="30sp" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
+        android:orientation="vertical" >
 
-</RelativeLayout>
+        <!-- Account -->
+        <RelativeLayout
+            android:id="@+id/account"
+            android:onClick="changeAccount"
+            style="@style/RelativeLayoutElement" >
+            <TextView
+                android:id="@+id/Account"
+                style="@style/TextViewElement"
+                android:text="Account" />
+            <ImageView
+                android:id="@+id/AccountButton"
+                style="@style/ImageViewElement"
+                android:layout_alignBottom="@+id/Account"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+        
+        <!-- Buying Item -->
+        <RelativeLayout
+            android:onClick="goBuying"
+            style="@style/RelativeLayoutElement" >
+            <TextView
+                android:id="@+id/Buying"
+                style="@style/TextViewElement"
+                android:text="Buying Items" />
+            <ImageView
+                android:id="@+id/GoBuying"
+                style="@style/ImageViewElement"
+                android:layout_alignBottom="@+id/Buying"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+        <!-- Selling Item -->
+        <RelativeLayout
+            android:onClick="goSelling"
+            style="@style/RelativeLayoutElement" >
+            <TextView
+                android:id="@+id/Selling"
+                style="@style/TextViewElement"
+                android:text="Selling Items" />
+            <ImageView
+                android:id="@+id/GoSelling"
+                style="@style/ImageViewElement"
+                android:layout_alignBottom="@+id/Selling"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+        <!-- Requesting -->
+        <RelativeLayout
+            android:onClick="goRequesting"
+            style="@style/RelativeLayoutElement" >
+            <TextView
+                android:id="@+id/Requesting"
+                style="@style/TextViewElement"
+                android:text="Requesting Items" />
+            <ImageView
+                android:id="@+id/GoRequesting"
+                style="@style/ImageViewElement"
+                android:layout_alignBottom="@+id/Requesting"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+        <!-- History -->
+        <RelativeLayout
+            android:onClick="goHistory"
+            style="@style/RelativeLayoutElement" >
+            <TextView
+                android:id="@+id/History"
+                style="@style/TextViewElement"
+                android:text="History" />
+            <ImageView
+                android:id="@+id/GoHistory"
+                style="@style/ImageViewElement"
+                android:layout_alignBottom="@+id/History"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+     
+    </LinearLayout>
+
+</ScrollView>

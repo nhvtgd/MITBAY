@@ -1,11 +1,13 @@
 package com.example.myapp;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 public class UserProfile extends Activity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,4 +21,28 @@ public class UserProfile extends Activity {
 		return true;
 	}
 
+	public void changeAccount(View view) {
+		Intent intent = new Intent(view.getContext(), SettingPreferences.class);
+		startActivity(intent);
+	}
+
+	public void goBuying(View view) {
+		Intent intent = new Intent(view.getContext(), BuyingItems.class);
+		startActivity(intent);
+	}
+
+	public void goSelling(View view) {
+		Intent intent = new Intent(view.getContext(), SellingItems.class);
+		startActivity(intent);
+
+	}
+	public void goRequesting(View view) {
+		Intent intent = new Intent(view.getContext(), RequestingItems.class);
+		startActivity(intent);
+	}
+
+	public void goHistory(View view) {
+		Intent intent = new Intent(view.getContext(), History.class);
+		startActivity(intent);
+	}
 }
