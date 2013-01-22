@@ -79,6 +79,39 @@ public class ParseDatabase {
 	}
 
 	/**
+	 * This is a factory function that will return the ArrayList of Sellable
+	 * specify with the UserName and the name of the item. One Example of use is
+	 * .getListOfSellableWithNameAndUser(tran,"6.005") will return the arrayList
+	 * of all item with name 6.005 sold by user tran (or Null if nothing was
+	 * found)
+	 * 
+	 * @param user
+	 *            User the seller
+	 * @param name
+	 *            The name of the item
+	 * @return ArrayList of Sellabe object, null if nothing is found
+	 * @throws ParseException
+	 */
+	public ArrayList<Sellable> getListOfSellableWithNameAndUser(User user,
+			String name) throws ParseException {
+		ParseQuery query = getSellableWithNameAndUser(user, name);
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * 
 	 * @param user
 	 *            : instance of User
@@ -88,6 +121,36 @@ public class ParseDatabase {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("seller", user.getName());
 		return query;
+	}
+
+	/**
+	 * This is a factory function that will return the ArrayList of Sellable
+	 * specify with the UserName . One Example of use is
+	 * .getListOfSellableWithNameAndUser(tran,"6.005") will return the arrayList
+	 * of all items sold by user tran (or Null if nothing was found)
+	 * 
+	 * @param user
+	 *            User the seller
+	 * @return ArrayList of Sellabe object, or empty ArrayList if not found
+	 * @throws ParseException
+	 */
+	public ArrayList<Sellable> getListSellableOfUser(User user)
+			throws ParseException {
+		ParseQuery query = getSellableOfUser(user);
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -104,6 +167,35 @@ public class ParseDatabase {
 	}
 
 	/**
+	 * Gets an ArraList of Sellable from Textbook, Electronics, Transportation,
+	 * Misc Example of use .getListType("TEXT BOOK") will return the list of all
+	 * TEXTBOOK sold
+	 * 
+	 * @param type
+	 *            : String of type i.e ELECTRONIC
+	 * @return a list of sellable objects of that selltype or empty ArrayList if
+	 *         not found
+	 * @throws ParseException
+	 */
+	public ArrayList<Sellable> getListType(String type) throws ParseException {
+		ParseQuery query = getType(type);
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * 
 	 * @return a list of sellable objects that are enabled
 	 */
@@ -114,6 +206,32 @@ public class ParseDatabase {
 	}
 
 	/**
+	 * Return an ArrayList of Sellable Objects that still active but not yet
+	 * delete from the server)
+	 * 
+	 * @return a list of sellable objects that are enabled or empty ArrayList if
+	 *         not found
+	 * @throws ParseException
+	 */
+	public ArrayList<Sellable> getListEnabled() throws ParseException {
+		ParseQuery query = getEnabled();
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * 
 	 * @return a list of sellable objects that are disabled
 	 */
@@ -121,6 +239,32 @@ public class ParseDatabase {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("enabled", false);
 		return query;
+	}
+
+	/**
+	 * Return an ArrayList of Sellable Objects that is inactive(someone click on
+	 * buy but not yet delete from the server)
+	 * 
+	 * @return a list of sellable objects that are disabled or empty ArrayList
+	 *         if not found
+	 * @throws ParseException
+	 */
+	public ArrayList<Sellable> getListDisabled() throws ParseException {
+		ParseQuery query = getDisabled();
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -136,6 +280,33 @@ public class ParseDatabase {
 	}
 
 	/**
+	 * Return an ArrayList of Sellable Objects that matches the condition (i.e
+	 * NEW, OLD, ACCEPTABLE)
+	 * 
+	 * @return an ArrayList of sellable objects that matches the condtion or
+	 *         empty ArrayList if not found
+	 * @throws ParseException
+	 */
+	public ArrayList<Sellable> getListCondition(String cond)
+			throws ParseException {
+		ParseQuery query = getCondition(cond);
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * 
 	 * @param date
 	 *            : instance of Date
@@ -145,6 +316,31 @@ public class ParseDatabase {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("date", date);
 		return query;
+	}
+
+	/**
+	 * Get an ArrayList of Sellable Object that is sold on a Specific Date
+	 * 
+	 * @param date
+	 *            : instance of Date
+	 * @return an ArrayList of sellable objects created on date
+	 */
+	public ArrayList<Sellable> getListDate(Date date) throws ParseException {
+		ParseQuery query = getDate(date);
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -158,6 +354,30 @@ public class ParseDatabase {
 	}
 
 	/**
+	 * get All of the Sellable object from the server
+	 * 
+	 * @return an arrayList of all sellable objects in the parse server
+	 * @throws ParseException
+	 */
+	public ArrayList<Sellable> getListAllSellable() throws ParseException {
+		ParseQuery query = getAllSellable();
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * 
 	 * @param skip
 	 *            : number of entries to skip
@@ -168,6 +388,79 @@ public class ParseDatabase {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.setSkip(skip);
 		return query;
+	}
+
+	/**
+	 * get an ArrayList of Sellable objects that equals = total - skip
+	 * 
+	 * @param skip
+	 *            : number of entries to skip
+	 * @return an arrayList of all sellable objects that skip the specified
+	 *         number of entries
+	 * @throws ParseException 
+	 */
+	public ArrayList<Sellable> getListAllSellableSetSkip(int skip) throws ParseException {
+		ParseQuery query = getAllSellableSetSkip(skip);
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
+	}
+	/**
+	 * return the total number of sellable object current on the server (everything)
+	 * @return an integer represents the total number of Sellable objects from server
+	 * @throws ParseException 
+	 */
+	public int getTotalSellable() throws ParseException{
+		ParseQuery query = getAllSellable();
+		return query.count();
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 *            : name of sellable
+	 * @return parsequery you can use to query in parse server
+	 */
+	public ParseQuery getSellableWithName(String name) {
+		ParseQuery query = new ParseQuery("Sellable");
+		query.whereEqualTo("name", name);
+		return query;
+	}
+	
+	/**
+	 * get the ArrayList of item with matching name
+	 * @param name
+	 *            : name of sellable
+	 * @return arrayList of Sellable with name match, or empty ArrayList if not found
+	 * @throws ParseException 
+	 */
+	public ArrayList<Sellable> getListSellableWithName(String name) throws ParseException {
+		ParseQuery query = getSellableWithName(name);
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
 	}
 
 	/**

@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/silver"
+    android:orientation="vertical"
     tools:context=".ItemSelection" >
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:adjustViewBounds="true"
             android:scaleType="center"
             android:soundEffectsEnabled="true"
-            android:src="@drawable/search_item" />
+            android:src="@drawable/search_icon_32"></ImageButton>
 
         <AutoCompleteTextView
             android:id="@+id/auto_complete_item"
@@ -30,7 +30,6 @@
 
             <requestFocus />
         </AutoCompleteTextView>
-
     </LinearLayout>
 
     <Button
@@ -61,12 +60,19 @@
         android:drawableLeft="@drawable/miscellaneous"
         android:text="@string/miscellaneous_string" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <Button
+        android:id = "@+id/browse_all_selection"
+        android:textColor="@color/red"
+        android:textSize="36px"
+        android:text="Browse All"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"        
+        android:gravity="center"
+        android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:background="@color/maroon"
-        android:scaleType="fitCenter"
-        android:src="@drawable/mit_logo" />
+        android:background="@color/gray"
+        android:scaleType="fitCenter" />
 
 </LinearLayout>

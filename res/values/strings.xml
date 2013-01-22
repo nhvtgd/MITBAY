@@ -4,7 +4,10 @@
     <string name="app_name">MyApp</string>
     <string name="hello_world">Hello war</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_notification">Alert</string>
+    <string name="menu_search">Settings</string>
 
+    
     <!-- Item Selection page String -->
     <string name="title_activity_item_selection">Item Selection</string>
     <string name="textbook_string">Text Book Exchange</string>

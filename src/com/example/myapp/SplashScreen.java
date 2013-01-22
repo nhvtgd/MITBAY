@@ -83,7 +83,7 @@ public class SplashScreen extends Activity {
 					public void run() {
 
 						Intent intent = new Intent(SplashScreen.this,
-								CustomizedListView.class);
+								ItemSelection.class);
 						SplashScreen.this.startActivity(intent);
 						SplashScreen.this.finish();
 
