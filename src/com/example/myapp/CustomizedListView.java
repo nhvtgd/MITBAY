@@ -199,19 +199,19 @@ public class CustomizedListView extends MITBAYActivity {
 					long arg3) {
 				Sellable item = (Sellable) adapter.getItem(arg2);
 				Intent intent = new Intent(arg1.getContext(),ItemDetail.class);
-				intent.putExtra("username", item.getSeller().getName());
+				intent.putExtra(MITBAYActivity.USERNAME, item.getSeller().getName());
 				Log.d("user", item.getSeller().getName());
-				intent.putExtra("email", item.getSeller().getEmail());
-				intent.putExtra("date", item.getDate());
+				intent.putExtra(EMAIL, item.getSeller().getEmail());
+				intent.putExtra(DATE, item.getDate());
 				Log.d("date", item.getDate());
 				intent.putExtra("type", item.getType());
 				Log.d("type", item.getType());
-				intent.putExtra("description", item.getDescription());
-				intent.putExtra("id", item.getId());
-				intent.putExtra("image", item.getImages());
-				intent.putExtra("condition", item.getCondition());
-				intent.putExtra("price", item.getPrice());
-				intent.putExtra("item", item.getName());
+				intent.putExtra(DESCRIPTION, item.getDescription());
+				intent.putExtra(ID, item.getId());
+				intent.putExtra(IMAGE, item.getImages());
+				intent.putExtra(CONDITION, item.getCondition());
+				intent.putExtra(PRICE, item.getPrice());
+				intent.putExtra(ITEM, item.getName());
 				startActivity(intent);
 				
 			}
