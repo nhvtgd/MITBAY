@@ -40,10 +40,10 @@ public class ItemDetail extends MITBAYActivity {
 	 * Load picture from extras of the last axtivity
 	 */
 	public void loadPicture(Bundle bundle) {
-//		Bitmap bitmap = getIntent().getParcelableExtra(IMAGE);
-		String imgPath = bundle.getString("imgPath").toString();
-		Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
-		Log.d("Image", (bitmap==null) +", "+imgPath);
+		Bitmap bitmap = getIntent().getParcelableExtra(IMAGE);
+//		String imgPath = bundle.getString("imgPath").toString();
+//		Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
+		Log.d("Image", (bitmap==null) +", ");
 		((ImageView) findViewById(R.id.ItemDetail_Piture)).setImageBitmap(bitmap);
 	}
 	/**
