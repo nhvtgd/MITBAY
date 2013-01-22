@@ -14,7 +14,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name">
+        android:label="@string/app_name" >
         <activity
             android:name="com.example.myapp.CustomizedListView"
             android:label="@string/title_activity_splash_screen" >
@@ -72,6 +72,26 @@
         <activity
             android:name="com.example.myapp.SettingPreferences"
             android:label="@string/title_activity_setting_preferences" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.BuyingItems"
+            android:label="@string/title_activity_buying_items" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.SellingItems"
+            android:label="@string/title_activity_selling_items" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.RequestingItems"
+            android:label="@string/title_activity_requesting_items" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.UserProfile"
+            android:label="@string/title_activity_user_profile" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.History"
+            android:label="@string/title_activity_history" >
         </activity>
     </application>
 

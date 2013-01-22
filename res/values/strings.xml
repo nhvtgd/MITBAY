@@ -46,5 +46,10 @@
     <string name="title_activity_confirm_buy_item">ConfirmBuyItem</string>
     <string name="title_activity_item_detail">ItemDetail</string>
     <string name="title_activity_setting_preferences">SettingPreferences</string>
+    <string name="title_activity_buying_items">BuyingItems</string>
+    <string name="title_activity_selling_items">SellingItems</string>
+    <string name="title_activity_requesting_items">RequestingItems</string>
+    <string name="title_activity_user_profile">UserProfile</string>
+    <string name="title_activity_history">History</string>
 
 </resources>
