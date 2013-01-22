@@ -54,6 +54,10 @@ public class ParseDatabase {
 	public String sendSellableToServer(Sellable sell) {
 		ParseObject sellobj = createSellableParseObj(sell);
 		sellobj.saveInBackground();
+		byte[] data = ParseDatabase.bitmapToByteArray(sell.getImages());
+		ParseFile file = new ParseFile("picture.png", data);
+		file.saveInBackground();
+		this.associateParseObjWithParseFile(file, sellobj);
 		return sellobj.getObjectId();
 	}
 
