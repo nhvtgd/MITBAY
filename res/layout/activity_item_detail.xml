@@ -68,7 +68,7 @@
                     android:text="18.100 text book" />
                 <!-- Quality -->
                 <TextView
-                    android:id="@+id/ItemDetail_Category"
+                    android:id="@+id/ItemDetail_Condition"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Used" 

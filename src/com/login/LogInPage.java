@@ -1,21 +1,18 @@
 package com.login;
 
-import com.example.myapp.R;
-import com.example.myapp.R.id;
-import com.example.myapp.R.layout;
-import com.example.myapp.R.menu;
-
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class LogInPage extends Activity {
+import com.example.myapp.MITBAYActivity;
+import com.example.myapp.R;
+
+public class LogInPage extends MITBAYActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

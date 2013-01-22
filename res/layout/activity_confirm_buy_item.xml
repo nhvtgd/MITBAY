@@ -54,7 +54,7 @@
                 <!-- Quality -->
 
                 <TextView
-                    android:id="@+id/cbi_Classify"
+                    android:id="@+id/cbi_Condition"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Used"
