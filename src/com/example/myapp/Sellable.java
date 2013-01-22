@@ -1,12 +1,13 @@
 package com.example.myapp;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
-public class Sellable {
+public class Sellable extends Activity {
 	private String name;
 	private User seller;
 	private String price;
@@ -18,7 +19,6 @@ public class Sellable {
 	private String type;
 	private Bitmap images;
 	private String condition;
-
 
 	/**
 	 * This is a constructor to initialize the Sellable object after the seller
@@ -81,9 +81,26 @@ public class Sellable {
 
 	}
 
-	private Bitmap getDefaultImage(String type2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Bitmap getDefaultImage(String type) {
+		if (type.equals(MITBAYActivity.TEXTBOOK)) {
+			return BitmapFactory.decodeResource(getResources(),
+					R.drawable.textbook);
+		}
+
+		else if (type.equals(MITBAYActivity.FURNITURE)) {
+			return BitmapFactory.decodeResource(getResources(),
+					R.drawable.furniture);
+		} else if (type
+				.equals(MITBAYActivity.TRANSPORTATION)) {
+			return BitmapFactory.decodeResource(getResources(),
+					R.drawable.bike);
+		} else if (type.equals(MITBAYActivity.MISC)) {
+			return BitmapFactory.decodeResource(getResources(),
+					R.drawable.miscellaneous);
+		}
+		else//should
+			return null;
+
 	}
 
 	public int getIDFromServer() {
