@@ -38,6 +38,7 @@ public class ParseDatabase {
 		obj.put("condition", sell.getCondition());
 		obj.put("seller", sell.getSeller().getName());
 		obj.put("enabled", sell.isEnabled());
+		obj.put("description", sell.getDescription());
 		return obj;
 	}
 
