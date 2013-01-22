@@ -1,13 +1,16 @@
 package com.example.myapp;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -511,5 +514,29 @@ public class ParseDatabase {
 				condition, null);
 		return sell;
 	}
+	
+	/**
+	 * Converts a bitmap to a byte array so that it can be stored as a parse file
+	 * @param bmp
+	 * @return a byte array
+	 */
+	public static byte[] bitmapToByteArray(Bitmap bmp) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		byte[] byteArray = stream.toByteArray();
+		return byteArray;
+	}
+	
+	public ParseFile sendByteArrayToServer(byte[] data){
+		ParseFile file = new ParseFile("picture.png", data);
+		file.saveInBackground();
+		return file;
+	}	
+	
+	public String associateParseObjWithParseFile(ParseFile file, ParseObject obj){
+		obj.put("pic", file);
+		obj.saveInBackground();
+		return obj.getObjectId();
+	}	
 
 }
