@@ -1,13 +1,14 @@
 package com.example.myapp;
 
 
-import com.login.LogInPage;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.login.LogInPage;
 
 public class ItemDetail extends MITBAYActivity {
 
@@ -15,7 +16,9 @@ public class ItemDetail extends MITBAYActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item_detail);
-		
+		Bundle bundle = getIntent().getExtras();
+		loadPicture(bundle);
+		loadTextInformation(bundle);
 	}
 
 	@Override
@@ -25,11 +28,35 @@ public class ItemDetail extends MITBAYActivity {
 		return true;
 	}
 	/**
-	 * Load information given by the Sellable object
+	 * Load picture from extras of the last axtivity
 	 */
-	public void loadItemInformation() {}
-	public void loadItemDescription() {}
-	public void loadSellerInformation() {}
+	public void loadPicture(Bundle bundle) {
+		
+	}
+	/**
+	 * Load Item information from extras of the last activity
+	 * @param bundle
+	 */
+	public void loadTextInformation(Bundle bundle) {
+		// Item name
+		((TextView) findViewById(R.id.ItemDetail_ItemName))
+		.setText(bundle.getString("item_name", "Anonymous"));
+		// Category
+		((TextView) findViewById(R.id.ItemDetail_Category))
+		.setText(bundle.getString("category", "Not defined"));
+		// Price
+		((TextView) findViewById(R.id.ItemDetail_Price))
+		.setText(bundle.getString("price", "No price"));;
+		// Description
+		((TextView) findViewById(R.id.ItemDetail_Description))
+		.setText(bundle.getString("description", ""));
+		// Get seller information
+		String user_information = String.format("%s %n %s",
+				bundle.getString("username", "Anonymous"),
+				bundle.getString("email", "No email available"));
+		((TextView) findViewById(R.id.ItemDetail_Seller)).
+								setText(user_information);
+	}
 	
 	/**
 	 * Do action buy item, need to check log in
