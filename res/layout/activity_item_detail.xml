@@ -11,12 +11,12 @@
 
         <!-- Picture -->
         <LinearLayout
-            android:id="@+id/FramePicture"
+            android:id="@+id/ItemDetail_FramePicture"
             android:layout_width="fill_parent"
             android:layout_height="200sp" >
 
             <ImageView
-                android:id="@+id/Piture"
+                android:id="@+id/ItemDetail_Piture"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@color/white"
@@ -29,7 +29,7 @@
         <!-- Status for pictures -->
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/ItemDetail_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -50,7 +50,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
             <ImageView
-                android:id="@+id/ImageForItem"
+                android:id="@+id/ItemDetail_ImageForItem"
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="@dimen/icon_for_buy_height"
                 android:src="@drawable/textbook" />
@@ -62,13 +62,13 @@
                 android:orientation="vertical" >
                 <!-- Name Item -->
                 <TextView
-                    android:id="@+id/ItemName"
+                    android:id="@+id/ItemDetail_ItemName"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="18.100 text book" />
                 <!-- Quality -->
                 <TextView
-                    android:id="@+id/Classify"
+                    android:id="@+id/ItemDetail_Category"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Used" 
@@ -86,13 +86,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
             <ImageView
-                android:id="@+id/MoneyImage"
+                android:id="@+id/ItemDetail_MoneyImage"
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="@dimen/icon_for_buy_height"
                 android:src="@drawable/ic_money" 
                 />
             <TextView
-                android:id="@+id/Price"
+                android:id="@+id/ItemDetail_Price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/paddingLeft_for_buy"
@@ -114,12 +114,12 @@
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" >
             <ImageView 
-                android:id="@+id/DescriptionIcon"
+                android:id="@+id/ItemDetail_DescriptionIcon"
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="@dimen/icon_for_buy_height"
                 android:src="@drawable/ic_desciption_item"/>
         <TextView
-            android:id="@+id/Description"
+            android:id="@+id/ItemDetail_Description"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/paddingLeft_for_buy"
@@ -137,12 +137,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/UserPhotoIcon"
+            android:id="@+id/ItemDetail_UserPhotoIcon"
             android:layout_width="@dimen/icon_for_buy_width"
             android:layout_height="@dimen/icon_for_buy_height" 
             android:src="@drawable/ic_user"/>
         <TextView
-            android:id="@+id/Seller"
+            android:id="@+id/ItemDetail_Seller"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/paddingLeft_for_buy"
@@ -158,7 +158,7 @@
             android:layout_marginBottom="@dimen/separation"/>
         <!-- Confirm -->
         <Button
-            android:id="@+id/Buy"
+            android:id="@+id/ItemDetail_Buy"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/yellow"
