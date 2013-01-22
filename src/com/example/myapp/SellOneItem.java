@@ -1,6 +1,8 @@
 package com.example.myapp;
 import static android.graphics.BitmapFactory.decodeFile;
+import static android.provider.MediaStore.Images.Media.getBitmap;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,8 +20,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
+import android.provider.MediaStore.Images.Media;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -73,8 +77,13 @@ public class SellOneItem extends Activity {
 	 * @param view
 	 */
 	public void takePhoto(View view) {
-		Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-		startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST); 
+		File file = new File(Environment.getExternalStorageDirectory(), "sell_item.png");
+		Uri outputFileUri = Uri.fromFile(file);
+		imgPath = outputFileUri.getPath();
+		//Generate the Intent.
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+		startActivityForResult(intent, CAMERA_PIC_REQUEST); 
 	}
 
 	/**
@@ -105,9 +114,9 @@ public class SellOneItem extends Activity {
 			pickPicture.setText("Browser");
 			deletePicture.setVisibility(ImageButton.INVISIBLE);
 		} else {
-		takePicture.setText("");
-		pickPicture.setText(""); 
-		deletePicture.setVisibility(ImageButton.VISIBLE);} 
+			takePicture.setText("");
+			pickPicture.setText(""); 
+			deletePicture.setVisibility(ImageButton.VISIBLE);} 
 	}
 	/**
 	 * Check if a string is a valid number
@@ -135,7 +144,7 @@ public class SellOneItem extends Activity {
 	 * go back to home screen
 	 */
 	public void cancelSellTheItem(View view) {
-//		 Go back to the ItemSelection
+		//		 Go back to the ItemSelection
 		startActivity(new Intent(view.getContext(), ItemSelection.class));
 	}
 	/**
@@ -153,13 +162,13 @@ public class SellOneItem extends Activity {
 		// Create a Sellable object
 		Sellable obj = createSellableObject();
 		// Send to server
-//		long start = System.currentTimeMillis();
-//		Log.d("sending server", ""+System.currentTimeMillis());
-//		ParseDatabase parse = new ParseDatabase(getApplicationContext());
-//		parse.sendSellableToServer(obj);
-//		long end = System.currentTimeMillis();
-//		Log.d("sent server", ""+System.currentTimeMillis());
-//		Log.d("Running time", ""+(end - start));
+		//		long start = System.currentTimeMillis();
+		//		Log.d("sending server", ""+System.currentTimeMillis());
+		//		ParseDatabase parse = new ParseDatabase(getApplicationContext());
+		//		parse.sendSellableToServer(obj);
+		//		long end = System.currentTimeMillis();
+		//		Log.d("sent server", ""+System.currentTimeMillis());
+		//		Log.d("Running time", ""+(end - start));
 		// Create intent for the next activity
 		Intent intent = new Intent(view.getContext(), ConfirmSellItem.class);
 		putExtraIntent(intent, obj);
@@ -208,19 +217,16 @@ public class SellOneItem extends Activity {
 		intent.putExtra("category", ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString());
 		intent.putExtra("description", obj.getDescription());
 	}
-	
+
 	/**
 	 * Get result from taking photo and picking photo
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == CAMERA_PIC_REQUEST) {
 			if (resultCode == Activity.RESULT_CANCELED) return;
-			// Find imgPath
-			Uri uri = data.getData();
-			imgPath = getPathFromUri(uri);
 			// Load image in appropriate size
-			int req_height =  1, req_width = getWidthPicture(R.id.sell_one_item_Piture);
-			IMAGE = loadingBitmapEfficiently(imgPath, req_height, req_width);
+			int req_width = getWidthPicture(R.id.sell_one_item_Piture);
+			IMAGE = loadingBitmapEfficiently(imgPath, 1, req_width);
 			// Put image in ImageView
 			setView();
 		} else if (requestCode == PICK_PHOTO) {
@@ -229,17 +235,16 @@ public class SellOneItem extends Activity {
 			// Get path
 			imgPath = getPathFromUri(uri);
 			// Load image in appropriate size
-			int req_height =  1, req_width = getWidthPicture(R.id.sell_one_item_Piture);
-			IMAGE = loadingBitmapEfficiently(imgPath, req_height, req_width);
-			// Put image in ImageView
+			int req_width = getWidthPicture(R.id.sell_one_item_Piture);
+			IMAGE = loadingBitmapEfficiently(imgPath, 1, req_width);
 			setView();
 		}		
 	}
-	
+
 	public int getWidthPicture(int ID) {
 		return ((ImageView)findViewById(ID)).getWidth();
 	}
-	
+
 	/**
 	 * Loading picture with a desired size
 	 * @param imgPath: directory of the picture
@@ -253,12 +258,13 @@ public class SellOneItem extends Activity {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(imgPath, options);
 		options.inSampleSize = Math.min(options.outHeight/required_height, options.outWidth/required_width);
-//		Toast.makeText(getApplicationContext(), "inSampleSize = "+options.inSampleSize, Toast.LENGTH_SHORT).show();
+		Log.d("out height, width, inSampleSize", options.outHeight+", "+options.outWidth+", "+options.inSampleSize);
+		//		Toast.makeText(getApplicationContext(), "inSampleSize = "+options.inSampleSize, Toast.LENGTH_SHORT).show();
 		// Decode the image
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFile(imgPath, options);
 	}
-	
+
 	/**
 	 * Get path from Uri
 	 * @param uri
@@ -271,10 +277,13 @@ public class SellOneItem extends Activity {
 		Cursor picCursor = managedQuery(uri, medData, null, null, null);
 		// Get the path string
 		if(picCursor != null) {
-		    int index = picCursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		    picCursor.moveToFirst();
-		    return picCursor.getString(index);
+			int index = picCursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			picCursor.moveToFirst();
+			return picCursor.getString(index);
 		} else return uri.getPath();
 	}
+
 }
+
+
 
