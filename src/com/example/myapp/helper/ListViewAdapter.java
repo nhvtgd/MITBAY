@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapp.CustomizedListView;
+import com.example.myapp.MITBAYActivity;
 import com.example.myapp.R;
 import com.example.myapp.Sellable;
 /**
@@ -68,7 +69,7 @@ public class ListViewAdapter extends BaseAdapter {
         TextView description = (TextView) vi.findViewById(R.id.item_description_in_post);
         TextView priceTitle = (TextView) vi.findViewById(R.id.item_price_title);
         TextView priceValue = (TextView) vi.findViewById(R.id.item_price_value);
-        
+        ImageView image = (ImageView) vi.findViewById(R.id.item_image_in_post);
         Log.d("view", "create view successfully");
         Sellable item = data.get(position);
         
@@ -79,6 +80,18 @@ public class ListViewAdapter extends BaseAdapter {
         location.setText("Need to set Later");
         description.setText(item.getDescription());
         priceValue.setText(item.getPrice());
+        if (item.getType().toString().equals(MITBAYActivity.TEXTBOOK)){
+        	image.setImageResource(R.drawable.textbook);
+        }
+        else if (item.getType().toString().equals(MITBAYActivity.FURNITURE)){
+        	image.setImageResource(R.drawable.furniture);
+        }
+        else if (item.getType().toString().equals(MITBAYActivity.TRANSPORTATION)){
+        	image.setImageResource(R.drawable.bike);
+        }
+        else if (item.getType().toString().equals(MITBAYActivity.MISC)){
+        	image.setImageResource(R.drawable.miscellaneous);
+        }
         return vi;
     }
 }

@@ -27,7 +27,7 @@ import com.parse.ParseException;
  * @author trannguyen
  * 
  */
-public class CustomizedListView extends Activity {
+public class CustomizedListView extends MITBAYActivity {
 	/**
 	 * The listview that holds the images (defined in xml file)
 	 */
@@ -115,10 +115,6 @@ public class CustomizedListView extends Activity {
 		/**
 		 * Some constant default query to call on the server side
 		 */
-		private static final String TEXTBOOK = "TEXT BOOK";
-		private static final String FURNITURE= "FURNITURE";
-		private static final String TRANSPORTATION = "FURNITURE";
-		private static final String MISC= "MISC";
 		
 		/**
 		 * Place holder constructor to call excute method later
@@ -202,7 +198,7 @@ public class CustomizedListView extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Sellable item = (Sellable) adapter.getItem(arg2);
-				Intent intent = new Intent(arg1.getContext(),ConfirmBuyItem.class);
+				Intent intent = new Intent(arg1.getContext(),ItemDetail.class);
 				intent.putExtra("username", item.getSeller().getName());
 				Log.d("user", item.getSeller().getName());
 				intent.putExtra("email", item.getSeller().getEmail());
@@ -215,6 +211,7 @@ public class CustomizedListView extends Activity {
 				intent.putExtra("image", item.getImages());
 				intent.putExtra("condition", item.getCondition());
 				intent.putExtra("price", item.getPrice());
+				intent.putExtra("item", item.getName());
 				startActivity(intent);
 				
 			}

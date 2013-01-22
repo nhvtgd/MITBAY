@@ -11,6 +11,10 @@ import android.view.Menu;
  */
 public class MITBAYActivity extends Activity {
 
+	public static final String TEXTBOOK = "TEXTBOOK";
+	public static final String FURNITURE= "FURNITURE";
+	public static final String TRANSPORTATION = "FURNITURE";
+	public static final String MISC= "MISC";
 	
 	
 	@Override
