@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-public class Sellable extends Activity {
+public class Sellable {
 	private String name;
 	private User seller;
 	private String price;
@@ -82,24 +82,7 @@ public class Sellable extends Activity {
 	}
 
 	public Bitmap getDefaultImage(String type) {
-		if (type.equals(MITBAYActivity.TEXTBOOK)) {
-			return BitmapFactory.decodeResource(getResources(),
-					R.drawable.textbook);
-		}
-
-		else if (type.equals(MITBAYActivity.FURNITURE)) {
-			return BitmapFactory.decodeResource(getResources(),
-					R.drawable.furniture);
-		} else if (type
-				.equals(MITBAYActivity.TRANSPORTATION)) {
-			return BitmapFactory.decodeResource(getResources(),
-					R.drawable.bike);
-		} else if (type.equals(MITBAYActivity.MISC)) {
-			return BitmapFactory.decodeResource(getResources(),
-					R.drawable.miscellaneous);
-		}
-		else//should
-			return null;
+		return BitmapFactory.decodeFile("/MyApp/res/drawable-hdpi/bike.png");
 
 	}
 
