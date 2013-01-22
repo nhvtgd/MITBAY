@@ -15,6 +15,8 @@
     <string name="bike_string">Bike Exchange</string>
     <string name="miscellaneous_string">Miscellaneous</string>
     <string name="title_activity_splash_screen">MITBAY</string>
+    <string name="sell_customized_listView">Sell</string>
+    <string name="refresh_customized_listView">Refresh</string>
 
     <!-- SplashScreen Page -->
     <string name="logo_description">This is the place where MIT students can find the fastest way to buy and sell items </string>

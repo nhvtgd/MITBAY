@@ -1,29 +1,24 @@
 package com.example.myapp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.myapp.helper.AlertDialogManager;
 import com.example.myapp.helper.ListViewAdapter;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 /**
  * This class creates the list selection screen when the user click on a
@@ -59,6 +54,7 @@ public class CustomizedListView extends Activity {
 	
 	String queryResult;
 	
+	GetData data;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,9 +70,29 @@ public class CustomizedListView extends Activity {
 			Log.d("Search", "get Search term");
 			queryResult = getIntent().getStringExtra("search");
 		}
-		GetData data = new GetData();
+		data = new GetData();
 		data.execute(queryResult);
 		Log.d("No way", "Shouldn't get here right away");
+		Button sell = (Button) findViewById(R.id.sell_button_customized_listView);
+		sell.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(v.getContext(),SellOneItem.class);
+				Log.d("sellOneItem", "here");
+				startActivity(i);
+				
+			}
+		});
+		Button refresh = (Button) findViewById(R.id.refresh_button_customized_listView);
+		refresh.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				list.refreshDrawableState();
+				
+			}
+		});
 
 	}
 
@@ -167,6 +183,7 @@ public class CustomizedListView extends Activity {
 				adapter = new ListViewAdapter(act, result);
 				// bind the adapter with the view
 				list.setAdapter(adapter);
+				list.setOnItemClickListener(new ItemOnClickListener());
 				adapter.notifyDataSetChanged();
 				progressDialog.cancel();
 			}
@@ -174,12 +191,34 @@ public class CustomizedListView extends Activity {
 				progressDialog.cancel();
 				new AlertDialogManager().showAlertDialog(act, "Not Found", "No Item matches your query", false);
 				
-			}
-			
-			
-
+			}		
 		}
 
 	}
+	
+		public class ItemOnClickListener implements OnItemClickListener{
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Sellable item = (Sellable) adapter.getItem(arg2);
+				Intent intent = new Intent(arg1.getContext(),ConfirmBuyItem.class);
+				intent.putExtra("username", item.getSeller().getName());
+				Log.d("user", item.getSeller().getName());
+				intent.putExtra("email", item.getSeller().getEmail());
+				intent.putExtra("date", item.getDate());
+				Log.d("date", item.getDate());
+				intent.putExtra("type", item.getType());
+				Log.d("type", item.getType());
+				intent.putExtra("description", item.getDescription());
+				intent.putExtra("id", item.getId());
+				intent.putExtra("image", item.getImages());
+				intent.putExtra("condition", item.getCondition());
+				intent.putExtra("price", item.getPrice());
+				startActivity(intent);
+				
+			}
+			
+		}
 
 }
