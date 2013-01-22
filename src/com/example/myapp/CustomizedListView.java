@@ -186,7 +186,6 @@ public class CustomizedListView extends MITBAYActivity {
 			else{
 				progressDialog.cancel();
 				new AlertDialogManager().showAlertDialog(act, "Not Found", "No Item matches your query", false);
-				
 			}		
 		}
 
