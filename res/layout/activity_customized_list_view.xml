@@ -16,6 +16,7 @@
             android:layout_weight="0.5"
             android:text="@string/sell_customized_listView" >
         </Button>
+
         <Button
             android:id="@+id/refresh_button_customized_listView"
             android:layout_width="match_parent"
@@ -23,14 +24,88 @@
             android:layout_weight="0.5"
             android:text="@string/refresh_customized_listView" >
         </Button>
-   </LinearLayout>
+    </LinearLayout>
 
-    <ListView
-        android:id="@+id/my_list"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:divider="#b5b5b5"
-        android:dividerHeight="1dp"
-        android:listSelector="@android:drawable/list_selector_background" />
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/my_linear_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_below="@+id/linearLayout_toolbar" >
+
+            <ListView
+                android:id="@+id/my_list"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:divider="#b5b5b5"
+                android:dividerHeight="1dp"
+                android:listSelector="@android:drawable/list_selector_background" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@id/linearLayout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/silver"
+            android:orientation="horizontal" >
+
+            <!--
+                  <Spinner
+                
+                style="@style/mitbay_DropDownNav"
+                android:id="@+id/sort_by_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_by_button"
+                android:layout_weight="0.25"
+                android:textSize="12sp" 
+                android:entries="@array/SortBy"
+                android:prompt="@string/sort_by"
+                android:background="?android:attr/selectableItemBackground"/>
+            -->
+
+            <Button
+                android:id="@+id/sort_by_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/sort_by_button"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/notification_by_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/notification_by_button"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/profile_by_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/profile_by_button"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/top_requested_by_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/top_requested_by_button"
+                android:textSize="12sp" >
+            </Button>
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
