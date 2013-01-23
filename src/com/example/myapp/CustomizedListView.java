@@ -23,6 +23,7 @@ import android.widget.ListView;
 import com.example.myapp.helper.AlertDialogManager;
 import com.example.myapp.helper.ListViewAdapter;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 /**
  * This class creates the list selection screen when the user click on a
@@ -277,6 +278,9 @@ public class CustomizedListView extends MITBAYActivity {
 			String query = params[0];// get the activity
 			// create the data base to initialize things
 			ParseDatabase newDataBase = new ParseDatabase(act);
+			ParseQuery parseQuery = new ParseQuery(query);
+			
+			
 			Log.d("dataBase", "Creat data base");
 
 			ArrayList<Sellable> sell = null;			
