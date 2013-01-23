@@ -10,6 +10,7 @@
         android:padding="10sp" >
 
         <!-- Picture -->
+
         <LinearLayout
             android:id="@+id/ItemDetail_FramePicture"
             android:layout_width="fill_parent"
@@ -19,11 +20,9 @@
                 android:id="@+id/ItemDetail_Piture"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="@color/white"
                 android:layout_margin="10sp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/mit_great_dome" />
-
+                android:background="@color/white" />
         </LinearLayout>
 
         <!-- Status for pictures -->
@@ -37,142 +36,145 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-	
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#cccccc" 
+            android:layout_marginBottom="@dimen/separation"
             android:layout_marginTop="@dimen/separation"
-            android:layout_marginBottom="@dimen/separation"/>
-        
-		<!-- Item information -->
+            android:background="#cccccc" />
+
+        <!-- Item information -->
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
+
             <ImageView
                 android:id="@+id/ItemDetail_ImageForItem"
                 android:layout_width="@dimen/icon_for_buy_width"
-                android:layout_height="@dimen/icon_for_buy_height"
-                android:src="@drawable/textbook" />
+                android:layout_height="@dimen/icon_for_buy_height" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/paddingLeft_for_buy"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/paddingLeft_for_buy" >
+
                 <!-- Name Item -->
+
                 <TextView
                     android:id="@+id/ItemDetail_ItemName"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="18.100 text book" />
+                    android:layout_height="wrap_content" />
                 <!-- Quality -->
+
                 <TextView
                     android:id="@+id/ItemDetail_Condition"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Used" 
-                    android:textStyle="bold|italic"/>
+                    android:textStyle="bold|italic" />
             </LinearLayout>
-		</LinearLayout>
-		<View
+        </LinearLayout>
+
+        <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#cccccc" 
+            android:layout_marginBottom="@dimen/separation"
             android:layout_marginTop="@dimen/separation"
-            android:layout_marginBottom="@dimen/separation"/>
+            android:background="#cccccc" />
         <!-- Price -->
-        <LinearLayout 
+
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
+
             <ImageView
                 android:id="@+id/ItemDetail_MoneyImage"
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="@dimen/icon_for_buy_height"
-                android:src="@drawable/ic_money" 
-                />
+                android:src="@drawable/ic_money" />
+
             <TextView
                 android:id="@+id/ItemDetail_Price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/paddingLeft_for_buy"
                 android:layout_gravity="center_vertical"
-                android:text="$100" 
-                android:textSize="20sp"
+                android:paddingLeft="@dimen/paddingLeft_for_buy"
                 android:textColor="@color/red"
+                android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#cccccc" 
+            android:layout_marginBottom="@dimen/separation"
             android:layout_marginTop="@dimen/separation"
-            android:layout_marginBottom="@dimen/separation"/>
+            android:background="#cccccc" />
         <!-- Description -->
+
         <LinearLayout
-            android:layout_width="fill_parent" 
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-            <ImageView 
+
+            <ImageView
                 android:id="@+id/ItemDetail_DescriptionIcon"
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="@dimen/icon_for_buy_height"
-                android:src="@drawable/ic_desciption_item"/>
-        <TextView
-            android:id="@+id/ItemDetail_Description"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/paddingLeft_for_buy"
-            android:layout_gravity="center_vertical"
-            android:text="Text book for 18.100, a photo copy. Very good condition."/>
+                android:src="@drawable/ic_desciption_item" />
+
+            <TextView
+                android:id="@+id/ItemDetail_Description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/paddingLeft_for_buy" />
         </LinearLayout>
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#cccccc" 
+            android:layout_marginBottom="@dimen/separation"
             android:layout_marginTop="@dimen/separation"
-            android:layout_marginBottom="@dimen/separation"/>
-        <!-- Seller name, email, address-->
-        <LinearLayout 
+            android:background="#cccccc" />
+        <!-- Seller name, email, address -->
+
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/ItemDetail_UserPhotoIcon"
-            android:layout_width="@dimen/icon_for_buy_width"
-            android:layout_height="@dimen/icon_for_buy_height" 
-            android:src="@drawable/ic_user"/>
-        <TextView
-            android:id="@+id/ItemDetail_Seller"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/paddingLeft_for_buy"
-            android:layout_gravity="center_vertical"
-            android:text="Duy Ha" />
-		</LinearLayout>
-		
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/ItemDetail_UserPhotoIcon"
+                android:layout_width="@dimen/icon_for_buy_width"
+                android:layout_height="@dimen/icon_for_buy_height"
+                android:src="@drawable/ic_user" />
+
+            <TextView
+                android:id="@+id/ItemDetail_Seller"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/paddingLeft_for_buy" />
+        </LinearLayout>
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#cccccc" 
+            android:layout_marginBottom="@dimen/separation"
             android:layout_marginTop="@dimen/separation"
-            android:layout_marginBottom="@dimen/separation"/>
+            android:background="#cccccc" />
         <!-- Confirm -->
+
         <Button
             android:id="@+id/ItemDetail_Buy"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/yellow"
+            android:onClick="buyOneItem"
             android:text="Buy"
-            android:textStyle="bold"
             android:textColor="@color/red"
-            android:onClick="buyOneItem"/>
-        
-		<LinearLayout 
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:visibility="visible" ></LinearLayout>
-        
-
+            android:textStyle="bold" />
     </LinearLayout>
 
 </ScrollView>

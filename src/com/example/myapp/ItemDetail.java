@@ -30,8 +30,8 @@ public class ItemDetail extends MITBAYActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item_detail);
 		Bundle bundle = getIntent().getExtras();
-		loadPicture(bundle);
-		loadTextInformation(bundle);
+//		loadPicture(bundle);
+//		loadTextInformation(bundle);
 		// try
 //		Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.mit_great_dome);
 //		ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -72,7 +72,7 @@ public class ItemDetail extends MITBAYActivity {
 		username = bundle.getString(USERNAME, "Anonymous").toString();
 		email = bundle.getString(EMAIL, "").toString();
 		type = bundle.getString(TYPE, "Misc").toString();
-		id = bundle.getInt(ID);
+		id = bundle.getInt(ID, -1);
 		// Set item name
 		((TextView) findViewById(R.id.ItemDetail_ItemName))
 		.setText(String.format("%s %n%s",item, date));

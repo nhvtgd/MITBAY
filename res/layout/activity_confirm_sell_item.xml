@@ -23,9 +23,8 @@
             android:id="@+id/Piture"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10sp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/mit_great_dome" />
+            android:layout_margin="10sp" 
+            android:padding="60sp"/>
 
         <!-- Status for pictures -->
 
@@ -178,13 +177,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="10sp"
-				android:background="@color/red"
-				android:textColor="@color/white"  
+                android:layout_marginLeft="@dimen/separation"
+                android:layout_marginRight="@dimen/separation"
+				android:background="@color/green"
+				android:textColor="@color/blue"  
 				android:textStyle="bold"             
                 android:onClick="editSellItem"
                 android:text="Edit" />
             
+            <Button
+                android:id="@+id/Confirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/red"
+       			android:textColor="@color/white"  
+				android:textStyle="bold"             
+                android:onClick="confirmSellItem"
+                android:text="Confirm" />
         </LinearLayout>
 
     </LinearLayout>

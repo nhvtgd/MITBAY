@@ -1,10 +1,10 @@
 package com.example.myapp;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -19,6 +19,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 	private String item, date, condition, price, description, username, email, type;
 	private int id;
 	private Bitmap image;
+	SharedPreferences settings;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,6 +27,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		// Loading information
 		Bundle bundle = getIntent().getExtras();
 		loadTextInformation(bundle);
+		loadPicture(bundle);
 	}
 	
 	public void loadPicture(Bundle bundle) {
@@ -50,7 +52,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		username = bundle.getString(USERNAME, "Anonymous").toString();
 		email = bundle.getString(EMAIL, "").toString();
 		type = bundle.getString(TYPE, "Misc").toString();
-		id = bundle.getInt(ID);
+		id = bundle.getInt(ID, -1);
 		// Set item name
 		((TextView) findViewById(R.id.cbi_ItemName))
 		.setText(String.format("%s %n%s",item, date));
@@ -58,11 +60,16 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		((TextView) findViewById(R.id.cbi_Condition)).setText(condition);
 		// Set price
 		((TextView) findViewById(R.id.cbi_Price))
-		.setText(price);;
+		.setText(price);
+		// Buyer information
+		settings = getSharedPreferences(SETTING, 0);
+		((TextView) findViewById(R.id.cbi_Buyer)).setText(String.format("%s %n%s %n%s",
+				settings.getString(USERNAME, "").toString(),
+				settings.getString(EMAIL, "").toString(), 
+				settings.getString(ADDRESS, "").toString()));
 		// Get seller information
-		String user_information = String.format("%s %n %s", username, email);
-		((TextView) findViewById(R.id.cbi_Seller)).
-								setText(user_information);
+		String user_information = String.format("%s %n%s", username, email);
+		((TextView) findViewById(R.id.cbi_Seller)).setText(user_information);
 	}
 	
 	
@@ -86,7 +93,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		// Visible progress
 		((LinearLayout) findViewById(R.id.cbi_Progress)).setVisibility(LinearLayout.VISIBLE);
 		// Remind sending email
-		new CountDownTimer(2000, 2000) {
+		new CountDownTimer(1000, 1000) {
 		     public void onTick(long millisUntilFinished) {
 		         Toast.makeText(getApplicationContext(), "Sending to server", Toast.LENGTH_SHORT).show();
 		     }
@@ -105,13 +112,16 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("text/plain");
 		// Put extra seller email
-		String aEmailList[] = { "duyha@mit.edu" }; 
+		String aEmailList[] = { email }; 
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, aEmailList);
 		// Put extra subject
-		String subject = "I want to buy text book from you";
+		String subject = "[Buying "+ item +" from you via MITBAY]";
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
 		// Put extra content
-		String content = "Hi, Thank you for selling this item";
+		String content = String.format("%s %n%s",
+				"Hi "+settings.getString(NAME,  "") +",",
+				"Thank you for selling this item. I want to buy "
+				+ item +" from you");
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, content);
 		// Start activity
 		startActivity(emailIntent);

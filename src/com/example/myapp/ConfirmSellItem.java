@@ -67,4 +67,7 @@ public class ConfirmSellItem extends SellOneItem {
 		i.putExtra("isEdit", true);
 		startActivity(i);
 	}
+	public void confirmSellItem(View view) {
+		
+	}
 }

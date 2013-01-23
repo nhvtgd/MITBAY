@@ -7,7 +7,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/separation" >
+        android:padding="30sp" >
 
         <!-- User Name -->
 
@@ -165,72 +165,66 @@
         <!-- Take photo button -->
 
         <LinearLayout
+            android:id="@+id/sell_one_item_Devices" 
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-
-            <ImageButton
-                android:id="@+id/sell_one_item_AddPhotoButton"
-                android:layout_width="0dp"
+            android:layout_height="wrap_content" 
+            android:orientation="vertical">
+            
+            <LinearLayout style="@style/CommonLinearLayout" >
+                <ImageButton
+                    android:id="@+id/sell_one_item_AddPhotoButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:onClick="takePhoto"
+                    android:src="@drawable/ic_camera_color"
+                    android:textSize="10sp" />
+                <ImageButton
+                    android:id="@+id/sell_one_item_GalleryPicture"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:onClick="chosePicture"
+                    android:src="@drawable/ic_gallery"
+                    android:textSize="10sp" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:onClick="takePhoto"
-                android:src="@drawable/ic_camera"
-                android:textSize="10sp" />
-
-            <ImageButton
-                android:id="@+id/sell_one_item_GalleryPicture"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:onClick="chosePicture"
-                android:src="@drawable/ic_upload"
-                android:textSize="10sp" />
+                android:gravity="center"
+                android:paddingTop="20sp"
+                android:text="No picture for the item yet" />
         </LinearLayout>
 
         <!-- Images -->
+
         <RelativeLayout
+            android:id="@+id/sell_one_item_FramePicture"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-			
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
             <ImageView
                 android:id="@+id/sell_one_item_Piture"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10sp"
-                android:adjustViewBounds="true"
-                android:background="@color/white"
+                android:layout_margin="70sp"
+                android:adjustViewBounds="false"
                 android:longClickable="true"
+                android:scaleType="fitXY"
                 android:src="@drawable/mit_great_dome" >
             </ImageView>
+
             <ImageButton
                 android:id="@+id/sell_one_item_Delete"
-                android:layout_width="50sp"
-                android:layout_height="50sp"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
                 android:layout_alignBottom="@+id/sell_one_item_Piture"
                 android:layout_alignLeft="@+id/sell_one_item_Piture"
-				android:src="@drawable/ic_delete" 
-				android:background="#eee9e9"               
-                android:onClick="deletePicture"/>
+                android:background="#eee9e9"
+                android:onClick="deletePicture"
+                android:src="@drawable/ic_delete" />
         </RelativeLayout>
-        
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-            <TextView
-                android:id="@+id/sell_one_item_TakePictureText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="Take picture" />
-            <TextView
-                android:id="@+id/sell_one_item_PickPictureText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="Browser" />
-        </LinearLayout>
 
         <View
             android:layout_width="fill_parent"
@@ -251,32 +245,32 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" 
-            android:paddingTop="30sp">
+            android:layout_height="wrap_content"
+            android:paddingTop="30sp" >
 
             <Button
                 android:id="@+id/sell_one_item_CancelButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginRight="10sp"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="#cdc9c9"
-                android:textStyle="bold"
                 android:onClick="cancelSellTheItem"
-                android:text="Cancel" />
+                android:text="Cancel"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/sell_one_item_DoneButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="10sp"
-				android:background="@color/red"
-				android:textColor="@color/white"
-				android:textStyle="bold"                
-                android:text="Done" 
-                android:onClick="doneSellTheItem"/>
+                android:layout_weight="1"
+                android:background="@color/red"
+                android:onClick="doneSellTheItem"
+                android:text="Done"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
