@@ -35,6 +35,11 @@
             android:name="com.login.LogInPage"
             android:label="@string/title_activity_log_in_page"
             android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.login.LogIn"
@@ -47,11 +52,6 @@
         <activity
             android:name="com.example.myapp.SellOneItem"
             android:label="@string/title_activity_sell_one_item" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.example.myapp.SplashScreen"

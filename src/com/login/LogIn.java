@@ -27,15 +27,17 @@ public class LogIn extends MITBAYActivity {
 	private boolean validLogin;
 	private SharedPreferences settings;
 	private SharedPreferences.Editor prefEditor;
-	private String email;
-	private String password;
+	private String email, username, password;
+	Button confirm;
+	TextView errorMessage;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_log_in);
 		// SharedPreferences
-		settings = getSharedPreferences("settings", 0);
+		settings = getSharedPreferences(SETTING, 0);
 		prefEditor = settings.edit();
+		errorMessage = (TextView) findViewById(R.id.signInErrorMassage);
 		// Parse Initialization
 		Parse.initialize(this, "2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
 				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
@@ -44,50 +46,58 @@ public class LogIn extends MITBAYActivity {
 		logIn.setBackgroundColor(Color.RED);
 		// Check Remember the last password
 		// Email Address
-		EditText emailField = (EditText) findViewById(R.id.signInUsername);
-		String previousEmail = settings.getString("user name", "");
-		if (previousEmail != "") 	
-			emailField.setText(previousEmail);
+		EditText usernameField = (EditText) findViewById(R.id.signInUsername);
+		String previousUserName = settings.getString(USERNAME, "");
+		if (previousUserName != "") 	
+			usernameField.setText(previousUserName);
 		// Password
 		EditText passwordField = (EditText) findViewById(R.id.signInPassword);
-		String previousPassword = settings.getString("password", "");
-		if (previousPassword != "") {
+		String previousPassword = settings.getString(PASSWORD, "");
+		if (previousPassword != "")
 			passwordField.setText(previousPassword);
-		}
 		// Confirm Button
-		Button confirm = (Button) findViewById(R.id.signInConfirmButton);
+		confirm = (Button) findViewById(R.id.signInConfirmButton);
 		confirm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				((TextView)findViewById(R.id.signInErrorMassage)).setText("");
+				// Firstly deactivate the button
+				confirm.setEnabled(false);
 				// Email Address
-				EditText emailField = (EditText) findViewById(R.id.signInUsername);
-				email = emailField.getText().toString();
+				EditText usernameField = (EditText) findViewById(R.id.signInUsername);
+				username = usernameField.getText().toString();
 				// Password
 				EditText passwordField = (EditText) findViewById(R.id.signInPassword);
 				password = passwordField.getText().toString();
 				// Update
-				isValidLogIn(email, password);
+				isValidLogIn(username, password);
 			}
 		});
 	}
 
-	public boolean isValidLogIn(String email, String pass) {
+	public boolean isValidLogIn(String user_name, String pass) {
 		ParseUser user = new ParseUser();
-		user.setUsername(email);
+		user.setUsername(user_name);
 		user.setPassword(pass);
-		ParseUser.logInInBackground(email, pass, new LogInCallback() {
+		ParseUser.logInInBackground(user_name, pass, new LogInCallback() {
 			public void done(ParseUser user, ParseException e) {
 				if (user != null) {
-					validLogin = true;
-					prefEditor.putString("email", user.getEmail());
-					prefEditor.putString("name", user.getUsername());
-					prefEditor.putString("password", password);
-					prefEditor.commit();
-					Intent i = new Intent(getApplicationContext(), ItemSelection.class);
-					startActivity(i); 
+					if (user.getBoolean("emailVerified")!=true) {
+						errorMessage.setText("You have not verified email " + user.getEmail());
+						validLogin = false;
+					} else {
+						validLogin = true;
+						prefEditor.putString(EMAIL, user.getEmail());
+						prefEditor.putString(USERNAME, user.getUsername());
+						prefEditor.putString(PASSWORD, password);
+						prefEditor.commit();
+						confirm.setEnabled(true);
+						Intent i = new Intent(getApplicationContext(), ItemSelection.class);
+						startActivity(i); 
+					}
 				} else {
+					confirm.setEnabled(true);
 					validLogin = false;
-					TextView errorMessage = (TextView) findViewById(R.id.signInErrorMassage);
 					errorMessage.setText("The username and password are not correct. Can you try again?");
 				}
 			}

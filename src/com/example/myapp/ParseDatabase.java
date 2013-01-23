@@ -1,13 +1,16 @@
 package com.example.myapp;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -38,6 +41,7 @@ public class ParseDatabase {
 		obj.put("condition", sell.getCondition());
 		obj.put("seller", sell.getSeller().getName());
 		obj.put("enabled", sell.isEnabled());
+		obj.put("description", sell.getDescription());
 		return obj;
 	}
 
@@ -50,6 +54,10 @@ public class ParseDatabase {
 	public String sendSellableToServer(Sellable sell) {
 		ParseObject sellobj = createSellableParseObj(sell);
 		sellobj.saveInBackground();
+		byte[] data = ParseDatabase.bitmapToByteArray(sell.getImages());
+		ParseFile file = new ParseFile("picture.png", data);
+		file.saveInBackground();
+		this.associateParseObjWithParseFile(file, sellobj);
 		return sellobj.getObjectId();
 	}
 
@@ -566,5 +574,29 @@ public class ParseDatabase {
 				condition, null);
 		return sell;
 	}
+	
+	/**
+	 * Converts a bitmap to a byte array so that it can be stored as a parse file
+	 * @param bmp
+	 * @return a byte array
+	 */
+	public static byte[] bitmapToByteArray(Bitmap bmp) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		byte[] byteArray = stream.toByteArray();
+		return byteArray;
+	}
+	
+	public ParseFile sendByteArrayToServer(byte[] data){
+		ParseFile file = new ParseFile("picture.png", data);
+		file.saveInBackground();
+		return file;
+	}	
+	
+	public String associateParseObjWithParseFile(ParseFile file, ParseObject obj){
+		obj.put("pic", file);
+		obj.saveInBackground();
+		return obj.getObjectId();
+	}	
 
 }

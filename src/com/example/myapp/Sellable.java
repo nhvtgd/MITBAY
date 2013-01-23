@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+
 public class Sellable{
 	private String name;
 	private User seller;

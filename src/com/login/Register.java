@@ -1,17 +1,8 @@
 package com.login;
 
-import com.example.myapp.R;
-
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
-
-import android.os.Bundle;
-import android.app.Activity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,9 +11,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Register extends Activity {
-	private boolean registered;
+import com.example.myapp.MITBAYActivity;
+import com.example.myapp.R;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
+public class Register extends MITBAYActivity {
+	
+	private boolean registered;
+	private SharedPreferences settings;
+	private SharedPreferences.Editor prefEditor;
+	private String email, username, password;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,12 +67,11 @@ public class Register extends Activity {
 							Toast.LENGTH_LONG).show();
 
 					// Save data in SharedPreferences
-					SharedPreferences settings = getSharedPreferences(
-							"sign in", 0);
+					settings = getSharedPreferences(SETTING, 0);
 					SharedPreferences.Editor prefEditor = settings.edit();
-					prefEditor.putString("user name", userName);
-					prefEditor.putString("email", email);
-					prefEditor.putString("password", password);
+					prefEditor.putString(USERNAME, userName);
+					prefEditor.putString(EMAIL, email);
+					prefEditor.putString(PASSWORD, password);
 					prefEditor.commit();
 					// Move to ListItems action
 					Intent i = new Intent(v.getContext(), LogIn.class);

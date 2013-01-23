@@ -117,7 +117,7 @@ public class CustomizedListView extends MITBAYActivity {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		SortData sort = new SortData();
-		
+
 		sort.execute(item.getTitle().toString().toLowerCase());
 		return true;
 
@@ -279,11 +279,10 @@ public class CustomizedListView extends MITBAYActivity {
 			// create the data base to initialize things
 			ParseDatabase newDataBase = new ParseDatabase(act);
 			ParseQuery parseQuery = new ParseQuery(query);
-			
-			
+
 			Log.d("dataBase", "Creat data base");
 
-			ArrayList<Sellable> sell = null;			
+			ArrayList<Sellable> sell = null;
 			try {
 				if (query.equals("all")) {
 					sell = newDataBase.getListAllSellable();
@@ -297,9 +296,7 @@ public class CustomizedListView extends MITBAYActivity {
 					sell = newDataBase.getListType(MISC);
 				} else {
 					sell = newDataBase.getListSellableWithName(queryResult);
-					
-					
-					
+
 				}
 
 			} catch (ParseException e) {
@@ -324,10 +321,11 @@ public class CustomizedListView extends MITBAYActivity {
 				progressDialog.cancel();
 			} else {
 				progressDialog.cancel();
+
 				new AlertDialogManager().showAlertDialog(act, "Not Found",
 						"No Item matches your query", false);
-
 			}
+
 		}
 
 	}
