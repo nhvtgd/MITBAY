@@ -481,7 +481,35 @@ public class ParseDatabase {
 	public ParseQuery returnInOrderByAscending(String parameter) {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.orderByAscending(parameter);
+		
 		return query;
+	}
+	
+	/**
+	 * Sorts the results in ascending order by the parameter field
+	 * 
+	 * @param parameter
+	 *            : parameter eg: name, price
+	 * @return: an ArrayList of objects sorted by parameter
+	 * @throws ParseException 
+	 */
+	public ArrayList<Sellable> returnListInOrderByAscending(String parameter) throws ParseException {
+		ParseQuery query = new ParseQuery("Sellable");
+		query.orderByAscending(parameter);
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;		
 	}
 
 	/**
@@ -496,6 +524,34 @@ public class ParseDatabase {
 		query.orderByDescending(parameter);
 		return query;
 	}
+	
+	/**
+	 * Sorts the results in descending order by the parameter field
+	 * 
+	 * @param parameter
+	 *            : parameter eg: name, price
+	 * @return: an ArrayList of objects sorted by parameter
+	 * @throws ParseException 
+	 */
+	public ArrayList<Sellable> returnListInOrderByDescending(String parameter) throws ParseException {
+		ParseQuery query = new ParseQuery("Sellable");
+		query.orderByDescending(parameter);
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;		
+	}
+
 
 	/**
 	 * Converts a sellable with a parseobject

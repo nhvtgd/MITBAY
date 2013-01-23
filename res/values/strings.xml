@@ -7,7 +7,6 @@
     <string name="menu_notification">Alert</string>
     <string name="menu_search">Settings</string>
 
-    
     <!-- Item Selection page String -->
     <string name="title_activity_item_selection">Item Selection</string>
     <string name="textbook_string">Text Book Exchange</string>
@@ -53,5 +52,28 @@
     <string name="title_activity_requesting_items">RequestingItems</string>
     <string name="title_activity_user_profile">UserProfile</string>
     <string name="title_activity_history">History</string>
+
+    <!-- Customized list View -->
+    <string name="sort_by_button">Sort by...</string>
+    <string name="notification_by_button">Notification</string>
+    <string name="profile_by_button">Profile</string>
+    <string name="top_requested_by_button">Top Items</string>
+    <string name="sort_by">Sort By</string>
+
+    <string-array name="SortBy">
+        <item>Sort</item>
+        <item>Price</item>
+        <item>Date</item>
+        <item>Name</item>
+        <item>Type</item>
+        <item>Condition</item>
+        <item>Type</item>
+    </string-array>
+
+    <string name="sort_by_price">Price</string>
+    <string name="sort_by_date">Date</string>
+    <string name="sort_by_name">Name</string>
+    <string name="sort_by_type">Type</string>
+    <string name="sort_by_condition">Condition</string>
 
 </resources>
