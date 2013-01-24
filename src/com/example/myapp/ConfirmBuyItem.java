@@ -1,7 +1,10 @@
 package com.example.myapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -31,11 +34,12 @@ public class ConfirmBuyItem extends MITBAYActivity {
 	}
 	
 	public void loadPicture(Bundle bundle) {
+		ImageView picView = (ImageView) findViewById(R.id.cbi_ItemPicture);
 		image = getIntent().getParcelableExtra(IMAGE);
 //		String imgPath = bundle.getString("imgPath").toString();
 //		Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
-		Log.d("Image", (image==null) +", ");
-		((ImageView) findViewById(R.id.ItemDetail_Piture)).setImageBitmap(image);
+		if (image == null) picView.setImageDrawable(getResources().getDrawable(R.drawable.ic_green_cart));
+		else picView.setImageBitmap(image);
 	}
 	
 	/**
@@ -43,7 +47,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 	 * @param bundle
 	 */
 	private void loadTextInformation(Bundle bundle) {
-		// Load text
+		// Load item, date, condition, price, description, username, email, type, id;
 		item = bundle.getString(ITEM, "No named").toString();
 		date = bundle.getString(DATE, "").toString();
 		condition = bundle.getString(CONDITION, "").toString();
@@ -51,7 +55,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		description = bundle.getString(DESCRIPTION, "").toString();
 		username = bundle.getString(USERNAME, "Anonymous").toString();
 		email = bundle.getString(EMAIL, "").toString();
-		type = bundle.getString(TYPE, "Misc").toString();
+		type = bundle.getString(TYPE, MISC).toString();
 		id = bundle.getInt(ID, -1);
 		// Set item name
 		((TextView) findViewById(R.id.cbi_ItemName))
@@ -59,8 +63,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		// Set condition
 		((TextView) findViewById(R.id.cbi_Condition)).setText(condition);
 		// Set price
-		((TextView) findViewById(R.id.cbi_Price))
-		.setText(price);
+		((TextView) findViewById(R.id.cbi_Price)).setText(price);
 		// Buyer information
 		settings = getSharedPreferences(SETTING, 0);
 		((TextView) findViewById(R.id.cbi_Buyer)).setText(String.format("%s %n%s %n%s",
@@ -68,8 +71,8 @@ public class ConfirmBuyItem extends MITBAYActivity {
 				settings.getString(EMAIL, "").toString(), 
 				settings.getString(ADDRESS, "").toString()));
 		// Get seller information
-		String user_information = String.format("%s %n%s", username, email);
-		((TextView) findViewById(R.id.cbi_Seller)).setText(user_information);
+		String seller_information = String.format("%s %n%s", username, email);
+		((TextView) findViewById(R.id.cbi_Seller)).setText(seller_information);
 	}
 	
 	
@@ -127,11 +130,30 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		startActivity(emailIntent);
 	}
 	/**
-	 * Cancel to buy, come back to the home screen
+	 * Cancel to buy, come back to the home screen (ItemSelection)
 	 * @param view
 	 */
 	public void cancelBuyItem(View view) {
-		Intent i = new Intent(view.getContext(), ItemDetail.class);
-		startActivity(i);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Do you want to cancel to buy this item");
+		builder.setPositiveButton("Ok", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// Need to confirm cancel to buy this item from server
+				Intent i = new Intent(getApplicationContext(), ItemSelection.class);
+				startActivity(i);
+			}
+		});
+		builder.setNegativeButton("Cancel", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) { } // do nothing
+		});
+		builder.create().show();
+		
 	}
 }
+
+
+//Need to confirm cancel to buy this item from server
+// Make Theme
+// Make Dialog button more attractive

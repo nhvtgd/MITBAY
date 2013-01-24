@@ -34,6 +34,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_margin="15sp"
 	    android:text="Log in"
+	    android:background="@color/red"
 	    android:textColor="@color/white"
 	    android:textStyle="bold"
 	></Button>

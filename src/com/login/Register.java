@@ -36,31 +36,31 @@ public class Register extends MITBAYActivity {
 		confirm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// Clear error message
+				TextView errorMessage = (TextView) findViewById(R.id.MessageError_Register);
+				errorMessage.setText("");
 				// User Name
 				String userName = ((EditText) findViewById(R.id.UserName_Register))
 						.getText().toString();
 				// Email Address
-				String email = ((EditText) findViewById(R.id.EmailAddress_Register))
+				email = ((EditText) findViewById(R.id.EmailAddress_Register))
 						.getText().toString();
 				// Password
-				String password = ((EditText) findViewById(R.id.Password_Register))
+				password = ((EditText) findViewById(R.id.Password_Register))
 						.getText().toString();
 				// Confirm Password
 				String confirmPassword = ((EditText) findViewById(R.id.ConfirmPassword_Register))
 						.getText().toString();
-				// Message Error Checking
-				TextView errorMessage = (TextView) findViewById(R.id.MessageError_Register);
 				// Update
 				if (!isMatchPassword(password, confirmPassword)) {
 					errorMessage
 							.setText("The password and confirmation password do not match "
-									+ password + "  " + confirmPassword);
+									+ password + " and " + confirmPassword);
 				} else if (!registerUserToParse(userName, password, email)) {
 					errorMessage
 							.setText("Failure to register to server. Either duplicate username or check email.");
 
 				} else {
-
 					Toast.makeText(
 							getApplicationContext(),
 							"A verification email has been sent to your inbox. Please check it!",
@@ -111,3 +111,9 @@ public class Register extends MITBAYActivity {
 		return true;
 	}
 }
+
+/* Need more work
+ * 	Theme
+ * 	Location
+ * 	Register button
+ */

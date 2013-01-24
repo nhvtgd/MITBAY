@@ -1,6 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:fillViewport="true" >
 
     <LinearLayout
@@ -13,18 +13,23 @@
         <TextView
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content"
-            android:text="	You confirmed to sell the following item"
+            android:text="Great! You need to confirm to sell the following item"
             android:textStyle="italic"
             android:paddingBottom="30sp"
             android:paddingTop="30sp"
             />
         <!-- Picture -->
         <ImageView
-            android:id="@+id/Piture"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10sp" 
-            android:padding="60sp"/>
+                android:id="@+id/Picture"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="30dp"
+                android:adjustViewBounds="false"
+                android:scaleType="fitXY" 
+                android:src="@drawable/mit_great_dome" >
+            </ImageView>
 
         <!-- Status for pictures -->
 
@@ -49,7 +54,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
             <ImageView
-                android:id="@+id/ImageForItem"
+                android:id="@+id/SmallImageForItem"
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="@dimen/icon_for_buy_height"
                 android:src="@drawable/ic_green_cart" />

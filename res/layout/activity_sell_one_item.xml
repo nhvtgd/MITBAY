@@ -7,7 +7,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="30sp" >
+        android:paddingLeft="30sp" 
+        android:paddingTop="20sp"
+        android:paddingRight="30sp"
+        android:paddingBottom="30sp" >
 
         <!-- User Name -->
 
@@ -208,10 +211,10 @@
                 android:id="@+id/sell_one_item_Piture"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="70sp"
+                android:layout_margin="50dp"
                 android:adjustViewBounds="false"
-                android:longClickable="true"
                 android:scaleType="fitXY"
+                android:cropToPadding="true"
                 android:src="@drawable/mit_great_dome" >
             </ImageView>
 

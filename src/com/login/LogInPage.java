@@ -49,3 +49,8 @@ public class LogInPage extends MITBAYActivity {
 	}
 
 }
+
+/* Need more work
+ * 	Theme
+ * 	MIT BAY logo
+ */

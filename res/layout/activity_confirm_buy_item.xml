@@ -32,6 +32,7 @@
             android:layout_height="wrap_content" >
 
             <ImageView
+                android:id="@+id/cbi_ItemPicture"
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="@dimen/icon_for_buy_height"
                 android:layout_gravity="center_vertical"

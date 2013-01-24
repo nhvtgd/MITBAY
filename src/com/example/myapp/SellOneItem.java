@@ -1,5 +1,7 @@
 package com.example.myapp;
 import java.io.File;
+import java.util.Hashtable;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,13 +29,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.GetCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
 
 public class SellOneItem extends MITBAYActivity {
 	// Keep track of camera request
@@ -42,7 +37,7 @@ public class SellOneItem extends MITBAYActivity {
 	final int PICK_PHOTO = 271828;
 	// Size of the picture
 	final int WIDTH = 200;
-	final int HEIGHT = 200;
+	final int HEIGHT = 200;	
 	// Save image, path
 	public Bitmap IMAGE = null;
 	public String imgPath = "";
@@ -103,7 +98,9 @@ public class SellOneItem extends MITBAYActivity {
 	}
 
 	public void deletePicture(View view) {
-		IMAGE.recycle(); IMAGE = null;
+		IMAGE.recycle(); 
+		IMAGE = null;
+		imgPath = "";
 		setView();
 	}
 	/**
@@ -167,69 +164,40 @@ public class SellOneItem extends MITBAYActivity {
 		if (!isValidPrice(priceString)) return;
 		// else { create Sellable object/ send to the server}
 		// Create a Sellable object
-		Sellable obj = createSellableObject();
-		// Send to server
-		start = System.currentTimeMillis();
-		Log.d("sending server", ""+System.currentTimeMillis());
-		ParseDatabase parse = new ParseDatabase(getApplicationContext());
-		String id = parse.sendSellableToServer(obj);
-		end = System.currentTimeMillis();
-		Log.d("sent server", ""+System.currentTimeMillis());
-//		Log.d("Running time to send", ""+(end - start));
-//		// retrieve the picture
+//		Sellable obj = createSellableObject();
+//		// Send to server
 //		start = System.currentTimeMillis();
-//		Log.d("Retrieving object", ""+System.currentTimeMillis());
-//		ParseQuery query = new ParseQuery("Sellable");
-//		query.getInBackground(id, new GetCallback() {
-//			@Override
-//			public void done(ParseObject arg0, ParseException arg1) {
-//				if (arg1 == null) {
-//					ParseFile file = (ParseFile) arg0.get("pic");
-//					end = System.currentTimeMillis();
-//					file.getDataInBackground(new GetDataCallback(){
-//						public void done(byte[] data, ParseException e) {
-//							if (e == null) {
-//								IMAGE = BitmapFactory.decodeByteArray(data, 0, data.length);
-//								Log.d("Complete", ""+System.currentTimeMillis());
-//								Log.d("Running time to retrieve", ""+(end - start));
-//							} else {}
-//						}
-//					});
-//				};
-//			}
-//		});
-
-
+//		Log.d("sending server", ""+System.currentTimeMillis());
+//		ParseDatabase parse = new ParseDatabase(getApplicationContext());
+//		String id = parse.sendSellableToServer(obj);
+//		end = System.currentTimeMillis();
+//		Log.d("sent server", ""+System.currentTimeMillis());
 		// Create intent for the next activity
 		Intent intent = new Intent(view.getContext(), ConfirmSellItem.class);
-		putExtraIntent(intent, obj);
+		putExtras(intent);
 		startActivity(intent);
 		Log.d("load Ok", "------------------");
-		startActivity(intent);
 	}
 
 	/**
-	 * This construct a Sellable object based on information that the seller fills out
-	 * @return Sellable
+	 * Loading input information including item, price, condition, type, description
+	 *  for the next activity (confirm to buy item)
+	 * @return 
 	 */
-	public Sellable createSellableObject() {
-		// User
-		SharedPreferences settings = getSharedPreferences("Setting", 0);
-		User user = new User(settings.getString("user name", "Duy Ha"), 
-				settings.getString("email", "duyha@mit.edu"), 
-				settings.getString("password", "thelife"));
-		// Item
+	private void putExtras(Intent intent) {
+		// Loading item, price, condition, type, description
 		String item = ((EditText)findViewById(R.id.sell_one_item_Item)).getText().toString();
-		// Price
 		String price = ((EditText)findViewById(R.id.sell_one_item_Price)).getText().toString();
-		// Condition
 		String condition = ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString();
-		// Category
-		String category = ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString();
-		// Description
+		String type = ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString();
 		String description = ((EditText)findViewById(R.id.sell_one_item_Description)).getText().toString();
-		// Return Sellable Object 
-		return new Sellable(user, item, price, category, description, condition, IMAGE);
+		// Put extras
+		intent.putExtra(ITEM, item);
+		intent.putExtra(PRICE, price);
+		intent.putExtra(CONDITION, condition);
+		intent.putExtra(TYPE, type);
+		intent.putExtra(DESCRIPTION, description);
+		intent.putExtra("imgPath", imgPath);
 	}
 
 	/**
@@ -240,13 +208,12 @@ public class SellOneItem extends MITBAYActivity {
 	public void putExtraIntent(Intent intent, Sellable obj) {
 		// Put Images
 		intent.putExtra("imgPath", imgPath);
-		intent.putExtra("widthPicture", getWidthPicture(R.id.sell_one_item_Piture));
 		// Put item, price, condition, category, description
-		intent.putExtra("item", obj.getName());
-		intent.putExtra("price", obj.getPrice());
-		intent.putExtra("condition", ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString());
-		intent.putExtra("category", ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString());
-		intent.putExtra("description", obj.getDescription());
+		intent.putExtra(ITEM, obj.getName());
+		intent.putExtra(PRICE, obj.getPrice());
+		intent.putExtra(CONDITION, ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString());
+		intent.putExtra(TYPE, ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString());
+		intent.putExtra(DESCRIPTION, obj.getDescription());
 	}
 
 	/**
@@ -268,10 +235,6 @@ public class SellOneItem extends MITBAYActivity {
 			IMAGE = loadingBitmapEfficiently(imgPath, WIDTH, HEIGHT);
 			setView();
 		}		
-	}
-
-	public int getWidthPicture(int ID) {
-		return ((ImageView)findViewById(ID)).getWidth();
 	}
 
 	/**
