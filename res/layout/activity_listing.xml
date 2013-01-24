@@ -15,7 +15,7 @@
         android:layout_marginRight="5dip"
         android:background="@drawable/gradient_bg" >
 
-        <!--  <TextView
+        <!-- <TextView
             android:id="@+id/item_category_in_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:layout_alignParentTop="true"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:text="Text Book" />-->
+            android:text="Text Book" /> -->
 
         <ImageView
             android:id="@+id/item_image_in_post"
@@ -110,7 +110,6 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:text="$20" 
-            android:textStyle="@style/TextViewElement"
             android:textSize="16sp"
             android:textColor="@color/blue"
             />

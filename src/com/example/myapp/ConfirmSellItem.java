@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseFile;
+import com.example.myapp.R;
 
 public class ConfirmSellItem extends SellOneItem {
 

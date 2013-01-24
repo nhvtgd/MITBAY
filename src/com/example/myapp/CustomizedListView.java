@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.myapp.helper.AlertDialogManager;
@@ -32,7 +33,7 @@ import com.parse.ParseQuery;
  * @author trannguyen
  * 
  */
-public class CustomizedListView extends MITBAYActivity {
+public class CustomizedListView extends MITBAYActivity implements OnClickListener{
 	/**
 	 * The listview that holds the images (defined in xml file)
 	 */
@@ -99,16 +100,9 @@ public class CustomizedListView extends MITBAYActivity {
 			}
 		});
 
-		Button sort = (Button) findViewById(R.id.sort_by_button);
+		ImageButton sort = (ImageButton) findViewById(R.id.sort_by_button);
 		registerForContextMenu(sort);
-		sort.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+		sort.setOnClickListener(this);
 
 	}
 
@@ -354,6 +348,12 @@ public class CustomizedListView extends MITBAYActivity {
 
 		}
 
+	}
+
+	@Override
+	public void onClick(View v) {
+		this.openContextMenu(v);
+		
 	}
 
 }

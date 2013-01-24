@@ -64,7 +64,7 @@ public class ListViewAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.activity_listing, null);
 
         TextView name = (TextView)vi.findViewById(R.id.item_name_in_post); 
-        TextView category = (TextView)vi.findViewById(R.id.item_category_in_post); 
+//        TextView category = (TextView)vi.findViewById(R.id.item_category_in_post); 
         TextView location = (TextView)vi.findViewById(R.id.item_location_in_post); 
         TextView description = (TextView) vi.findViewById(R.id.item_description_in_post);
         TextView priceValue = (TextView) vi.findViewById(R.id.item_price_value);
@@ -75,7 +75,7 @@ public class ListViewAdapter extends BaseAdapter {
         
         // Setting all values in listview
         name.setText(item.getName());
-        category.setText(item.getType().toString());
+//        category.setText(item.getType().toString());
         location.setText("Need to set Later");
         description.setText(item.getDescription());
         priceValue.setText(item.getPrice());
