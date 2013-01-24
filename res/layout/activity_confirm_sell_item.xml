@@ -1,6 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:fillViewport="true" >
 
     <LinearLayout
@@ -13,19 +13,23 @@
         <TextView
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content"
-            android:text="	You confirmed to sell the following item"
+            android:text="Great! You need to confirm to sell the following item"
             android:textStyle="italic"
             android:paddingBottom="30sp"
             android:paddingTop="30sp"
             />
         <!-- Picture -->
         <ImageView
-            android:id="@+id/Piture"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10sp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/mit_great_dome" />
+                android:id="@+id/Picture"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="30dp"
+                android:adjustViewBounds="false"
+                android:scaleType="fitXY" 
+                android:src="@drawable/mit_great_dome" >
+            </ImageView>
 
         <!-- Status for pictures -->
 
@@ -50,7 +54,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
             <ImageView
-                android:id="@+id/ImageForItem"
+                android:id="@+id/SmallImageForItem"
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="@dimen/icon_for_buy_height"
                 android:src="@drawable/ic_green_cart" />
@@ -178,13 +182,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="10sp"
-				android:background="@color/red"
-				android:textColor="@color/white"  
+                android:layout_marginLeft="@dimen/separation"
+                android:layout_marginRight="@dimen/separation"
+				android:background="@color/green"
+				android:textColor="@color/blue"  
 				android:textStyle="bold"             
                 android:onClick="editSellItem"
                 android:text="Edit" />
             
+            <Button
+                android:id="@+id/Confirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/red"
+       			android:textColor="@color/white"  
+				android:textStyle="bold"             
+                android:onClick="confirmSellItem"
+                android:text="Confirm" />
         </LinearLayout>
 
     </LinearLayout>

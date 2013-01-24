@@ -22,7 +22,7 @@ import com.parse.SaveCallback;
 
 public class ItemDetail extends MITBAYActivity {
 
-	private String item, date, condition, price, description, username, email, type;
+	private String item, date, type, condition, price, description, username, email, address;
 	private int id;
 	private Bitmap image;
 	@Override
@@ -32,14 +32,6 @@ public class ItemDetail extends MITBAYActivity {
 		Bundle bundle = getIntent().getExtras();
 		loadPicture(bundle);
 		loadTextInformation(bundle);
-		// try
-//		Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.mit_great_dome);
-//		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//		bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//		byte[] byteArray = stream.toByteArray();
-//		ParseFile file = new ParseFile("resume.png", byteArray);
-//		file.saveInBackground();
-//		Log.d("Length array", ""+byteArray.length);
 	}
 
 	@Override
@@ -72,7 +64,7 @@ public class ItemDetail extends MITBAYActivity {
 		username = bundle.getString(USERNAME, "Anonymous").toString();
 		email = bundle.getString(EMAIL, "").toString();
 		type = bundle.getString(TYPE, "Misc").toString();
-		id = bundle.getInt(ID);
+		id = bundle.getInt(ID, -1);
 		// Set item name
 		((TextView) findViewById(R.id.ItemDetail_ItemName))
 		.setText(String.format("%s %n%s",item, date));
@@ -100,16 +92,17 @@ public class ItemDetail extends MITBAYActivity {
 	 * @param intent
 	 */
 	private void putExtras(Intent intent) {
-		intent.putExtra(USERNAME, username);
-		intent.putExtra(EMAIL, email);
+		// Put extras item, date, condition, price, description, username, email, type, id;
+		intent.putExtra(ITEM, item);
 		intent.putExtra(DATE, date);
-		intent.putExtra("type", type);
-		intent.putExtra(DESCRIPTION, description);
-		intent.putExtra(ID, id);
-		intent.putExtra(IMAGE, image);
 		intent.putExtra(CONDITION, condition);
 		intent.putExtra(PRICE, price);
-		intent.putExtra(ITEM, item);
+		intent.putExtra(DESCRIPTION, description);
+		intent.putExtra(USERNAME, username);
+		intent.putExtra(EMAIL, email);
+		intent.putExtra(TYPE, type);
+		intent.putExtra(ID, id);
+		intent.putExtra(IMAGE, image);
 	}
 	/**
 	 * Do action buy item, need to check log in
@@ -140,12 +133,10 @@ public class ItemDetail extends MITBAYActivity {
 	
 	
 	
-	
-	
-	
-	
-	
-	
+/* Need more work
+	Theme
+	first load small picture, later load big picture
+*/
 	
 	
 	

@@ -31,7 +31,7 @@
     <!-- Sell one item screen -->
     <string-array name="CategoryItem">
         <item>TEXT BOOK</item>
-        <item>ELECTRONIC</item>
+        <item>FURNITURE</item>
         <item>TRANSPORTATION</item>
         <item>MISC</item>
     </string-array>

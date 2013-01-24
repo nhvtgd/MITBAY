@@ -32,6 +32,7 @@
             android:layout_height="wrap_content" >
 
             <ImageView
+                android:id="@+id/cbi_ItemPicture"
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="@dimen/icon_for_buy_height"
                 android:layout_gravity="center_vertical"
@@ -49,15 +50,13 @@
                 <TextView
                     android:id="@+id/cbi_ItemName"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="18.100 text book" />
+                    android:layout_height="wrap_content" />
                 <!-- Quality -->
 
                 <TextView
                     android:id="@+id/cbi_Condition"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Used"
                     android:textStyle="bold|italic" />
             </LinearLayout>
         </LinearLayout>
@@ -86,7 +85,6 @@
                 android:layout_height="50sp"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/paddingLeft_for_buy"
-                android:text="$100"
                 android:textColor="@color/red"
                 android:textSize="@dimen/paddingLeft_for_buy"
                 android:textStyle="bold" />
@@ -112,12 +110,11 @@
                 android:src="@drawable/ic_customer_shopping" />
 
             <TextView
-                android:id="@+id/cbi_Seller"
+                android:id="@+id/cbi_Buyer"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/paddingLeft_for_buy"
-                android:text="Duy Ha, duyha@mit.edu" />
+                android:paddingLeft="@dimen/paddingLeft_for_buy" />
         </LinearLayout>
 
         <View
@@ -139,11 +136,11 @@
                 android:src="@drawable/ic_happy_seller" />
 
             <TextView
+                android:id="@+id/cbi_Seller"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/paddingLeft_for_buy"
-                android:text="microsoft corp" />
+                android:paddingLeft="@dimen/paddingLeft_for_buy" />
         </LinearLayout>
 
         <View
