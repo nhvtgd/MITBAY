@@ -67,7 +67,6 @@ public class ListViewAdapter extends BaseAdapter {
         TextView category = (TextView)vi.findViewById(R.id.item_category_in_post); 
         TextView location = (TextView)vi.findViewById(R.id.item_location_in_post); 
         TextView description = (TextView) vi.findViewById(R.id.item_description_in_post);
-        TextView priceTitle = (TextView) vi.findViewById(R.id.item_price_title);
         TextView priceValue = (TextView) vi.findViewById(R.id.item_price_value);
         ImageView image = (ImageView) vi.findViewById(R.id.item_image_in_post);
         Log.d("view", "create view successfully");

@@ -28,19 +28,20 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:id="@+id/my_linear_layout"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_below="@+id/linearLayout_toolbar" >
 
             <ListView
                 android:id="@+id/my_list"
+                style="@style/mitbay_DropDownListView"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="364dp"
                 android:divider="#b5b5b5"
                 android:dividerHeight="1dp"
                 android:listSelector="@android:drawable/list_selector_background" />
@@ -69,42 +70,150 @@
                 android:background="?android:attr/selectableItemBackground"/>
             -->
 
-            <Button
-                android:id="@+id/sort_by_button"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:background="?android:attr/selectableItemBackground"
-                android:text="@string/sort_by_button"
-                android:textSize="10sp" />
+                android:layout_weight="0.23"
+                android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/notification_by_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:background="?android:attr/selectableItemBackground"
-                android:text="@string/notification_by_button"
-                android:textSize="10sp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="0dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/icon_sort" >
+                </ImageView>
 
-            <Button
-                android:id="@+id/profile_by_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:background="?android:attr/selectableItemBackground"
-                android:text="@string/profile_by_button"
-                android:textSize="12sp" />
+                <Button
+                    android:id="@+id/sort_by_button"
+                    style="@style/TextViewElement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="bottom|center_horizontal"
+                    android:paddingBottom="0dp"
+                    android:paddingTop="0dp"
+                    android:text="@string/sort_by_button"
+                    android:textColor="@color/green"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/top_requested_by_button"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.27"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="0dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/icon_notification2" >
+                </ImageView>
+
+                <Button
+                    android:id="@+id/notification_by_button"
+                    style="@style/TextViewElement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="top|center"
+                    android:paddingBottom="0dp"
+                    android:paddingTop="0dp"
+                    android:text="@string/notification_by_button"
+                    android:textColor="@color/blue"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!-- <Button -->
+            <!-- android:id="@+id/notification_by_button" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_weight="0.25" -->
+            <!-- android:background="?android:attr/selectableItemBackground" -->
+            <!-- android:text="@string/notification_by_button" -->
+            <!-- android:textSize="10sp" /> -->
+
+            <LinearLayout
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
-                android:background="?android:attr/selectableItemBackground"
-                android:text="@string/top_requested_by_button"
-                android:textSize="12sp" >
-            </Button>
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="0dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:padding="1dp"
+                    android:src="@drawable/icon_profile" >
+                </ImageView>
+
+                <Button
+                    android:id="@+id/profile_by_button"
+                    style="@style/TextViewElement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="top|center"
+                    android:paddingBottom="0dp"
+                    android:paddingTop="0dp"
+                    android:text="@string/profile_by_button"
+                    android:textColor="@color/aqua"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- <Button -->
+            <!-- android:id="@+id/profile_by_button" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_weight="0.25" -->
+            <!-- android:background="?android:attr/selectableItemBackground" -->
+            <!-- android:text="@string/profile_by_button" -->
+            <!-- android:textSize="12sp" /> -->
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="0dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:padding="1dp"
+                    android:src="@drawable/icon_top_request" >
+                </ImageView>
+
+                <Button
+                    android:id="@+id/top_requested_by_button"
+                    style="@style/TextViewElement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="top|center"
+                    android:paddingBottom="0dp"
+                    android:paddingTop="0dp"
+                    android:text="@string/top_requested_by_button"
+                    android:textColor="@color/red"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- <Button -->
+            <!-- android:id="@+id/top_requested_by_button" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_weight="0.25" -->
+            <!-- android:background="?android:attr/selectableItemBackground" -->
+            <!-- android:text="@string/top_requested_by_button" -->
+            <!-- android:textSize="12sp" > -->
+            <!-- </Button> -->
         </LinearLayout>
     </RelativeLayout>
 
