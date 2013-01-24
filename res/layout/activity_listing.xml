@@ -15,7 +15,7 @@
         android:layout_marginRight="5dip"
         android:background="@drawable/gradient_bg" >
 
-        <TextView
+        <!--  <TextView
             android:id="@+id/item_category_in_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:layout_alignParentTop="true"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:text="Text Book" />
+            android:text="Text Book" />-->
 
         <ImageView
             android:id="@+id/item_image_in_post"
@@ -33,14 +33,14 @@
             android:layout_alignRight="@+id/item_category_in_post"
             android:layout_below="@id/item_category_in_post"
             android:layout_centerVertical="true"
-            android:src="@drawable/rihanna" />
+            android:src="@drawable/textbook" />
     </RelativeLayout>
 
     <!-- Name of the item and description -->
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
 
         <TextView
@@ -55,10 +55,12 @@
 
         <TextView
             android:id="@+id/item_description_in_post"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:maxWidth="220sp"
             android:layout_marginTop="1dip"
-            android:text="This book I bought last semester"
+            android:text="This book I bought last semester "
             android:textColor="@color/black"
             android:textSize="10dip" />
 
@@ -66,7 +68,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:layout_gravity="bottom" >
+
+            <TextView
+                android:id="@+id/location_title_in_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dip"
+                android:text="Location: "
+                android:textColor="@color/black"
+                android:textSize="10dip"
+                android:textStyle="bold" 
+                android:gravity="bottom"/>
 
             <TextView
                 android:id="@+id/item_location_in_post"
@@ -75,8 +90,10 @@
                 android:layout_marginTop="1dip"
                 android:text="Next House Rm 315"
                 android:textColor="@color/black"
-                android:textSize="10dip" />
+                android:textSize="10dip"
+                android:gravity="bottom" />
         </LinearLayout>
+
     </LinearLayout>
 
     <!-- Price -->
@@ -84,32 +101,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="right"
         android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/item_price_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:text="Price"
-            android:textColor="@color/blue"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
+        
         <TextView
             android:id="@+id/item_price_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="$20" />
+            android:gravity="right"
+            android:text="$20" 
+            android:textStyle="@style/TextViewElement"
+            android:textSize="16sp"
+            android:textColor="@color/blue"
+            />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="right"
             android:src="@drawable/arrow" />
+
+        
+
     </LinearLayout>
 
 </LinearLayout>
