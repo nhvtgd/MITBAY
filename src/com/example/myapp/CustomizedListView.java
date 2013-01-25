@@ -356,7 +356,7 @@ public class CustomizedListView extends MITBAYActivity implements
 			Log.d("type", item.getType());
 			intent.putExtra(DESCRIPTION, item.getDescription());
 			intent.putExtra(ID, item.getId());
-			intent.putExtra(IMAGE, item.getDefaultImage(item.getType()));
+			intent.putExtra(IMAGE, item.getImages());
 			intent.putExtra(CONDITION, item.getCondition());
 			intent.putExtra(PRICE, item.getPrice());
 			intent.putExtra(ITEM, item.getName());

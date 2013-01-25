@@ -79,18 +79,22 @@ public class ListViewAdapter extends BaseAdapter {
         location.setText("Need to set Later");
         description.setText(item.getDescription());
         priceValue.setText(item.getPrice());
-        if (item.getType().toString().equals(MITBAYActivity.TEXTBOOK)){
-        	image.setImageResource(R.drawable.textbook);
+        if (item.getImages() == null){
+	        if (item.getType().toString().equals(MITBAYActivity.TEXTBOOK)){
+	        	image.setImageResource(R.drawable.text_book);
+	        }
+	        else if (item.getType().toString().equals(MITBAYActivity.FURNITURE)){
+	        	image.setImageResource(R.drawable.furniture_icon);
+	        }
+	        else if (item.getType().toString().equals(MITBAYActivity.TRANSPORTATION)){
+	        	image.setImageResource(R.drawable.bike);
+	        }
+	        else if (item.getType().toString().equals(MITBAYActivity.MISC)){
+	        	image.setImageResource(R.drawable.misc);
+	        }
         }
-        else if (item.getType().toString().equals(MITBAYActivity.FURNITURE)){
-        	image.setImageResource(R.drawable.furniture);
-        }
-        else if (item.getType().toString().equals(MITBAYActivity.TRANSPORTATION)){
-        	image.setImageResource(R.drawable.bike);
-        }
-        else if (item.getType().toString().equals(MITBAYActivity.MISC)){
-        	image.setImageResource(R.drawable.miscellaneous);
-        }
+        else
+        	image.setImageBitmap(item.getImages());
         return vi;
     }
 }

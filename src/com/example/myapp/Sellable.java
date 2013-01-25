@@ -83,7 +83,7 @@ public class Sellable{
 	}
 
 	public Bitmap getDefaultImage(String type) {
-		return BitmapFactory.decodeFile("/MyApp/res/drawable-hdpi/bike.png");
+		return BitmapFactory.decodeFile("res/drawable-hdpi/bike.png");
 
 	}
 
