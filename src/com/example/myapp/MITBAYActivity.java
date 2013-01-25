@@ -44,6 +44,8 @@ public class MITBAYActivity extends Activity {
 	// Is already log in
 	public static final String IS_ALREADY_LOG_IN = "is_already_log_in";
 	public static final int MINIMUM_LENGTH_PASSWORD = 4;
+	// Message
+	public static final String MESSAGE = "Do you want to log in right now?";
 	
 	
 	@Override

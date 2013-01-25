@@ -34,8 +34,8 @@ public class ItemDetail extends MITBAYActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item_detail);
 		Bundle bundle = getIntent().getExtras();
-		loadPicture(bundle);
 		loadTextInformation(bundle);
+		loadPicture(bundle);
 	}
 
 	@Override
@@ -44,16 +44,7 @@ public class ItemDetail extends MITBAYActivity {
 		getMenuInflater().inflate(R.menu.activity_item_detail, menu);
 		return true;
 	}
-	/**
-	 * Load picture from extras of the last activity
-	 */
-	public void loadPicture(Bundle bundle) {
-		image = getIntent().getParcelableExtra(IMAGE);
-//		String imgPath = bundle.getString("imgPath").toString();
-//		Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
-		Log.d("Image", (image==null) +", ");
-		((ImageView) findViewById(R.id.ItemDetail_Piture)).setImageBitmap(image);
-	}
+
 	/**
 	 * Load Item information from extras of the last activity
 	 * @param bundle
@@ -89,6 +80,22 @@ public class ItemDetail extends MITBAYActivity {
 		else if (type.equals(FURNITURE)) pic.setImageResource(R.drawable.furniture);
 		else if (type.equals(TRANSPORTATION)) pic.setImageResource(R.drawable.bike);
 		else pic.setImageResource(R.drawable.miscellaneous);
+	}
+	
+	/**
+	 * Load picture from extras of the last activity
+	 * Up date status
+	 */
+	public void loadPicture(Bundle bundle) {
+		ImageView picView = (ImageView) findViewById(R.id.ItemDetail_Piture);
+		TextView status = (TextView) findViewById(R.id.ItemDetail_status);
+		// Load small image
+		image = getIntent().getParcelableExtra(IMAGE);
+		Log.d("Image", (image==null) +", ");
+		picView.setImageBitmap(image);
+		// Load big image
+		if (image == null) status.setText("No picture available");
+		else status.setText("");
 	}
 	
 	/**
