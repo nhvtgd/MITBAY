@@ -72,7 +72,8 @@
                 android:layout_marginRight="0sp"
                 android:src="@drawable/edit_query" 
                 android:clickable="true"
-                android:onClick="editLocation" />
+                android:onClick="editLocation" 
+                android:background="@drawable/btn_default_normal" />
         </RelativeLayout>
 		<View style="@style/Line" />
         
@@ -94,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10sp"
-                android:background="@color/white"
+                android:background="@drawable/btn_default_normal"
                 android:text="Confirm"
                 android:textColor="@color/green"
                 android:textStyle="bold" 
@@ -109,7 +110,7 @@
             android:layout_width="200sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/white"
+            android:background="@drawable/btn_default_normal_disable"
             android:onClick="changePassword"
             android:padding="5sp"
             android:text="Change Password"
@@ -154,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10sp"
-                android:background="@color/white"
+                android:background="@drawable/btn_default_normal"
                 android:onClick="confirmChangePassword"
                 android:text="Confirm"
                 android:textColor="@color/red"

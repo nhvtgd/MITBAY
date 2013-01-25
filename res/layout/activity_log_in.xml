@@ -1,50 +1,61 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical" 
-    android:paddingTop="10sp"
-    >
-    
-    <!-- Email -->
-	<EditText
-	    android:id="@+id/signInUsername"
-	    android:layout_width="200sp"
-	    android:layout_height="wrap_content"
-	    android:layout_margin="15sp"
-	    android:hint="your username"
-	    android:inputType="textPersonName"
-	></EditText>
-	
-	<!-- Password -->
-	<EditText
-	    android:id="@+id/signInPassword"
-	    android:layout_width="200sp"
-	    android:layout_height="wrap_content"
-	    android:layout_margin="15sp"
-	    android:hint="password"
-	    android:inputType="textPassword"
-	></EditText>
-	
-	<!-- Confirm -->
-	<Button
-	    android:id="@+id/signInConfirmButton"
-	    android:layout_width="100sp"
-	    android:layout_height="wrap_content"
-	    android:layout_margin="15sp"
-	    android:text="Log in"
-	    android:background="@color/red"
-	    android:textColor="@color/white"
-	    android:textStyle="bold"
-	></Button>
-	
-	<!-- Error Checking -->
-	<TextView
-	    android:id="@+id/signInErrorMassage"
-	    android:layout_width="200sp"
-	    android:layout_height="wrap_content"
-	    android:layout_margin="15sp"
-	    android:textStyle="italic"
-	    />
-</LinearLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LogInPage_FramePicture"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/frame_picture_log_in" >
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="10sp" >
+
+        <!-- Email -->
+
+        <EditText
+            android:id="@+id/signInUsername"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15sp"
+            android:hint="your username"
+            android:inputType="textPersonName" >
+        </EditText>
+
+        <!-- Password -->
+
+        <EditText
+            android:id="@+id/signInPassword"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15sp"
+            android:hint="password"
+            android:inputType="textPassword" >
+        </EditText>
+
+        <!-- Confirm -->
+
+        <Button
+            android:id="@+id/signInConfirmButton"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15sp"
+            android:background="@drawable/btn_default_normal_red"
+            android:text="Log in"
+            android:textColor="@color/white"
+            android:textStyle="bold" >
+        </Button>
+
+        <!-- Error Checking -->
+
+        <TextView
+            android:id="@+id/signInErrorMassage"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15sp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+</FrameLayout>

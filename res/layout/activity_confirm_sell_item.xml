@@ -172,9 +172,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/black"
-                android:background="#cdc9c9"
                 android:textStyle="bold"
                 android:onClick="cancelSellItem"
+                android:background="@drawable/btn_default_normal"
                 android:text="Cancel" />
 
             <Button
@@ -184,10 +184,10 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/separation"
                 android:layout_marginRight="@dimen/separation"
-				android:background="@color/green"
 				android:textColor="@color/blue"  
 				android:textStyle="bold"             
                 android:onClick="editSellItem"
+                android:background="@drawable/btn_default_normal_green"
                 android:text="Edit" />
             
             <Button
@@ -195,10 +195,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/red"
        			android:textColor="@color/white"  
 				android:textStyle="bold"             
                 android:onClick="confirmSellItem"
+                android:background="@drawable/btn_default_normal_red"
                 android:text="Confirm" />
         </LinearLayout>
 

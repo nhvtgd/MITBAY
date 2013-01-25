@@ -43,7 +43,6 @@ public class LogIn extends MITBAYActivity {
 				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
 		// Set backgroundColor is gray
 		Button logIn = (Button) findViewById(R.id.signInConfirmButton);
-		logIn.setBackgroundColor(Color.RED);
 		// Check Remember the last password
 		// Email Address
 		EditText usernameField = (EditText) findViewById(R.id.signInUsername);

@@ -32,6 +32,8 @@ public class MITBAYActivity extends Activity {
 	// EMAIL is already declared 
 	public static final String ADDRESS = "Address";
 	public static final String PASSWORD = "Password";
+	// Is already log in
+	public static boolean IS_ALREADY_LOG_IN = false;
 	
 	
 	@Override

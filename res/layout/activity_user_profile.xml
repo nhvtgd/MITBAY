@@ -10,11 +10,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"  >
 
         <!-- Account -->
         <RelativeLayout
             android:id="@+id/account"
+            android:background="@drawable/round_edit_text_bound"
             android:onClick="changeAccount"
             style="@style/RelativeLayoutElement" >
             <TextView
@@ -24,7 +25,6 @@
             <ImageView
                 android:id="@+id/AccountButton"
                 style="@style/ImageViewElement"
-                android:layout_alignBottom="@+id/Account"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
         
@@ -39,7 +39,6 @@
             <ImageView
                 android:id="@+id/GoBuying"
                 style="@style/ImageViewElement"
-                android:layout_alignBottom="@+id/Buying"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
         <!-- Selling Item -->
@@ -53,7 +52,6 @@
             <ImageView
                 android:id="@+id/GoSelling"
                 style="@style/ImageViewElement"
-                android:layout_alignBottom="@+id/Selling"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
         <!-- Requesting -->
@@ -67,7 +65,6 @@
             <ImageView
                 android:id="@+id/GoRequesting"
                 style="@style/ImageViewElement"
-                android:layout_alignBottom="@+id/Requesting"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
         <!-- History -->
@@ -81,7 +78,6 @@
             <ImageView
                 android:id="@+id/GoHistory"
                 style="@style/ImageViewElement"
-                android:layout_alignBottom="@+id/History"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
      
