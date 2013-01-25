@@ -53,15 +53,27 @@ public class ParseDatabase {
 	 */
 	public String sendSellableToServer(Sellable sell) {
 		ParseObject sellobj = createSellableParseObj(sell);
-		sellobj.saveInBackground();
 		if (sell.getImages() != null) {
-			byte[] data = ParseDatabase.bitmapToByteArray(sell.getImages());
+			ParseObject bigpic = storeBigPicture(sell);
+			byte[] data = ParseDatabase.scaledBitmapToByteArray(sell
+					.getImages());
 			ParseFile file = new ParseFile("picture.png", data);
 			file.saveInBackground();
-			this.associateParseObjWithParseFile(file, sellobj);
+			sellobj.put("pic", file);
+			sellobj.put("bigpic", bigpic);
+			sellobj.saveInBackground();
 		}
 
 		return sellobj.getObjectId();
+	}
+
+	private ParseObject storeBigPicture(Sellable sell) {
+		ParseObject sellobjpic = new ParseObject("ImageSellable");
+		byte[] bigpic = ParseDatabase.bitmapToByteArray(sell.getImages());
+		ParseFile file2 = new ParseFile("bigpicture.png", bigpic);
+		file2.saveInBackground();
+		this.associateParseObjWithParseFile(file2, sellobjpic);
+		return sellobjpic;
 	}
 
 	/**
@@ -597,6 +609,21 @@ public class ParseDatabase {
 	public static byte[] bitmapToByteArray(Bitmap bmp) {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		byte[] byteArray = stream.toByteArray();
+		return byteArray;
+	}
+
+	/**
+	 * First scales and then converts a bitmap to a byte array so that it can be
+	 * stored as a parse file
+	 * 
+	 * @param bmp
+	 * @return a byte array
+	 */
+	public static byte[] scaledBitmapToByteArray(Bitmap bmp) {
+		Bitmap scaled = Bitmap.createScaledBitmap(bmp, 50, 50, true);
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		scaled.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		byte[] byteArray = stream.toByteArray();
 		return byteArray;
 	}
