@@ -108,6 +108,15 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="com.example.myapp.NotificationHistory"
+            android:label="@string/title_activity_notification_history" >
+        </activity>
+        <activity
+            android:name="com.example.myapp.TopRequested"
+            android:label="@string/title_activity_top_requested" >
+        </activity>
     </application>
 
 </manifest>
