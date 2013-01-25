@@ -11,7 +11,8 @@
         android:icon="@drawable/search_icon_32"
         android:orderInCategory="2"
         android:showAsAction="ifRoom"
-        android:title="@string/menu_search"/>
+        android:title="@string/menu_search"
+        />
     
     <item
         android:id="@+id/menu_settings"
