@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -33,7 +36,8 @@ import com.parse.ParseQuery;
  * @author trannguyen
  * 
  */
-public class CustomizedListView extends MITBAYActivity implements OnClickListener{
+public class CustomizedListView extends MITBAYActivity implements
+		OnClickListener {
 	/**
 	 * The listview that holds the images (defined in xml file)
 	 */
@@ -53,6 +57,8 @@ public class CustomizedListView extends MITBAYActivity implements OnClickListene
 	 */
 	ArrayList<Sellable> itemList = new ArrayList<Sellable>();
 
+	ArrayList<Sellable> filterList = new ArrayList<Sellable>();
+
 	/**
 	 * This activity
 	 */
@@ -61,6 +67,8 @@ public class CustomizedListView extends MITBAYActivity implements OnClickListene
 	String queryResult;
 
 	GetData data;
+
+	EditText search;
 	protected final static String DEFAULT = "Sort";
 
 	@Override
@@ -104,6 +112,9 @@ public class CustomizedListView extends MITBAYActivity implements OnClickListene
 		registerForContextMenu(sort);
 		sort.setOnClickListener(this);
 
+		search = (EditText) findViewById(R.id.search_bar_customized_listView);
+		search.addTextChangedListener(new TextChangeRecorder());
+
 	}
 
 	@Override
@@ -125,50 +136,53 @@ public class CustomizedListView extends MITBAYActivity implements OnClickListene
 		inflater.inflate(R.menu.context_menu, menu);
 	}
 
-	// public void createSortedSpinner(){
-	// Spinner spinner = (Spinner) findViewById(R.id.sort_by_spinner);
-	// // Create an ArrayAdapter using the string array and a default spinner
-	// // layout
-	// ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-	// this, R.array.SortBy, android.R.layout.simple_spinner_item);
-	// // Specify the layout to use when the list of choices appears
-	// adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	// // Apply the adapter to the spinner
-	// spinner.setAdapter(adapter);
-	//
-	// spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-	//
-	// @Override
-	// public void onItemSelected(AdapterView<?> arg0, View arg1,
-	// int arg2, long arg3) {
-	// String result = (String) arg0.getItemAtPosition(arg2);
-	// result = result.toLowerCase();
-	// SortData sortedData = new SortData();
-	//
-	// if (!result.equals(DEFAULT))
-	// sortedData.execute(result);
-	//
-	// else
-	// Log.d("dangerous", "why is it here");
-	//
-	//
-	// }
-	//
-	// @Override
-	// public void onNothingSelected(AdapterView<?> arg0) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	// });
-
-	// }
-
 	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.activity_customized_list_view, menu);
 		return true;
 	};
+
+	private class TextChangeRecorder implements TextWatcher {
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			int textlength = search.getText().length();
+			filterList.clear();
+
+			for (int i = 0; i < itemList.size(); i++) {
+				if (textlength <= itemList.get(i).getName().length()) {
+					if (search
+							.getText()
+							.toString()
+							.equalsIgnoreCase(
+									(String) itemList.get(i).getName()
+											.subSequence(0, textlength))) {
+						filterList.add(itemList.get(i));
+
+					}
+				}
+			}
+
+			list.setAdapter(new ListViewAdapter(act, filterList));
+
+		}
+
+	}
 
 	/**
 	 * This is a class that will run in background to populate the list of item
@@ -221,6 +235,7 @@ public class CustomizedListView extends MITBAYActivity implements OnClickListene
 		@Override
 		protected void onPostExecute(ArrayList<Sellable> result) {
 			if (result.size() > 0) {
+				itemList = result;
 				Log.d("post", "at least it returns");
 				list = (ListView) findViewById(R.id.my_list);
 				adapter = new ListViewAdapter(act, result);
@@ -305,6 +320,7 @@ public class CustomizedListView extends MITBAYActivity implements OnClickListene
 		@Override
 		protected void onPostExecute(ArrayList<Sellable> result) {
 			if (result.size() > 0) {
+				itemList = result;
 				Log.d("post", "at least it returns");
 				list = (ListView) findViewById(R.id.my_list);
 				adapter = new ListViewAdapter(act, result);
@@ -353,7 +369,7 @@ public class CustomizedListView extends MITBAYActivity implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		this.openContextMenu(v);
-		
+
 	}
 
 }
