@@ -4,6 +4,7 @@ package com.example.myapp;
 import java.io.ByteArrayOutputStream;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ParseException;
@@ -109,13 +110,13 @@ public class ItemDetail extends MITBAYActivity {
 	 * @param view
 	 */
 	public void buyOneItem(View view) {
-		Toast.makeText(view.getContext(), "will process to buy the item", Toast.LENGTH_SHORT).show();
 		// Already log in
 		if (isAlreadyLogIn()) {
 			Intent i = new Intent(view.getContext(), ConfirmBuyItem.class);
 			putExtras(i);
 			startActivity(i);
 		} else { // Not yet, go back to Log in page 
+			Toast.makeText(view.getContext(), "You need to log in to buy items", Toast.LENGTH_SHORT).show();
 			Intent i = new Intent(view.getContext(), LogInPage.class);
 			startActivity(i);
 		}
@@ -126,7 +127,8 @@ public class ItemDetail extends MITBAYActivity {
 	 * 			false, otherwise
 	 */
 	public boolean isAlreadyLogIn() {
-		return true;
+		SharedPreferences settings = getSharedPreferences(SETTING, 0);
+		return settings.getBoolean(IS_ALREADY_LOG_IN, false);
 	}
 }
 	

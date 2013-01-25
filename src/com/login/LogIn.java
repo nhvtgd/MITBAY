@@ -24,12 +24,12 @@ import com.parse.ParseUser;
  * get email, password
  */
 public class LogIn extends MITBAYActivity {
-	private boolean validLogin;
 	private SharedPreferences settings;
 	private SharedPreferences.Editor prefEditor;
 	private String email, username, password;
-	Button confirm;
-	TextView errorMessage;
+	private Button confirm;
+	private TextView errorMessage;
+	private long timeClick = System.currentTimeMillis();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,8 +41,6 @@ public class LogIn extends MITBAYActivity {
 		// Parse Initialization
 		Parse.initialize(this, "2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
 				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
-		// Set backgroundColor is gray
-		Button logIn = (Button) findViewById(R.id.signInConfirmButton);
 		// Check Remember the last password
 		// Email Address
 		EditText usernameField = (EditText) findViewById(R.id.signInUsername);
@@ -59,9 +57,11 @@ public class LogIn extends MITBAYActivity {
 		confirm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (System.currentTimeMillis() - timeClick < 1000) return;
+				else timeClick = System.currentTimeMillis();
+				// If already log in
+				if (settings.getBoolean(IS_ALREADY_LOG_IN, false)) startActivity(new Intent(getApplicationContext(),ItemSelection.class));
 				((TextView)findViewById(R.id.signInErrorMassage)).setText("");
-				// Firstly deactivate the button
-				confirm.setEnabled(false);
 				// Email Address
 				EditText usernameField = (EditText) findViewById(R.id.signInUsername);
 				username = usernameField.getText().toString();
@@ -83,9 +83,10 @@ public class LogIn extends MITBAYActivity {
 				if (user != null) {
 					if (user.getBoolean("emailVerified")!=true) {
 						errorMessage.setText("You have not verified email " + user.getEmail());
-						validLogin = false;
+						prefEditor.putBoolean(IS_ALREADY_LOG_IN, false);
+						prefEditor.commit();
 					} else {
-						validLogin = true;
+						prefEditor.putBoolean(IS_ALREADY_LOG_IN, true);
 						prefEditor.putString(EMAIL, user.getEmail());
 						prefEditor.putString(USERNAME, user.getUsername());
 						prefEditor.putString(PASSWORD, password);
@@ -95,13 +96,13 @@ public class LogIn extends MITBAYActivity {
 						startActivity(i); 
 					}
 				} else {
-					confirm.setEnabled(true);
-					validLogin = false;
+					prefEditor.putBoolean(IS_ALREADY_LOG_IN, false);
+					prefEditor.commit();
 					errorMessage.setText("The username and password are not correct. Can you try again?");
 				}
 			}
 		});
-		return validLogin;
+		return settings.getBoolean(IS_ALREADY_LOG_IN, false);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.example.myapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
@@ -17,11 +18,10 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-public class SettingPreferences extends Activity {
-
+public class SettingPreferences extends MITBAYActivity {
+	private boolean isValidLogIn = false;
 	private boolean isChangingPassword = false;
 	private boolean isChangingLocation = false;
-	private boolean validLogin = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,9 +58,9 @@ public class SettingPreferences extends Activity {
 		String new_location = ((EditText) findViewById(R.id.EditLocation)).getText().toString();
 		((TextView) findViewById(R.id.Location)).setText(new_location);
 		// Save in SharedPreferences
-		SharedPreferences settings = getSharedPreferences("settings", 0);
+		SharedPreferences settings = getSharedPreferences(SETTING, 0);
 		SharedPreferences.Editor prefEditor = settings.edit();
-		prefEditor.putString("Location", new_location);
+		prefEditor.putString(LOCATION, new_location);
 		prefEditor.commit();
 		setView();
 	}
@@ -94,14 +94,19 @@ public class SettingPreferences extends Activity {
 		// Get preferences, email
 		SharedPreferences settings = getSharedPreferences("settings", 0);
 		SharedPreferences.Editor prefEditor = settings.edit();
-		String email = settings.getString("Email", "");
+		String email = settings.getString(EMAIL, "");
 		// Check Password criteria
-		if ( isValidPassword(newPassword) &&
-			isMatchPasswords(newPassword, newConfirmPassword) &&
-			isValidLogIn(email, currentPassword)) {
+		if (!isValidPassword(newPassword)) {
+			remindDialog("Your new password should have at least "+MINIMUM_LENGTH_PASSWORD+" characters");
+			return ; }
+		if (!isMatchPasswords(newPassword, newConfirmPassword)) {
+			remindDialog("Your new password and confirmed password do not match");
+			return ; }
+		if (isValidLogIn(email, currentPassword)) {
+			// Satisfy
 			// Send to server to change
 			// Remember
-			prefEditor.putString("Password", newPassword);
+			prefEditor.putString(PASSWORD, newPassword);
 			prefEditor.commit();
 			// Close frame
 			isChangingPassword = ! isChangingPassword;
@@ -115,50 +120,28 @@ public class SettingPreferences extends Activity {
 	 * @param password
 	 * @return If the email and password match with one user
 	 */
-	public boolean isValidLogIn(String email, String password) {
+	private boolean isValidLogIn(String email, String password) {
 		ParseUser user = new ParseUser();
 		user.setUsername(email);
 		user.setPassword(password);
 		ParseUser.logInInBackground(email, password, new LogInCallback() {
 			public void done(ParseUser user, ParseException e) {
 				if (user != null) {
-					validLogin = true;
+					isValidLogIn = true;
 				} else {
-					validLogin = false;
+					isValidLogIn = false;
 					remindDialog("Your current password and email do not match");
 				}
 			}
 		});
-		return validLogin;
+		return isValidLogIn;
 	}
 	
 	/**
-	 * Require password has at least a minimum number of character
-	 * @param password
-	 * @return
+	 * Create a remind a dialog with a text and Ok button
+	 * @param text
 	 */
-	public boolean isValidPassword(String password) {
-		if (password.length() < 4) {
-			remindDialog("Your password is required at least 4 characters");
-			return false;
-		} else return true;
-	}
-	
-	/**
-	 * Check new password matching
-	 * @param password
-	 * @param confirmPassword
-	 * @return
-	 */
-	public boolean isMatchPasswords(String password, String confirmPassword) {
-		if (password.equals(confirmPassword)) return true;
-		else {
-			remindDialog("The two new passwords do not match");
-			return false;
-		}
-	}
-	
-	public void remindDialog(String text) {
+	private void remindDialog(String text) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(text);
 		builder.setPositiveButton("Ok", new OnClickListener() {
@@ -168,6 +151,8 @@ public class SettingPreferences extends Activity {
 		});
 		builder.create().show();
 	}
+	
+	
 	/**
 	 * Set view
 	 * @param view
@@ -189,4 +174,5 @@ public class SettingPreferences extends Activity {
 			frameLocation.setLayoutParams(new LayoutParams(0, 0));
 		}
 	}
+	
 }
