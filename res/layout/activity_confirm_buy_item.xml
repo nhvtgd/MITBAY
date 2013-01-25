@@ -161,7 +161,9 @@
                 android:layout_weight="1"
                 android:onClick="cancelBuyItem"
                 android:text="Cancel"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@drawable/btn_default_normal" 
+                />
 
             <Button
                 android:id="@+id/cbi_ConfirmBuy"
@@ -171,7 +173,9 @@
                 android:onClick="confirmBuyItem"
                 android:text="Confirm"
                 android:textColor="@color/red"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@drawable/btn_default_normal" 
+                />
         </LinearLayout>
 
         <!-- Confirm Message -->

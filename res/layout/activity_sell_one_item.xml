@@ -181,7 +181,9 @@
                     android:layout_weight="4"
                     android:onClick="takePhoto"
                     android:src="@drawable/ic_camera_color"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    android:background="@drawable/btn_default_normal" 
+                    />
                 <ImageButton
                     android:id="@+id/sell_one_item_GalleryPicture"
                     android:layout_width="0dp"
@@ -189,7 +191,9 @@
                     android:layout_weight="4"
                     android:onClick="chosePicture"
                     android:src="@drawable/ic_gallery"
-                    android:textSize="10sp" />
+                    android:textSize="10sp" 
+                    android:background="@drawable/btn_default_normal"
+                    />
             </LinearLayout>
             <TextView
                 android:layout_width="fill_parent"
@@ -224,8 +228,8 @@
                 android:layout_height="30sp"
                 android:layout_alignBottom="@+id/sell_one_item_Piture"
                 android:layout_alignLeft="@+id/sell_one_item_Piture"
-                android:background="#eee9e9"
                 android:onClick="deletePicture"
+                android:background="@drawable/btn_default_normal"
                 android:src="@drawable/ic_delete" />
         </RelativeLayout>
 
@@ -257,11 +261,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10sp"
                 android:layout_weight="1"
-                android:background="#cdc9c9"
                 android:onClick="cancelSellTheItem"
                 android:text="Cancel"
                 android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textStyle="bold" 
+                android:background="@drawable/btn_default_normal"
+                />
 
             <Button
                 android:id="@+id/sell_one_item_DoneButton"
@@ -269,11 +274,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10sp"
                 android:layout_weight="1"
-                android:background="@color/red"
                 android:onClick="doneSellTheItem"
                 android:text="Done"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold" 
+                android:background="@drawable/btn_default_normal_red"
+                />
         </LinearLayout>
     </LinearLayout>
 

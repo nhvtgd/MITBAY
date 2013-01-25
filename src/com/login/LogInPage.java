@@ -19,7 +19,6 @@ public class LogInPage extends MITBAYActivity {
 		setContentView(R.layout.activity_log_in_page);
 		// Register
 		Button register = (Button) findViewById(R.id.Register_LogInPage);
-		register.setBackgroundColor(255218185);
 		register.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -30,7 +29,6 @@ public class LogInPage extends MITBAYActivity {
 		});
 		// Log in
 		Button logIn = (Button) findViewById(R.id.LogIn_LogInPage);
-		logIn.setBackgroundColor(Color.RED); 	
 		logIn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -51,6 +49,6 @@ public class LogInPage extends MITBAYActivity {
 }
 
 /* Need more work
- * 	Theme
+ * 	Animation
  * 	MIT BAY logo
  */

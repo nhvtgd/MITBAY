@@ -30,7 +30,9 @@ public class BuyingItems extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_buying_items);
 		ListView list = (ListView) findViewById(R.id.BuyingItemsList);
+		// query buying item
 		
+		//
 		ArrayList<Sellable> itemList = getBuyingItems();
 		adapter = new ListViewAdapter(this, (ArrayList<Sellable>) itemList);
 		// bind the adapter with the view

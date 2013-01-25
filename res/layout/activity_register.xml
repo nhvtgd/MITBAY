@@ -53,6 +53,7 @@
 	    android:layout_margin="15sp"
 	    android:text="Register"
 	    android:textStyle="bold"
+	    android:background="@drawable/btn_default_normal"
 	></Button>
 
 	<!-- Message Error Checking -->
