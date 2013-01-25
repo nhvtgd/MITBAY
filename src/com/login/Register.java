@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,10 +35,12 @@ public class Register extends MITBAYActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+		// Make animation
+		makeStartAnimation();
 		// Parse Initialization
 		Parse.initialize(this, "2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
 				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
-		// Initial Error Mesage text
+		// Initial Error Message text
 		errorMessage = (TextView) findViewById(R.id.MessageError_Register);
 		// Confirm Button
 		confirm = (Button) findViewById(R.id.ConfirmButton_Register);
@@ -118,6 +123,19 @@ public class Register extends MITBAYActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_register, menu);
 		return true;
+	}
+	
+	/**
+	 * Make animation move from right to left
+	 */
+	private void makeStartAnimation() {
+		ViewGroup frame = (ViewGroup) findViewById(R.id.Frame_Register);
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_to_left_log_in_page);
+		for (int i=0; i<frame.getChildCount(); i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(animation);
+		}
+		animation.start();
 	}
 }
 
