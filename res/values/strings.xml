@@ -61,6 +61,17 @@
     <string name="top_requested_by_button">Top Items</string>
     <string name="sort_by">Sort By</string>
 
+    <style name="ButtonText">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
     <string-array name="SortBy">
         <item>Sort</item>
         <item>Price</item>
@@ -76,5 +87,7 @@
     <string name="sort_by_name">Name</string>
     <string name="sort_by_type">Type</string>
     <string name="sort_by_condition">Condition</string>
+    <string name="title_activity_notification_history">NotificationHistory</string>
+    <string name="title_activity_top_requested">TopRequested</string>
 
 </resources>

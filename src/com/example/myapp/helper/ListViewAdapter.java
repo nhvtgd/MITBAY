@@ -54,10 +54,7 @@ public class ListViewAdapter extends BaseAdapter {
         return data.get(position);
     }
 
-    public long getItemId(int position) {
-        return ((Sellable) this.getItem(position)).getId();
-    }
-    
+     
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
         if(convertView==null)
@@ -98,4 +95,10 @@ public class ListViewAdapter extends BaseAdapter {
         	image.setImageBitmap(item.getImages());
         return vi;
     }
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

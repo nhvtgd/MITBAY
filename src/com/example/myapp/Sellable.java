@@ -15,17 +15,19 @@ public class Sellable {
 	private String date;
 	private String description;
 	private boolean enabled;
-	private int id;
+	private String id;
 	private String type;
 	private Bitmap images;
 	private String condition;
 	private String location;
-	
+
 	private final String DEFAULT_LOCATION = "Please contact Seller";
-	
+
 	private final String DEFAULT_CONDITION = "NEW";
-	
+
 	private final String DEFAULT_DESCIPTION = "No Description Provided";
+
+	private final String DEFAULT_ID = "Default";
 
 	/**
 	 * This is a constructor to initialize the Sellable object after the seller
@@ -69,10 +71,10 @@ public class Sellable {
 
 	public void setLocation(String defaultLocation) {
 		this.location = defaultLocation;
-		
+
 	}
-	
-	public String getLocation(){
+
+	public String getLocation() {
 		return this.location;
 	}
 
@@ -108,8 +110,8 @@ public class Sellable {
 
 	}
 
-	public int getIDFromServer() {
-		return 0;
+	public String getIDFromServer() {
+		return DEFAULT_ID;
 	}
 
 	public Double convertPriceToDouble(String price) {
@@ -180,11 +182,11 @@ public class Sellable {
 		this.date = date;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
