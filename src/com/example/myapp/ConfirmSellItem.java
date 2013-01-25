@@ -10,6 +10,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -54,24 +55,29 @@ public class ConfirmSellItem extends SellOneItem {
 		SharedPreferences settings = getSharedPreferences(SETTING, 0);
 		username = settings.getString(USERNAME, "Anonymous");
 		email = settings.getString(EMAIL, "No email available");
-		address = settings.getString(ADDRESS, "");
+		address = settings.getString(LOCATION, "");
 		password = settings.getString(PASSWORD, "");
 		user = new User(username, email, password);
 		((TextView) findViewById(R.id.Seller)).setText(
 				String.format("%s %n%s %n%s", username, email ,address));
-		Log.d("Loading", "0");
-		
 		// Set Images
+		loadImage(bundle);
+	}
+	
+	/**
+	 * Load image, if image is null, assign it as one default image
+	 * @param bundle
+	 */
+	private void loadImage(Bundle bundle) {
 		image = null;
-		String status = "No picture available";
+		String status = "Default picture";
 		ImageView picView = (ImageView)findViewById(R.id.Picture);
 		String imgPath = bundle.getString("imgPath").toString();
 		image = loadingBitmapEfficiently(imgPath, WIDTH, HEIGHT);
-		// Check size of image
-		Log.d("images size",image.getByteCount()+", "+image.getWidth()+", "+image.getHeight());
 		// Set Image
 		if (image != null) status = "";
-		else picView.setMinimumHeight(picView.getWidth());
+		else image = setDefaultImage(type);
+		picView.setMinimumHeight(picView.getWidth());
 		picView.setImageBitmap(image);
 		((TextView) findViewById(R.id.Status)).setText(status);
 	}
@@ -151,7 +157,7 @@ public class ConfirmSellItem extends SellOneItem {
 				parse.sendSellableToServer(obj);
 				end = System.currentTimeMillis();
 				Log.d("Sent server", ""+System.currentTimeMillis());
-				Log.d("Running time", ""+(end - start));
+				Log.d("Running time", ""+(end - start)); 
 			}
 		});
 		builder.setNegativeButton("Cancel", new OnClickListener() {
@@ -161,9 +167,20 @@ public class ConfirmSellItem extends SellOneItem {
 		builder.create().show();
 	}
 	
+	
 	/**
-	 * This construct a Sellable object based on information that the seller fills out
-	 * @return Sellable
+	 * Load default image by type
+	 * @param type
+	 * @return
 	 */
+	private Bitmap setDefaultImage(String type) {
+		if (type.equals(R.string.textbook_string)) {
+			return BitmapFactory.decodeResource(getResources(), R.drawable.text_book);
+		} else if (type.equals(R.string.furniture_string)) {
+			return BitmapFactory.decodeResource(getResources(), R.drawable.furniture);
+		} else if (type.equals(R.string.transportation_string)) {
+			return BitmapFactory.decodeResource(getResources(), R.drawable.bike);
+		} else return BitmapFactory.decodeResource(getResources(), R.drawable.miscellaneous);
+	}
 	
 }

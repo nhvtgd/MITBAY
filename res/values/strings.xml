@@ -12,6 +12,7 @@
     <string name="textbook_string">Text Book</string>
     <string name="furniture_string">Furniture</string>
     <string name="bike_string">Bike</string>
+    <string name="transportation_string">Transportation</string>
     <string name="miscellaneous_string">Miscellaneous</string>
     <string name="title_activity_splash_screen">MITBAY</string>
     <string name="sell_customized_listView">Sell</string>
@@ -30,10 +31,10 @@
 
     <!-- Sell one item screen -->
     <string-array name="CategoryItem">
-        <item>TEXT BOOK</item>
-        <item>FURNITURE</item>
-        <item>TRANSPORTATION</item>
-        <item>MISC</item>
+        <item>@string/textbook_string</item>
+        <item>@string/furniture_string</item>
+        <item>@string/transportation_string</item>
+        <item>@string/miscellaneous_string</item>
     </string-array>
     <string-array name="QualityItem">
         <item>New</item>
