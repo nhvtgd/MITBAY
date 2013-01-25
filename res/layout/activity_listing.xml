@@ -34,7 +34,7 @@
             android:layout_alignRight="@+id/item_category_in_post"
             android:layout_below="@id/item_category_in_post"
             android:layout_centerVertical="true"
-            android:src="@drawable/textbook" />
+            android:src="@drawable/unknow_icon" />
     </RelativeLayout>
 
     <!-- Name of the item and description -->

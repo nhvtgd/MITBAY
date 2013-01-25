@@ -3,8 +3,11 @@ package com.example.myapp;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,9 +26,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.myapp.helper.AlertDialogManager;
 import com.example.myapp.helper.ListViewAdapter;
+import com.login.LogInPage;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
@@ -79,40 +84,84 @@ public class CustomizedListView extends MITBAYActivity implements
 	 */
 	EditText search;
 	protected final static String DEFAULT = "Sort";
-
+	
+	private SharedPreferences settings;
+	protected CharSequence GREETING = "Dear User";
+	
+	private final String INTENT_QUERY = "query";
+	
+	private final String INTENT_SEARCH = "search";
+	public CharSequence DOWNLOAD_MESSAGE = "Downloading data...";
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customized_list_view);
 
 		Log.d("set up", "Content View created");
-		Boolean SelectOrSearch = getIntent().getExtras().containsKey("query");
+		Boolean SelectOrSearch = getIntent().getExtras().containsKey(INTENT_QUERY);
 		if (SelectOrSearch) {
-			queryResult = getIntent().getStringExtra("query");
+			queryResult = getIntent().getStringExtra(INTENT_QUERY);
 		} else {
 			Log.d("Search", "get Search term");
-			queryResult = getIntent().getStringExtra("search");
+			queryResult = getIntent().getStringExtra(INTENT_SEARCH);
 		}
 		data = new GetData();
 		data.execute(queryResult);
 		Log.d("No way", "Shouldn't get here right away");
 		Button sell = (Button) findViewById(R.id.sell_button_customized_listView);
+		settings = getSharedPreferences(SETTING, 0);
 		sell.setOnClickListener(new OnClickListener() {
+
+			
 
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(v.getContext(), SellOneItem.class);
-				Log.d("sellOneItem", "here");
-				startActivity(i);
+				if (settings.getBoolean(IS_ALREADY_LOG_IN, false)){
+					Intent i = new Intent(v.getContext(), SellOneItem.class);
+					Log.d("sellOneItem", "here");
+					startActivity(i);
+				}
+				else{
+					AlertDialog alertDialog = new AlertDialog.Builder(act).create();
+
+					// Setting Dialog Title
+					alertDialog.setTitle(GREETING );
+
+					// Setting Dialog Message
+					alertDialog.setMessage(MESSAGE);
+
+					alertDialog.setIcon(R.drawable.fail);
+
+					// Setting OK Button
+					alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							Intent i = new Intent(act, LogInPage.class);
+							startActivity(i);
+								
+							
+						}
+					});
+					alertDialog.setButton2("Cancel",  new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							
+						}
+					});
+					
+					alertDialog.show();
+				}
 
 			}
 		});
+		
 		Button refresh = (Button) findViewById(R.id.refresh_button_customized_listView);
 		refresh.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				list.refreshDrawableState();
+				data = new GetData();
+				data.execute(queryResult);
 
 			}
 		});
@@ -124,7 +173,7 @@ public class CustomizedListView extends MITBAYActivity implements
 		search = (EditText) findViewById(R.id.search_bar_customized_listView);
 		search.addTextChangedListener(new TextChangeRecorder());
 		search.setSingleLine();
-
+		
 	}
 
 	@Override
@@ -216,7 +265,7 @@ public class CustomizedListView extends MITBAYActivity implements
 		@Override
 		protected void onPreExecute() {
 			progressDialog = new ProgressDialog(act);
-			progressDialog.setMessage("Downloading data ...");
+			progressDialog.setMessage(DOWNLOAD_MESSAGE);
 			progressDialog.show();
 			Log.d("pD", "progess Dialog created");
 		}
@@ -369,6 +418,7 @@ public class CustomizedListView extends MITBAYActivity implements
 			intent.putExtra(CONDITION, item.getCondition());
 			intent.putExtra(PRICE, item.getPrice());
 			intent.putExtra(ITEM, item.getName());
+			intent.putExtra(LOCATION, item.getLocation());
 			startActivity(intent);
 
 		}

@@ -69,14 +69,15 @@ public class ListViewAdapter extends BaseAdapter {
         TextView description = (TextView) vi.findViewById(R.id.item_description_in_post);
         TextView priceValue = (TextView) vi.findViewById(R.id.item_price_value);
         ImageView image = (ImageView) vi.findViewById(R.id.item_image_in_post);
+        
         Log.d("view", "create view successfully");
         Sellable item = data.get(position);
         
         
         // Setting all values in listview
-        name.setText(item.getName());
+        name.setText(item.getName() + " (" + item.getCondition()+")");
 //        category.setText(item.getType().toString());
-        location.setText("Need to set Later");
+        location.setText(item.getLocation());
         description.setText(item.getDescription());
         priceValue.setText(item.getPrice());
         if (item.getImages() == null){

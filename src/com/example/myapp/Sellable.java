@@ -19,6 +19,13 @@ public class Sellable {
 	private String type;
 	private Bitmap images;
 	private String condition;
+	private String location;
+	
+	private final String DEFAULT_LOCATION = "Please contact Seller";
+	
+	private final String DEFAULT_CONDITION = "NEW";
+	
+	private final String DEFAULT_DESCIPTION = "No Description Provided";
 
 	/**
 	 * This is a constructor to initialize the Sellable object after the seller
@@ -56,7 +63,21 @@ public class Sellable {
 		this.setImages(images);
 		this.setCondition(condition);
 		this.setDate(getCurrentDate());
+		this.setLocation(getDefaultLocation());
 
+	}
+
+	public void setLocation(String defaultLocation) {
+		this.location = defaultLocation;
+		
+	}
+	
+	public String getLocation(){
+		return this.location;
+	}
+
+	public String getDefaultLocation() {
+		return DEFAULT_LOCATION;
 	}
 
 	/**
@@ -75,9 +96,10 @@ public class Sellable {
 		this.setId(getIDFromServer());
 		this.setType(type);
 		this.setDate(getCurrentDate());
-		this.description = "NONE";
+		this.description = DEFAULT_DESCIPTION;
 		this.setImages(getDefaultImage(type));
-		this.setCondition("NEW");
+		this.setCondition(DEFAULT_LOCATION);
+		this.setLocation(getDefaultLocation());
 
 	}
 
