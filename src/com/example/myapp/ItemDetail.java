@@ -3,8 +3,11 @@ package com.example.myapp;
 
 import java.io.ByteArrayOutputStream;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ParseException;
@@ -115,10 +118,25 @@ public class ItemDetail extends MITBAYActivity {
 			Intent i = new Intent(view.getContext(), ConfirmBuyItem.class);
 			putExtras(i);
 			startActivity(i);
-		} else { // Not yet, go back to Log in page 
+		} else { 
+			// Not yet, go back to Log in page
+			// Build a dialog
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Do you want to log in right now?");
+			builder.setPositiveButton("Ok", new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Intent i = new Intent(getApplicationContext(), LogInPage.class);
+					startActivity(i);
+				} 
+			});
+			builder.setNegativeButton("Cancel", new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				} // do nothing
+			});
+			builder.create().show();
 			Toast.makeText(view.getContext(), "You need to log in to buy items", Toast.LENGTH_SHORT).show();
-			Intent i = new Intent(view.getContext(), LogInPage.class);
-			startActivity(i);
 		}
 	}
 	/**

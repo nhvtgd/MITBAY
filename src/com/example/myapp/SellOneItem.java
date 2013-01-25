@@ -1,7 +1,5 @@
 package com.example.myapp;
 import java.io.File;
-import java.util.Hashtable;
-import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -43,15 +42,92 @@ public class SellOneItem extends MITBAYActivity {
 	public String imgPath = "";
 	Uri mCapturedImageURI;
 	long start, end;
+	private boolean isChangingLocation = false;
+	private SharedPreferences settings;
+	private SharedPreferences.Editor prefEdit;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sell_one_item);
+		setSpinner(R.id.sell_one_item_Quality, R.array.QualityItem);
+		setSpinner(R.id.sell_one_item_Category, R.array.CategoryItem);
+		Log.d("Load setting data", "start");
 		loadSettingData(); 	// Load setting data from user
+		Log.d("load ser view user", "2");
+		setViewUserInformation();
+		Log.d("Load view", "3");
 		setView();
+		Log.d("finish", "okk");
+	}
+	
+	/**
+	 * Loading setting data
+	 */
+	public void loadSettingData() {
+		// GetSharedPreferences
+		settings = getSharedPreferences(SETTING, 0);
+		String user_name = settings.getString(USERNAME, "Anonymous");
+		String email = settings.getString(EMAIL, "Not found");
+		String location = settings.getString(LOCATION, "");
+		if (location.isEmpty()) location = "(Add you location)";
+		// Set Text View
+		((TextView) findViewById(R.id.sell_one_item_UserInformation))
+		.setText(String.format("%s %n%s %n%s", user_name, email, location));
 	}
 
+	/**
+	 * Let user changes their location
+	 * @param view
+	 */
+	public void changeUserInformation(View view) {
+		isChangingLocation = !isChangingLocation; 
+		setViewUserInformation(); }
+	/**
+	 * Update the input location
+	 * @param view
+	 */
+	public void doneEditLocation(View view) {
+		// Update 
+		prefEdit = settings.edit();
+		prefEdit.putString(LOCATION, ((EditText)
+				findViewById(R.id.sell_one_item_EditLocation)).getText().toString());
+		prefEdit.commit();
+		isChangingLocation = !isChangingLocation;
+		setViewUserInformation();
+		loadSettingData();
+	}
+	
+	/**
+	 * Update view status for user information
+	 */
+	public void setViewUserInformation() {
+		LinearLayout frame = (LinearLayout) findViewById(R.id.sell_one_item_FrameEditLocation);
+		if (isChangingLocation) {
+			frame.setVisibility(LinearLayout.VISIBLE);
+			frame.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+		}
+		else {
+			frame.setVisibility(LinearLayout.INVISIBLE);
+			frame.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+		}
+	}
+	
+	/**
+	 * Set Spinner text center_horizontal
+	 * @param id_spinner
+	 * @param id_spinner_array
+	 */
+	private void setSpinner(int id_spinner, int id_spinner_array) {
+		Spinner spinner = (Spinner) findViewById(id_spinner);
+	    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+	    		this, id_spinner_array, R.layout.my_spinner_text_view);
+	    adapter.setDropDownViewResource(R.layout.my_spinner_text_view);
+	    spinner.setAdapter(adapter);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -59,20 +135,7 @@ public class SellOneItem extends MITBAYActivity {
 		inflater.inflate(R.menu.activity_sell_one_item, menu);
 		return true;
 	}
-	/**
-	 * Loading setting data
-	 */
-	public void loadSettingData() {
-		// GetSharedPreferences
-		SharedPreferences settings = getSharedPreferences(SETTING, 0);
-		String userName = settings.getString(USERNAME, "Anonymous");
-		String email = settings.getString(EMAIL, "Not found");
-		String address = settings.getString(ADDRESS, "");
-		// Set Text View
-		((TextView) findViewById(R.id.sell_one_item_UserName)).setText(userName);
-		((TextView) findViewById(R.id.sell_one_item_Email)).setText(email);
-		((TextView) findViewById(R.id.sell_one_item_Address)).setText(address);
-	}
+	
 	/**
 	 * Take picture by camera
 	 * @param view
@@ -162,16 +225,6 @@ public class SellOneItem extends MITBAYActivity {
 		Toast.makeText(view.getContext(), "will be continued", Toast.LENGTH_SHORT).show();
 		String priceString = ((EditText) findViewById(R.id.sell_one_item_Price)).getText().toString();
 		if (!isValidPrice(priceString)) return;
-		// else { create Sellable object/ send to the server}
-		// Create a Sellable object
-//		Sellable obj = createSellableObject();
-//		// Send to server
-//		start = System.currentTimeMillis();
-//		Log.d("sending server", ""+System.currentTimeMillis());
-//		ParseDatabase parse = new ParseDatabase(getApplicationContext());
-//		String id = parse.sendSellableToServer(obj);
-//		end = System.currentTimeMillis();
-//		Log.d("sent server", ""+System.currentTimeMillis());
 		// Create intent for the next activity
 		Intent intent = new Intent(view.getContext(), ConfirmSellItem.class);
 		putExtras(intent);

@@ -2,7 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true" >
-
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -11,93 +11,77 @@
         android:paddingTop="20sp"
         android:paddingRight="30sp"
         android:paddingBottom="30sp" >
-
-        <!-- User Name -->
-
-        <LinearLayout
+        
+        <LinearLayout style="@style/LinearLayoutForSellOneItem" >
+        <!-- User photo, and edit -->
+        <RelativeLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:gravity="center_vertical|left"
+            android:layout_gravity="center_vertical|left">
+            <ImageView
+                android:id="@+id/sell_one_item_UserPhoto"
+                android:layout_width="@dimen/icon_for_buy_width"
+                android:layout_height="@dimen/icon_for_buy_height"
+                android:background="@drawable/btn_default_normal"
+                android:src="@drawable/ic_user" 
+                android:onClick="changeUserInformation" />
+            <ImageView 
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:background="@drawable/btn_default_normal"
+                android:layout_alignBottom="@+id/sell_one_item_UserPhoto"
+                android:layout_alignLeft="@+id/sell_one_item_UserPhoto"
+                android:src="@drawable/edit_query" 
+                android:onClick="changeUserInformation" />
+        </RelativeLayout>
+        <TextView 
+            android:id="@+id/sell_one_item_UserInformation"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/paddingLeft_for_buy"
+            android:gravity="center_vertical|left"
+            android:layout_gravity="center_vertical|left" />
+        
+        </LinearLayout>
+        
+        <!-- Edit Location -->
+        <LinearLayout 
+            android:id="@+id/sell_one_item_FrameEditLocation"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/sell_one_item_UserNameText"
-                android:layout_width="0dp"
+        	<Button
+                android:id="@+id/sell_one_item_ConfirmLocation"
+                android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="User name" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/sell_one_item_UserName"
-                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_default_normal"
+                android:text="Done"
+                android:textColor="@color/red"
+                android:textStyle="bold" 
+                android:onClick="doneEditLocation" />
+            <EditText
+                android:id="@+id/sell_one_item_EditLocation"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:text="Duy Ha" >
-            </TextView>
+                android:layout_gravity="center"
+                android:paddingLeft="20sp"
+                android:background="@drawable/round_edit_text_bound"
+                android:inputType="textMultiLine"
+                android:lines="2"
+                android:hint="Edit your location"
+                />
+            
         </LinearLayout>
-
-        <!-- Email -->
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/sell_one_item_EmailText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="Email" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/sell_one_item_Email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:text="duyha@mit.edu" >
-            </TextView>
-        </LinearLayout>
-
-        <!-- Address -->
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/sell_one_item_AddressText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:text="Address" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/sell_one_item_Address"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:text="Next house, #316" >
-            </TextView>
-        </LinearLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="@dimen/separation"
-            android:layout_marginTop="@dimen/separation"
-            android:background="#cccccc" />
+        
+    
+        <View style="@style/SeparationForSellOneItem" />
         <!-- Item -->
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+        <LinearLayout style="@style/LinearLayoutForSellOneItem">
 
             <TextView
-                android:id="@+id/sell_one_item_ItemText"
-                android:layout_width="0sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
+                style="@style/TextViewForSellOneItem"
                 android:text="Item" >
             </TextView>
 
@@ -106,21 +90,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                android:paddingLeft="@dimen/paddingLeft_for_buy"
                 android:inputType="text" >
             </EditText>
         </LinearLayout>
 
         <!-- Price -->
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+        <LinearLayout style="@style/LinearLayoutForSellOneItem" >
 
             <TextView
-                android:id="@+id/sell_one_item_PriceText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
+                style="@style/TextViewForSellOneItem"
                 android:text="Price ($)" >
             </TextView>
 
@@ -129,23 +109,35 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                android:paddingLeft="@dimen/paddingLeft_for_buy"
                 android:inputType="numberDecimal" >
             </EditText>
         </LinearLayout>
 
-        <!-- Category -->
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+        <View style="@style/SeparationForSellOneItem" />
+        <LinearLayout 
+            style="@style/LinearLayoutForSellOneItem" >
+            <TextView 
+                style="@style/TextViewForSellOneItem"
+                android:text="Condition" />
+            <TextView
+                style="@style/TextViewForSellOneItem"
+                android:layout_weight="8"
+                android:text="Category"  />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LinearLayoutForSellOneItem">
 
             <Spinner
                 android:id="@+id/sell_one_item_Quality"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
+                android:gravity="center"
                 android:entries="@array/QualityItem"
-                android:prompt="@string/quality_item" >
+                android:prompt="@string/quality_item" 
+                >
             </Spinner>
 
             <Spinner
@@ -158,12 +150,7 @@
             </Spinner>
         </LinearLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="@dimen/separation"
-            android:layout_marginTop="@dimen/separation"
-            android:background="#cccccc" />
+        <View style="@style/SeparationForSellOneItem" />
         <!-- Picture -->
         <!-- Take photo button -->
 
@@ -233,12 +220,7 @@
                 android:src="@drawable/ic_delete" />
         </RelativeLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="@dimen/separation"
-            android:layout_marginTop="@dimen/separation"
-            android:background="#cccccc" />
+        <View style="@style/SeparationForSellOneItem" />
 
         <!-- Description -->
 
@@ -246,6 +228,9 @@
             android:id="@+id/sell_one_item_Description"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/round_edit_text_bound"
+            android:inputType="textMultiLine"
+            android:padding="10sp"
             android:hint="Add your description " />
 
         <!-- Button Confirmation -->

@@ -5,7 +5,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-    
+
     <style name="Line">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">1dp</item>
@@ -13,7 +13,7 @@
         <item name="android:layout_marginTop">@dimen/separation</item>
         <item name="android:background">#cccccc</item>
     </style>
-    
+
     <style name="TextViewElement">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -38,19 +38,42 @@
         <item name="android:padding">20sp</item>
         <item name="android:background">@drawable/round_edit_text_bound</item>
     </style>
-    
+
     <style name="ImageViewForSettingPreferences">
         <item name="android:layout_width">@dimen/icon_for_buy_width</item>
         <item name="android:layout_height">@dimen/icon_for_buy_height</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
-    
+
     <style name="TextForSettingPreferences">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:paddingLeft">@dimen/paddingLeft_for_buy</item>
     </style>
-    
 
+    <style name="TextViewForSellOneItem">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">5</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@drawable/btn_default_normal</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="LinearLayoutForSellOneItem">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/round_edit_text_bound</item>
+    </style>
+
+    <style name="SeparationForSellOneItem">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginBottom">@dimen/separation</item>
+        <item name="android:layout_marginTop">@dimen/separation</item>
+    </style>
+    
 </resources>
