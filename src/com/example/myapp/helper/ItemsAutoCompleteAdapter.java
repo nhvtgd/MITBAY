@@ -7,13 +7,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+/**
+ * This class will generate auto complete based on EBAY auto complete API, amazon seems
+ * not to work well, this requires connection in order to perform the auto complete
+ * @author trannguyen
+ *
+ */
 /**
  * This class will generate auto complete based on EBAY auto complete API, amazon seems
  * not to work well, this requires connection in order to perform the auto complete
@@ -28,6 +39,10 @@ public class ItemsAutoCompleteAdapter extends ArrayAdapter<String> implements
 	private static final String ITEM_API_EBAY = "http://anywhere.ebay.com/services/suggest/?q=";
 
 	private ArrayList<String> resultList;
+
+	private String TAG_CLASS = "id";
+	
+	private String TAG_ITEM = "items";
 
 	/**
 	 * Take in the context of the current activity and the textView resourse id 
@@ -57,7 +72,10 @@ public class ItemsAutoCompleteAdapter extends ArrayAdapter<String> implements
 				FilterResults filterResults = new FilterResults();
 				if (constraint != null) {
 					// Retrieve the autocomplete results.
-					resultList = autocomplete(constraint.toString());
+					ArrayList<String> result1 = autocomplete(constraint.toString());
+//					ArrayList<String> result2 = autocompleteClass(constraint.toString());
+//					result1.addAll(result2);
+					resultList = result1;
 
 					// Assign the data to the FilterResults
 					filterResults.values = resultList;
@@ -94,7 +112,8 @@ public class ItemsAutoCompleteAdapter extends ArrayAdapter<String> implements
 			StringBuilder sb = new StringBuilder(ITEM_API_EBAY);
 			sb.append(URLEncoder.encode(input, "utf8"));
 			Log.d("URL", sb.toString());
-
+			
+			
 			URL url = new URL(sb.toString());
 			conn = (HttpURLConnection) url.openConnection();
 			InputStreamReader in = new InputStreamReader(conn.getInputStream());
@@ -130,5 +149,31 @@ public class ItemsAutoCompleteAdapter extends ArrayAdapter<String> implements
 		}
 
 		return resultList;
+	}
+	
+	private ArrayList<String> autocompleteClass(String input){
+		JSONParser parser = new JSONParser();
+		
+		JSONObject obj = parser.getJSONFromUrl("http://coursews.mit.edu/coursews/?term=2013SP");
+		ArrayList<String> result = new ArrayList<String>();
+		Set<String> removeDuplicate = new HashSet<String>();
+		try {
+			JSONArray classList = obj.getJSONArray(TAG_ITEM);
+			for (int i = 0; i < classList.length();i++){
+				JSONObject className = classList.getJSONObject(i);		
+				if (className.has(TAG_CLASS) && className.getString(TAG_CLASS).contains(input) && !removeDuplicate.contains(className.getString(TAG_CLASS))){
+					result.add(className.getString(TAG_CLASS));
+					removeDuplicate.add(className.getString(TAG_CLASS));					
+				}
+					
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return (ArrayList<String>) result.subList(0, 10);
+		
+		
 	}
 }

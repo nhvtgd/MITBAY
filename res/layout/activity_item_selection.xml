@@ -12,15 +12,18 @@
         android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/search_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            style="@android:style/Widget.ImageButton"
+            android:padding="0dp"
+            android:id="@+id/search_icon_32"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:adjustViewBounds="true"
             android:scaleType="center"
             android:soundEffectsEnabled="true"
             android:src="@drawable/search_icon_32"></ImageButton>
 
         <AutoCompleteTextView
+            style="@android:style/Widget.AutoCompleteTextView"
             android:id="@+id/auto_complete_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,34 +36,55 @@
     </LinearLayout>
 
     <Button
+        android:layout_weight="0.2"
+        android:background="@drawable/purple_background_button"
+        style="@android:style/Widget.ActionButton"
         android:id="@+id/textbook_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/textbook"
+        android:drawableLeft="@drawable/text_book"
+        android:textStyle="bold"
+        android:textSize="22sp"
         android:text="@string/textbook_string" />
 
     <Button
+        android:layout_weight="0.2"
+        android:background="@drawable/yellow_background_button"
         android:id="@+id/furniture_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/furniture"
-        android:text="@string/furniture_string" />
+        android:drawableLeft="@drawable/furniture_icon"
+        android:text="@string/furniture_string"
+        style="@android:style/Widget.ActionButton"
+        android:textStyle="bold"
+        android:textSize="22sp" />
 
     <Button
+        android:layout_weight="0.2"
+        android:background="@drawable/red_background_button"
         android:id="@+id/bike_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/bike"
-        android:text="@string/bike_string" />
+        android:text="@string/bike_string"
+        style="@android:style/Widget.ActionButton"
+        android:textStyle="bold"
+        android:textSize="22sp" />
 
     <Button
+        android:layout_weight="0.2"
+        android:background="@drawable/blue_background_button"
         android:id="@+id/miscellaneous_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/miscellaneous"
-        android:text="@string/miscellaneous_string" />
+        android:drawableLeft="@drawable/misc"
+        android:text="@string/miscellaneous_string"
+        style="@android:style/Widget.ActionButton"
+        android:textStyle="bold"
+        android:textSize="22sp" />
 
-    <Button
+<!--     <Button
+        
         android:id = "@+id/browse_all_selection"
         android:textColor="@color/red"
         android:textSize="36px"
@@ -73,6 +97,13 @@
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:background="@color/gray"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter" /> -->
+        
+        <ImageButton 
+            android:layout_weight="0.2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/everything"
+            android:id="@+id/browse_all_selection"/>
 
 </LinearLayout>

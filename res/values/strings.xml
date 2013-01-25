@@ -9,9 +9,9 @@
 
     <!-- Item Selection page String -->
     <string name="title_activity_item_selection">Item Selection</string>
-    <string name="textbook_string">Text Book Exchange</string>
-    <string name="furniture_string">Furniture Exchange</string>
-    <string name="bike_string">Bike Exchange</string>
+    <string name="textbook_string">Text Book</string>
+    <string name="furniture_string">Furniture</string>
+    <string name="bike_string">Bike</string>
     <string name="miscellaneous_string">Miscellaneous</string>
     <string name="title_activity_splash_screen">MITBAY</string>
     <string name="sell_customized_listView">Sell</string>
