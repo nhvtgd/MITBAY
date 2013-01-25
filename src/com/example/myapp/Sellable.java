@@ -7,8 +7,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-
-public class Sellable{
+public class Sellable {
 	private String name;
 	private User seller;
 	private String price;
@@ -187,8 +186,8 @@ public class Sellable{
 		return images;
 	}
 
-	public void setImages(Bitmap images2) {
-		this.images = images2;
+	public void setImages(Bitmap images) {
+		this.images = images;
 	}
 
 	public String getCondition() {

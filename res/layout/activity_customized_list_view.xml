@@ -40,6 +40,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/silver"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="horizontal" >
 
         <EditText
@@ -48,6 +50,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="Filter result"
             android:inputType="textVisiblePassword" />
 

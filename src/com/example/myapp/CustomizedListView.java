@@ -57,6 +57,9 @@ public class CustomizedListView extends MITBAYActivity implements
 	 */
 	ArrayList<Sellable> itemList = new ArrayList<Sellable>();
 
+	/**
+	 * The list that will store the filter item when user start typing
+	 */
 	ArrayList<Sellable> filterList = new ArrayList<Sellable>();
 
 	/**
@@ -66,8 +69,14 @@ public class CustomizedListView extends MITBAYActivity implements
 
 	String queryResult;
 
+	/**
+	 * GetData object used to populate data from server
+	 */
 	GetData data;
 
+	/**
+	 * edit text for filetering.
+	 */
 	EditText search;
 	protected final static String DEFAULT = "Sort";
 
@@ -114,6 +123,7 @@ public class CustomizedListView extends MITBAYActivity implements
 
 		search = (EditText) findViewById(R.id.search_bar_customized_listView);
 		search.addTextChangedListener(new TextChangeRecorder());
+		search.setSingleLine();
 
 	}
 
@@ -165,17 +175,16 @@ public class CustomizedListView extends MITBAYActivity implements
 			filterList.clear();
 
 			for (int i = 0; i < itemList.size(); i++) {
-				if (textlength <= itemList.get(i).getName().length()) {
-					if (search
-							.getText()
-							.toString()
-							.equalsIgnoreCase(
-									(String) itemList.get(i).getName()
-											.subSequence(0, textlength))) {
-						filterList.add(itemList.get(i));
+				String searchText = search.getText().toString();
+				if (isSubString(searchText, itemList.get(i).getName())
+						|| isSubString(searchText, itemList.get(i)
+								.getCondition())
+						|| isSubString(searchText, itemList.get(i)
+								.getDescription())
+						|| isSubString(searchText, itemList.get(i).getType())
+						|| isSubString(searchText, itemList.get(i).getCondition()))
+					filterList.add(itemList.get(i));
 
-					}
-				}
 			}
 
 			list.setAdapter(new ListViewAdapter(act, filterList));
@@ -364,6 +373,21 @@ public class CustomizedListView extends MITBAYActivity implements
 
 		}
 
+	}
+
+	public boolean isSubString(String text1, String text2) {
+		if (text1 == null)
+			return true;
+		if (text2 == null || text2.length() < text1.length())
+			return false;
+		int len1 = text1.length();
+		for (int i = 0; i < text2.length(); i++) {
+			if (i + len1 <= text2.length()) {
+				if (text2.substring(i, i + len1).equalsIgnoreCase((text1)))
+					return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
