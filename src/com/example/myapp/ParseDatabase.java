@@ -54,10 +54,13 @@ public class ParseDatabase {
 	public String sendSellableToServer(Sellable sell) {
 		ParseObject sellobj = createSellableParseObj(sell);
 		sellobj.saveInBackground();
-		byte[] data = ParseDatabase.bitmapToByteArray(sell.getImages());
-		ParseFile file = new ParseFile("picture.png", data);
-		file.saveInBackground();
-		this.associateParseObjWithParseFile(file, sellobj);
+		if (sell.getImages() != null) {
+			byte[] data = ParseDatabase.bitmapToByteArray(sell.getImages());
+			ParseFile file = new ParseFile("picture.png", data);
+			file.saveInBackground();
+			this.associateParseObjWithParseFile(file, sellobj);
+		}
+
 		return sellobj.getObjectId();
 	}
 
@@ -405,9 +408,10 @@ public class ParseDatabase {
 	 *            : number of entries to skip
 	 * @return an arrayList of all sellable objects that skip the specified
 	 *         number of entries
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
-	public ArrayList<Sellable> getListAllSellableSetSkip(int skip) throws ParseException {
+	public ArrayList<Sellable> getListAllSellableSetSkip(int skip)
+			throws ParseException {
 		ParseQuery query = getAllSellableSetSkip(skip);
 		ArrayList<Sellable> result = new ArrayList<Sellable>();
 		int total = 0;
@@ -424,16 +428,20 @@ public class ParseDatabase {
 		}
 		return result;
 	}
+
 	/**
-	 * return the total number of sellable object current on the server (everything)
-	 * @return an integer represents the total number of Sellable objects from server
-	 * @throws ParseException 
+	 * return the total number of sellable object current on the server
+	 * (everything)
+	 * 
+	 * @return an integer represents the total number of Sellable objects from
+	 *         server
+	 * @throws ParseException
 	 */
-	public int getTotalSellable() throws ParseException{
+	public int getTotalSellable() throws ParseException {
 		ParseQuery query = getAllSellable();
 		return query.count();
 	}
-	
+
 	/**
 	 * 
 	 * @param name
@@ -445,15 +453,18 @@ public class ParseDatabase {
 		query.whereEqualTo("name", name);
 		return query;
 	}
-	
+
 	/**
 	 * get the ArrayList of item with matching name
+	 * 
 	 * @param name
 	 *            : name of sellable
-	 * @return arrayList of Sellable with name match, or empty ArrayList if not found
-	 * @throws ParseException 
+	 * @return arrayList of Sellable with name match, or empty ArrayList if not
+	 *         found
+	 * @throws ParseException
 	 */
-	public ArrayList<Sellable> getListSellableWithName(String name) throws ParseException {
+	public ArrayList<Sellable> getListSellableWithName(String name)
+			throws ParseException {
 		ParseQuery query = getSellableWithName(name);
 		ArrayList<Sellable> result = new ArrayList<Sellable>();
 		int total = 0;
@@ -481,19 +492,20 @@ public class ParseDatabase {
 	public ParseQuery returnInOrderByAscending(String parameter) {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.orderByAscending(parameter);
-		
+
 		return query;
 	}
-	
+
 	/**
 	 * Sorts the results in ascending order by the parameter field
 	 * 
 	 * @param parameter
 	 *            : parameter eg: name, price
 	 * @return: an ArrayList of objects sorted by parameter
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
-	public ArrayList<Sellable> returnListInOrderByAscending(String parameter) throws ParseException {
+	public ArrayList<Sellable> returnListInOrderByAscending(String parameter)
+			throws ParseException {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.orderByAscending(parameter);
 		ArrayList<Sellable> result = new ArrayList<Sellable>();
@@ -509,7 +521,7 @@ public class ParseDatabase {
 				result.add(ParseDatabase.createSellableWithParse(obj));
 			}
 		}
-		return result;		
+		return result;
 	}
 
 	/**
@@ -524,16 +536,17 @@ public class ParseDatabase {
 		query.orderByDescending(parameter);
 		return query;
 	}
-	
+
 	/**
 	 * Sorts the results in descending order by the parameter field
 	 * 
 	 * @param parameter
 	 *            : parameter eg: name, price
 	 * @return: an ArrayList of objects sorted by parameter
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
-	public ArrayList<Sellable> returnListInOrderByDescending(String parameter) throws ParseException {
+	public ArrayList<Sellable> returnListInOrderByDescending(String parameter)
+			throws ParseException {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.orderByDescending(parameter);
 		ArrayList<Sellable> result = new ArrayList<Sellable>();
@@ -549,9 +562,8 @@ public class ParseDatabase {
 				result.add(ParseDatabase.createSellableWithParse(obj));
 			}
 		}
-		return result;		
+		return result;
 	}
-
 
 	/**
 	 * Converts a sellable with a parseobject
@@ -574,9 +586,11 @@ public class ParseDatabase {
 				condition, null);
 		return sell;
 	}
-	
+
 	/**
-	 * Converts a bitmap to a byte array so that it can be stored as a parse file
+	 * Converts a bitmap to a byte array so that it can be stored as a parse
+	 * file
+	 * 
 	 * @param bmp
 	 * @return a byte array
 	 */
@@ -586,17 +600,17 @@ public class ParseDatabase {
 		byte[] byteArray = stream.toByteArray();
 		return byteArray;
 	}
-	
-	public ParseFile sendByteArrayToServer(byte[] data){
+
+	public ParseFile sendByteArrayToServer(byte[] data) {
 		ParseFile file = new ParseFile("picture.png", data);
 		file.saveInBackground();
 		return file;
-	}	
-	
-	public String associateParseObjWithParseFile(ParseFile file, ParseObject obj){
+	}
+
+	public String associateParseObjWithParseFile(ParseFile file, ParseObject obj) {
 		obj.put("pic", file);
 		obj.saveInBackground();
 		return obj.getObjectId();
-	}	
+	}
 
 }
