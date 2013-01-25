@@ -52,7 +52,7 @@ public class SplashScreen extends Activity {
 			row.setLayoutAnimation(controller);
 		}
 
-		TextView description_text = (TextView) findViewById(R.id.description_text);
+		ImageView description_text = (ImageView) findViewById(R.id.description_text);
 		Animation description_anim = AnimationUtils.loadAnimation(this,
 				R.anim.fade_in);
 		description_text.startAnimation(description_anim);
@@ -111,9 +111,9 @@ public class SplashScreen extends Activity {
 			TableRow row = (TableRow) table.getChildAt(i);
 			row.clearAnimation();
 		}
-		TextView description_text = (TextView) findViewById(R.id.description_text);
+		ImageView description_text = (ImageView) findViewById(R.id.description_text);
 		description_text.clearAnimation();
-		TextView version_text = (TextView) findViewById(R.id.description_text);
+		TextView version_text = (TextView) findViewById(R.id.version_text);
 		version_text.clearAnimation();
 
 	}

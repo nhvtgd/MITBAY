@@ -39,9 +39,9 @@ public class ItemSelection extends Activity implements OnClickListener {
 		trans.setOnClickListener(this);
 		Button misc = (Button) findViewById(R.id.miscellaneous_button);
 		misc.setOnClickListener(this);
-		Button all = (Button) findViewById(R.id.browse_all_selection);
+		ImageButton all = (ImageButton) findViewById(R.id.browse_all_selection);
 		all.setOnClickListener(this);
-		ImageButton search = (ImageButton) findViewById(R.id.search_icon);
+		ImageButton search = (ImageButton) findViewById(R.id.search_icon_32);
 		search.setOnClickListener(this);
 		searchQuery = (AutoCompleteTextView) findViewById(R.id.auto_complete_item);
 		
@@ -85,7 +85,7 @@ public class ItemSelection extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		}
-		case (R.id.search_icon): {
+		case (R.id.search_icon_32): {
 			String search = searchQuery.getText().toString().trim();
 			if (search.length() > 0){
 				intent.putExtra("search", search);
