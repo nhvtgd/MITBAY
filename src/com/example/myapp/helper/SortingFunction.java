@@ -25,14 +25,14 @@ public class SortingFunction {
 	private final static List<String> month = Arrays.asList("Jan", "Feb",
 			"Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov",
 			"Dec");
-	Comparator<Sellable> nameComparator = new Comparator<Sellable>() {
+	static Comparator<Sellable> nameComparator = new Comparator<Sellable>() {
 		@Override
 		public int compare(Sellable o1, Sellable o2) {
 			return o1.getName().compareTo(o2.getName());
 		}
 	};
 
-	Comparator<Sellable> priceComparator = new Comparator<Sellable>() {
+	static Comparator<Sellable> priceComparator = new Comparator<Sellable>() {
 		@Override
 		public int compare(Sellable o1, Sellable o2) {
 			if (o1.getPrice().equalsIgnoreCase("free")
@@ -47,8 +47,8 @@ public class SortingFunction {
 				Matcher match1 = pattern.matcher(o1.getPrice());
 				Matcher match2 = pattern.matcher(o2.getPrice());
 				if (match1.find() && match2.find())
-					return Float.valueOf(o1.getPrice()).compareTo(
-							Float.valueOf(o2.getPrice()));
+					return Float.valueOf(match1.group()).compareTo(
+							Float.valueOf(match2.group()));
 				else
 					return o1.getPrice().compareTo(o2.getPrice());
 
@@ -57,7 +57,7 @@ public class SortingFunction {
 		}
 	};
 
-	Comparator<Sellable> dateComparator = new Comparator<Sellable>() {
+	static Comparator<Sellable> dateComparator = new Comparator<Sellable>() {
 		@Override
 		public int compare(Sellable o1, Sellable o2) {
 			String[] date1 = o1.getDate().split("-");
@@ -93,13 +93,13 @@ public class SortingFunction {
 	 * @param sellableList
 	 *            the ArrayList of sellable objects Multate
 	 */
-	public void sort(final String field, ArrayList<Sellable> sellableList) {
-		if (sellableList != null && sellableList.size() == 0) {
-			final Comparator<Sellable> comparator;
+	public static void sort(final String field, ArrayList<Sellable> sellableList) {
+		if (sellableList != null && sellableList.size() != 0) {
+			Comparator<Sellable> comparator;
 
 			if (field.equals(MITBAYActivity.CONDITION)
 					|| field.equals(MITBAYActivity.LOCATION)
-					|| field.equals(MITBAYActivity.NAME)
+					|| field.equals(MITBAYActivity.ITEM_NAME)
 					|| field.equals(MITBAYActivity.TYPE)) {
 				comparator = nameComparator;
 			} else if (field.equals(MITBAYActivity.PRICE)) {
@@ -110,5 +110,9 @@ public class SortingFunction {
 
 			Collections.sort(sellableList, comparator);
 		}
+	}
+	
+	public static void main(String[] args) {
+		System.out.println("Tran");
 	}
 }

@@ -32,6 +32,7 @@ public class MITBAYActivity extends Activity {
 	public static final String CONDITION="condition";
 	public static final String PRICE="price";
 	public static final String ITEM="item";
+	public static final String ITEM_NAME="name";
 	public static final String ID="id";
 	public static final String IMAGE="pic";
 	public static final String LOCATION = "location";

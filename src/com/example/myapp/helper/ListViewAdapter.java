@@ -91,7 +91,7 @@ public class ListViewAdapter extends BaseAdapter {
 	        	image.setImageResource(R.drawable.misc);
 	        }
 	        else
-	        	image.setImageResource(R.drawable.unknow_icon);
+	        	image.setImageResource(R.drawable.unknown);
         }
         else
         	image.setImageBitmap(item.getImages());
