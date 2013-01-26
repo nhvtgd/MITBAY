@@ -11,6 +11,9 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +30,8 @@ public class ConfirmBuyItem extends MITBAYActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_confirm_buy_item);
+		// Make start animation
+		makeStartAnimation();
 		// Loading information
 		Bundle bundle = getIntent().getExtras();
 		loadTextInformation(bundle);
@@ -150,6 +155,16 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		});
 		builder.create().show();
 		
+	}
+	
+	private void makeStartAnimation() {
+		ViewGroup frame = (ViewGroup) findViewById(R.id.confirm_buy_item_Frame);
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_item_detail);
+		for (int i=0; i<frame.getChildCount(); i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(animation);
+		}
+		animation.start();
 	}
 }
 

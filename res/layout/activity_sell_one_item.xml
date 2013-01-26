@@ -4,6 +4,7 @@
     android:fillViewport="true" >
     
     <LinearLayout
+        android:id="@+id/sell_one_item_Frame"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -15,20 +16,22 @@
         <LinearLayout style="@style/LinearLayoutForSellOneItem" >
         <!-- User photo, and edit -->
         <RelativeLayout 
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" 
+            android:layout_weight="5"
             android:gravity="center_vertical|left"
             android:layout_gravity="center_vertical|left">
             <ImageView
                 android:id="@+id/sell_one_item_UserPhoto"
-                android:layout_width="@dimen/icon_for_buy_width"
-                android:layout_height="@dimen/icon_for_buy_height"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/btn_default_normal"
                 android:src="@drawable/ic_user" 
+                android:adjustViewBounds="true"
                 android:onClick="changeUserInformation" />
             <ImageView 
-                android:layout_width="20sp"
-                android:layout_height="20sp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@drawable/btn_default_normal"
                 android:layout_alignBottom="@+id/sell_one_item_UserPhoto"
                 android:layout_alignLeft="@+id/sell_one_item_UserPhoto"
@@ -37,8 +40,9 @@
         </RelativeLayout>
         <TextView 
             android:id="@+id/sell_one_item_UserInformation"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="8"
             android:paddingLeft="@dimen/paddingLeft_for_buy"
             android:gravity="center_vertical|left"
             android:layout_gravity="center_vertical|left" />
@@ -91,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
                 android:paddingLeft="@dimen/paddingLeft_for_buy"
+                android:hint="item name"
                 android:inputType="text" >
             </EditText>
         </LinearLayout>
@@ -110,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
                 android:paddingLeft="@dimen/paddingLeft_for_buy"
+                android:hint="price"
                 android:inputType="numberDecimal" >
             </EditText>
         </LinearLayout>

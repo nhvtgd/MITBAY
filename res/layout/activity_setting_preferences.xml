@@ -17,12 +17,12 @@
         <LinearLayout style="@style/CommonLinearLayout" >
 
             <ImageView
-                android:id="@+id/UserPhotoIcon"
+                android:id="@+id/setting_preferences_UserPhotoIcon"
                 style="@style/ImageViewForSettingPreferences"
                 android:src="@drawable/ic_user" />
 
             <TextView
-                android:id="@+id/UserName"
+                android:id="@+id/setting_preferences_UserName"
                 style="@style/TextForSettingPreferences"
                 android:text="Duy Ha" />
         </LinearLayout>
@@ -34,12 +34,12 @@
         <LinearLayout style="@style/CommonLinearLayout" >
 
             <ImageView
-                android:id="@+id/UserEmailIcon"
+                android:id="@+id/setting_preferences_UserEmailIcon"
                 style="@style/ImageViewForSettingPreferences"
                 android:src="@drawable/ic_email" />
 
             <TextView
-                android:id="@+id/Email"
+                android:id="@+id/setting_preferences_Email"
                 style="@style/TextForSettingPreferences"
                 android:text="Duy Ha" />
         </LinearLayout>
@@ -53,19 +53,19 @@
             <LinearLayout style="@style/CommonLinearLayout" >
 
                 <ImageView
-                    android:id="@+id/UserLocationIcon"
+                    android:id="@+id/setting_preferences_UserLocationIcon"
                     style="@style/ImageViewForSettingPreferences"
                     android:src="@drawable/ic_location" />
 
                 <TextView
-                    android:id="@+id/Location"
+                    android:id="@+id/setting_preferences_Location"
                     style="@style/TextForSettingPreferences"
                     android:layout_marginRight="50sp"
                     android:text="500 Memorial Drive, Next house, #316" />
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/Edit"
+                android:id="@+id/setting_preferences_Edit"
                 android:layout_width="40sp"
                 android:layout_height="40sp"
                 android:layout_alignParentRight="true"
@@ -79,18 +79,18 @@
         
 		<!-- Edit Location -->
         <LinearLayout 
-            android:id="@+id/FrameEditLocation"
+            android:id="@+id/setting_preferences_FrameEditLocation"
             style="@style/CommonLinearLayout"
             android:orientation="vertical" >
             <EditText
-                android:id="@+id/EditLocation"
+                android:id="@+id/setting_preferences_EditLocation"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="70sp"
                 android:inputType="textMultiLine"
                 />
             <Button
-                android:id="@+id/ConfirmLocation"
+                android:id="@+id/setting_preferences_ConfirmLocation"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -106,7 +106,7 @@
         <!-- Change password -->
 
         <Button
-            android:id="@+id/ChangePassword"
+            android:id="@+id/setting_preferences_ChangePassword"
             android:layout_width="200sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -119,14 +119,14 @@
 
 
         <LinearLayout
-            android:id="@+id/FramePassword"
+            android:id="@+id/setting_preferences_FramePassword"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
             <View style="@style/Line" />
 
             <EditText
-                android:id="@+id/CurrentPassword"
+                android:id="@+id/setting_preferences_CurrentPassword"
                 android:layout_width="200sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -134,7 +134,7 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/NewPassword"
+                android:id="@+id/setting_preferences_NewPassword"
                 android:layout_width="200sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -142,7 +142,7 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/NewConfirmPassword"
+                android:id="@+id/setting_preferences_NewConfirmPassword"
                 android:layout_width="200sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -150,7 +150,7 @@
                 android:inputType="textPassword" />
 
             <Button
-                android:id="@+id/ConfirmPassword"
+                android:id="@+id/setting_preferences_ConfirmPassword"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -162,7 +162,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <View style="@style/Line" />
     </LinearLayout>
 
 </ScrollView>

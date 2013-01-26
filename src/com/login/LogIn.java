@@ -35,7 +35,7 @@ public class LogIn extends MITBAYActivity {
 	private String email, username, password;
 	private Button confirm;
 	private TextView errorMessage;
-	private long timeClick = System.currentTimeMillis();
+	private long timeClick = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,8 +67,6 @@ public class LogIn extends MITBAYActivity {
 			public void onClick(View v) {
 				if (System.currentTimeMillis() - timeClick < 1000) return;
 				else timeClick = System.currentTimeMillis();
-				// If already log in
-				if (settings.getBoolean(IS_ALREADY_LOG_IN, false)) startActivity(new Intent(getApplicationContext(),ItemSelection.class));
 				((TextView)findViewById(R.id.signInErrorMassage)).setText("");
 				// Email Address
 				EditText usernameField = (EditText) findViewById(R.id.signInUsername);
