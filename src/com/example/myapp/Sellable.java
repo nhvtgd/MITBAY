@@ -106,7 +106,7 @@ public class Sellable {
 	}
 
 	public Bitmap getDefaultImage(String type) {
-		return BitmapFactory.decodeFile("res/drawable-hdpi/bike.png");
+		return null;
 
 	}
 
@@ -140,7 +140,7 @@ public class Sellable {
 
 		Calendar c = Calendar.getInstance();
 
-		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String formattedDate = df.format(c.getTime());
 		return formattedDate;
 
@@ -211,6 +211,10 @@ public class Sellable {
 	}
 
 	public void setImages(Bitmap images) {
+		this.images = images;
+	}
+	
+	public void setDefaultImage(Bitmap images){
 		this.images = images;
 	}
 

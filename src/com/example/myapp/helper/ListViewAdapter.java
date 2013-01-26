@@ -90,6 +90,8 @@ public class ListViewAdapter extends BaseAdapter {
 	        else if (item.getType().toString().equals(MITBAYActivity.MISC)){
 	        	image.setImageResource(R.drawable.misc);
 	        }
+	        else
+	        	image.setImageResource(R.drawable.unknow_icon);
         }
         else
         	image.setImageBitmap(item.getImages());
