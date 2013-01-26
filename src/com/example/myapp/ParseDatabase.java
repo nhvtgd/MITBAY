@@ -63,7 +63,6 @@ public class ParseDatabase {
 			sellobj.put("bigpic", bigpic);
 			sellobj.saveInBackground();
 		}
-
 		return sellobj.getObjectId();
 	}
 
@@ -593,9 +592,11 @@ public class ParseDatabase {
 		String type = (String) obj.get("type");
 		String condition = (String) obj.get("condition");
 		String seller = (String) obj.get("seller");
+		String id = (String) obj.getObjectId();
 		User user = new User(seller, seller);
 		Sellable sell = new Sellable(user, name, price, type, description,
 				condition, null);
+		sell.setId(id);
 		return sell;
 	}
 
