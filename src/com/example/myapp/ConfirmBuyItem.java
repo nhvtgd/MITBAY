@@ -1,24 +1,86 @@
-
 package com.example.myapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.app.Activity;
-import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class ConfirmBuyItem extends Activity {
-
+public class ConfirmBuyItem extends MITBAYActivity {
+	
+	private String item, date, condition, price, description, username, email, type;
+	private int id;
+	private Bitmap image;
+	SharedPreferences settings;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_confirm_buy_item);
+		// Make start animation
+		makeStartAnimation();
+		// Loading information
+		Bundle bundle = getIntent().getExtras();
+		loadTextInformation(bundle);
+		loadPicture(bundle);
 	}
-
+	
+	public void loadPicture(Bundle bundle) {
+		ImageView picView = (ImageView) findViewById(R.id.cbi_ItemPicture);
+		image = getIntent().getParcelableExtra(IMAGE);
+//		String imgPath = bundle.getString("imgPath").toString();
+//		Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
+		if (image == null) picView.setImageDrawable(getResources().getDrawable(R.drawable.ic_green_cart));
+		else picView.setImageBitmap(image);
+	}
+	
+	/**
+	 * Load Item information from extras of the last activity
+	 * @param bundle
+	 */
+	private void loadTextInformation(Bundle bundle) {
+		// Load item, date, condition, price, description, username, email, type, id;
+		item = bundle.getString(ITEM, "No named").toString();
+		date = bundle.getString(DATE, "").toString();
+		condition = bundle.getString(CONDITION, "").toString();
+		price = bundle.getString(PRICE).toString();
+		description = bundle.getString(DESCRIPTION, "").toString();
+		username = bundle.getString(USERNAME, "Anonymous").toString();
+		email = bundle.getString(EMAIL, "").toString();
+		type = bundle.getString(TYPE, MISC).toString();
+		id = bundle.getInt(ID, -1);
+		// Set item name
+		((TextView) findViewById(R.id.cbi_ItemName))
+		.setText(String.format("%s %n%s",item, date));
+		// Set condition
+		((TextView) findViewById(R.id.cbi_Condition)).setText(condition);
+		// Set price
+		((TextView) findViewById(R.id.cbi_Price)).setText(price);
+		// Buyer information
+		settings = getSharedPreferences(SETTING, 0);
+		((TextView) findViewById(R.id.cbi_Buyer)).setText(String.format("%s %n%s %n%s",
+				settings.getString(USERNAME, "").toString(),
+				settings.getString(EMAIL, "").toString(), 
+				settings.getString(ADDRESS, "").toString()));
+		// Get seller information
+		String seller_information = String.format("%s %n%s", username, email);
+		((TextView) findViewById(R.id.cbi_Seller)).setText(seller_information);
+	}
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -39,7 +101,7 @@ public class ConfirmBuyItem extends Activity {
 		// Visible progress
 		((LinearLayout) findViewById(R.id.cbi_Progress)).setVisibility(LinearLayout.VISIBLE);
 		// Remind sending email
-		new CountDownTimer(3000, 3000) {
+		new CountDownTimer(1000, 1000) {
 		     public void onTick(long millisUntilFinished) {
 		         Toast.makeText(getApplicationContext(), "Sending to server", Toast.LENGTH_SHORT).show();
 		     }
@@ -58,23 +120,55 @@ public class ConfirmBuyItem extends Activity {
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("text/plain");
 		// Put extra seller email
-		String aEmailList[] = { "duyha@mit.edu" }; 
+		String aEmailList[] = { email }; 
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, aEmailList);
 		// Put extra subject
-		String subject = "I want to buy text book from you";
+		String subject = "[Buying "+ item +" from you via MITBAY]";
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
 		// Put extra content
-		String content = "Hi, Thank you for selling this item";
+		String content = String.format("%s %n%s",
+				"Hi "+settings.getString(NAME,  "") +",",
+				"Thank you for selling this item. I want to buy "
+				+ item +" from you");
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, content);
 		// Start activity
 		startActivity(emailIntent);
 	}
 	/**
-	 * Cancel to buy, come back to the home screen
+	 * Cancel to buy, come back to the home screen (ItemSelection)
 	 * @param view
 	 */
 	public void cancelBuyItem(View view) {
-		Intent i = new Intent(view.getContext(), ItemDetail.class);
-		startActivity(i);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Do you want to cancel to buy this item");
+		builder.setPositiveButton("Ok", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// Need to confirm cancel to buy this item from server
+				Intent i = new Intent(getApplicationContext(), ItemSelection.class);
+				startActivity(i);
+			}
+		});
+		builder.setNegativeButton("Cancel", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) { } // do nothing
+		});
+		builder.create().show();
+		
+	}
+	
+	private void makeStartAnimation() {
+		ViewGroup frame = (ViewGroup) findViewById(R.id.confirm_buy_item_Frame);
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_item_detail);
+		for (int i=0; i<frame.getChildCount(); i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(animation);
+		}
+		animation.start();
 	}
 }
+
+
+//Need to confirm cancel to buy this item from server
+// Make Theme
+// Make Dialog button more attractive

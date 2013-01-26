@@ -22,10 +22,17 @@ public class SettingPreferences extends MITBAYActivity {
 	private boolean isValidLogIn = false;
 	private boolean isChangingPassword = false;
 	private boolean isChangingLocation = false;
+	private String username;
+	private String email;
+	private String location;
+	private SharedPreferences settings;
+	private SharedPreferences.Editor prefEditor;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting_preferences);
+		settings = getSharedPreferences(SETTING, 0);
+		prefEditor = settings.edit();
 		setView();
 	}
 
@@ -55,11 +62,11 @@ public class SettingPreferences extends MITBAYActivity {
 	 */
 	public void confirmEditLocation(View view) {
 		isChangingLocation = ! isChangingLocation;
-		String new_location = ((EditText) findViewById(R.id.EditLocation)).getText().toString();
-		((TextView) findViewById(R.id.Location)).setText(new_location);
+		String new_location = ((EditText) findViewById(R.id.setting_preferences_EditLocation)).getText().toString();
+		((TextView) findViewById(R.id.setting_preferences_Location)).setText(new_location);
 		// Save in SharedPreferences
-		SharedPreferences settings = getSharedPreferences(SETTING, 0);
-		SharedPreferences.Editor prefEditor = settings.edit();
+		settings = getSharedPreferences(SETTING, 0);
+		prefEditor = settings.edit();
 		prefEditor.putString(LOCATION, new_location);
 		prefEditor.commit();
 		setView();
@@ -88,12 +95,12 @@ public class SettingPreferences extends MITBAYActivity {
 	 * @param view
 	 */
 	public void confirmChangePassword(View view) {
-		String currentPassword = ((EditText) findViewById(R.id.CurrentPassword)).getText().toString();
-		String newPassword = ((EditText) findViewById(R.id.NewPassword)).getText().toString();
-		String newConfirmPassword = ((EditText) findViewById(R.id.NewConfirmPassword)).getText().toString();
+		String currentPassword = ((EditText) findViewById(R.id.setting_preferences_CurrentPassword)).getText().toString();
+		String newPassword = ((EditText) findViewById(R.id.setting_preferences_NewPassword)).getText().toString();
+		String newConfirmPassword = ((EditText) findViewById(R.id.setting_preferences_NewConfirmPassword)).getText().toString();
 		// Get preferences, email
-		SharedPreferences settings = getSharedPreferences("settings", 0);
-		SharedPreferences.Editor prefEditor = settings.edit();
+		settings = getSharedPreferences("settings", 0);
+		prefEditor = settings.edit();
 		String email = settings.getString(EMAIL, "");
 		// Check Password criteria
 		if (!isValidPassword(newPassword)) {
@@ -160,19 +167,33 @@ public class SettingPreferences extends MITBAYActivity {
 	 */
 	public void setView() {
 		// Set Frame for change password area
-		LinearLayout framePassword = (LinearLayout) findViewById(R.id.FramePassword);
-		LinearLayout frameLocation = (LinearLayout) findViewById(R.id.FrameEditLocation);
+		LinearLayout framePassword = (LinearLayout) findViewById(R.id.setting_preferences_FramePassword);
+		LinearLayout frameLocation = (LinearLayout) findViewById(R.id.setting_preferences_FrameEditLocation);
 		if (isChangingPassword) {
 			framePassword.setVisibility(LinearLayout.VISIBLE);
 		} else framePassword.setVisibility(LinearLayout.INVISIBLE);
 		if (isChangingLocation) {
 			frameLocation.setVisibility(LinearLayout.VISIBLE);
 			frameLocation.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-			((EditText) findViewById(R.id.EditLocation)).setHint("Edit your location here");
+			((EditText) findViewById(R.id.setting_preferences_EditLocation)).setHint("Edit your location here");
 		} else {
 			frameLocation.setVisibility(LinearLayout.INVISIBLE);
 			frameLocation.setLayoutParams(new LayoutParams(0, 0));
 		}
+		// Loading preferences data
+		username = settings.getString(USERNAME, "Anonymous");
+		email = settings.getString(EMAIL, "");
+		location = settings.getString(LOCATION, "(Add your location?)");
+		// Set text
+		((TextView)findViewById(R.id.setting_preferences_UserName)).setText(username);
+		((TextView)findViewById(R.id.setting_preferences_Email)).setText(email);
+		((TextView)findViewById(R.id.setting_preferences_Location)).setText(location);
 	}
 	
 }
+
+
+/* Need work
+ * 	animation
+ *  change password
+ */ 

@@ -28,6 +28,8 @@ public class ItemDetail extends MITBAYActivity {
 
 	private String item, date, type, condition, price, description, username, email, address, id;
 	private Bitmap image;
+	private ImageView picView;
+	private TextView status; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,28 +90,25 @@ public class ItemDetail extends MITBAYActivity {
 	 * Up date status
 	 */
 	public void loadPicture(Bundle bundle) {
-		ImageView picView = (ImageView) findViewById(R.id.ItemDetail_Piture);
-		TextView status = (TextView) findViewById(R.id.ItemDetail_status);
+		image = null;
+		id = bundle.getString(ID, "");
+		Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
+		picView = (ImageView) findViewById(R.id.ItemDetail_Piture);
+		status = (TextView) findViewById(R.id.ItemDetail_status);
 		// Parse object
-		ParseQuery small_query = new ParseQuery("Sellable");
-		small_query.getInBackground(id, new GetCallback() {
+		ParseQuery query = new ParseQuery("Sellable");
+		query.getInBackground(id, new GetCallback() {
 			@Override
 			public void done(ParseObject arg0, ParseException arg1) {
-				image = (Bitmap) arg0.get("pic");
+				if (arg1 == null) image = (Bitmap) arg0.get("pic");
+				else image = null;
+				picView.setImageBitmap(image);
+				// Set status
+				if (image == null) status.setText("No picture available");
+				else status.setText("");
 			}
 		});
 		picView.setImageBitmap(image);
-		// Load small image
-		ParseQuery big_query = new ParseQuery("Sellable");
-		big_query.getInBackground(id, new GetCallback() {
-			@Override
-			public void done(ParseObject arg0, ParseException arg1) {
-				image = (Bitmap) arg0.get("pic");
-			}
-		});
-		picView.setImageBitmap(image);
-		// Load big image
-		
 		if (image == null) status.setText("No picture available");
 		else status.setText("");
 	}
@@ -129,7 +128,6 @@ public class ItemDetail extends MITBAYActivity {
 		intent.putExtra(EMAIL, email);
 		intent.putExtra(TYPE, type);
 		intent.putExtra(ID, id);
-		intent.putExtra(IMAGE, image);
 	}
 	/**
 	 * Do action buy item, need to check log in
