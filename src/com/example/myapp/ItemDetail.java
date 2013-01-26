@@ -7,6 +7,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +21,9 @@ import android.widget.Toast;
 
 import com.login.LogInPage;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -28,12 +31,17 @@ public class ItemDetail extends MITBAYActivity {
 
 	private String item, date, type, condition, price, description, username, email, address, id;
 	private Bitmap image;
+	private ImageView picView;
+	private TextView status; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item_detail);
 		// make start animation
 		makeStartAnimation();
+		// Loading information
+		picView = (ImageView) findViewById(R.id.ItemDetail_Piture);
+		status = (TextView) findViewById(R.id.ItemDetail_status);
 		Bundle bundle = getIntent().getExtras();
 		loadTextInformation(bundle);
 		loadPicture(bundle);
@@ -88,28 +96,60 @@ public class ItemDetail extends MITBAYActivity {
 	 * Up date status
 	 */
 	public void loadPicture(Bundle bundle) {
-		ImageView picView = (ImageView) findViewById(R.id.ItemDetail_Piture);
-		TextView status = (TextView) findViewById(R.id.ItemDetail_status);
-		// Parse object
-		ParseQuery small_query = new ParseQuery("Sellable");
-		small_query.getInBackground(id, new GetCallback() {
+		image = null;
+		id = bundle.getString(ID, "");
+		Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
+		// Parse object load small image
+		ParseQuery query = new ParseQuery("Sellable");
+		query.getInBackground(id, new GetCallback() {
 			@Override
 			public void done(ParseObject arg0, ParseException arg1) {
-				image = (Bitmap) arg0.get("pic");
+				if (arg1 == null){
+					ParseFile file = (ParseFile) arg0.get("pic");
+					file.getDataInBackground(new GetDataCallback(){
+						public void done(byte[] data, ParseException e){
+							if (e == null){
+								loadPictureFromByteArray(data);
+							} else loadPictureFromByteArray(null);	
+						}
+					});
+				}
+				ParseObject bigpicObj = (ParseObject) arg0.get("bigpic");
+				
+				bigpicObj.fetchIfNeededInBackground(new GetCallback() {
+					public void done(ParseObject obj, ParseException e){
+						Toast.makeText(getApplicationContext(), ""+obj.isDataAvailable(), Toast.LENGTH_SHORT).show();
+						ParseFile file = (ParseFile) obj.get("pic");
+						file.getDataInBackground(new GetDataCallback(){
+							public void done(byte[] data, ParseException e){
+								if (e == null){
+									loadPictureFromByteArray(data);
+								} else loadPictureFromByteArray(null);
+							}
+						});
+					}
+				
+				});
+//				ParseFile file = (ParseFile)bigpicObj.get("pic");
+//				file.getDataInBackground(new GetDataCallback(){
+//					public void done(byte[] data, ParseException e){
+//						if (e == null){
+//							loadPictureFromByteArray(data);
+//						} else loadPictureFromByteArray(null);
+//					}
+//				});
 			}
 		});
-		picView.setImageBitmap(image);
-		// Load small image
-		ParseQuery big_query = new ParseQuery("Sellable");
-		big_query.getInBackground(id, new GetCallback() {
-			@Override
-			public void done(ParseObject arg0, ParseException arg1) {
-				image = (Bitmap) arg0.get("pic");
-			}
-		});
-		picView.setImageBitmap(image);
 		// Load big image
 		
+	}
+	public void loadPictureFromByteArray(byte [] data) {
+		if (data == null) {
+			image = null;
+			return; }
+		Toast.makeText(getApplicationContext(), ""+data.length, Toast.LENGTH_SHORT).show();
+		image = BitmapFactory.decodeByteArray(data, 0, data.length);
+		picView.setImageBitmap(image);
 		if (image == null) status.setText("No picture available");
 		else status.setText("");
 	}
@@ -129,7 +169,6 @@ public class ItemDetail extends MITBAYActivity {
 		intent.putExtra(EMAIL, email);
 		intent.putExtra(TYPE, type);
 		intent.putExtra(ID, id);
-		intent.putExtra(IMAGE, image);
 	}
 	/**
 	 * Do action buy item, need to check log in

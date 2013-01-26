@@ -191,6 +191,21 @@ public class SellOneItem extends MITBAYActivity {
 		picView.setImageBitmap(IMAGE);
 		
 	}
+	
+	public boolean isValidItemName(String item_name) {
+		if (item_name.isEmpty()) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Blank item name");
+			builder.setMessage("The item name shouldn't be blank");
+			builder.setPositiveButton("Ok", new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				} // do nothing
+			});
+			builder.create().show();
+			return false;
+		} else return true;
+	}
 	/**
 	 * Check if a string is a valid number
 	 * @param priceString
@@ -201,7 +216,8 @@ public class SellOneItem extends MITBAYActivity {
 			Double.parseDouble(priceString);
 		} catch (NumberFormatException nfe) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("The price \""+priceString+"\" you suggest is not valid");
+			builder.setTitle("Invalid price");
+			builder.setMessage("The price \""+priceString+"\" you suggest is not valid");
 			builder.setPositiveButton("Ok", new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -228,8 +244,10 @@ public class SellOneItem extends MITBAYActivity {
 	 * start next activity (confirm)
 	 */
 	public void doneSellTheItem(View view) {
-		Toast.makeText(view.getContext(), "will be continued", Toast.LENGTH_SHORT).show();
+		Toast.makeText(view.getContext(), "Great! Let's confirm to sell the item", Toast.LENGTH_SHORT).show();
 		String priceString = ((EditText) findViewById(R.id.sell_one_item_Price)).getText().toString();
+		String item = ((EditText)findViewById(R.id.sell_one_item_Item)).getText().toString();
+		if (!isValidItemName(item)) return;
 		if (!isValidPrice(priceString)) return;
 		// Create intent for the next activity
 		Intent intent = new Intent(view.getContext(), ConfirmSellItem.class);
@@ -309,8 +327,6 @@ public class SellOneItem extends MITBAYActivity {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(imgPath, options);
 		options.inSampleSize = Math.min(options.outHeight/required_height, options.outWidth/required_width);
-		Log.d("out height, width, inSampleSize", options.outHeight+", "+options.outWidth+", "+options.inSampleSize);
-		Toast.makeText(getApplicationContext(), "inSampleSize = "+options.inSampleSize, Toast.LENGTH_SHORT).show();
 		// Decode the image
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFile(imgPath, options);
@@ -339,16 +355,11 @@ public class SellOneItem extends MITBAYActivity {
 	 */
 	private void makeStartAnimation() {
 		ViewGroup frame = (ViewGroup) findViewById(R.id.sell_one_item_Frame);
-		Animation right_to_mid = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_translate_right_to_mid);
-		Animation left_to_mid = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_translate_left_to_mid);
-		for (int i=0; i<frame.getChildCount()/2; i++) {
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_to_left_log_in_page);
+		for (int i=0; i<frame.getChildCount(); i++) {
 			View child = frame.getChildAt(i);
-			child.setAnimation(right_to_mid); }
-		for (int i=frame.getChildCount()/2; i<frame.getChildCount(); i++) {
-			View child = frame.getChildAt(i);
-			child.setAnimation(left_to_mid); }
-		right_to_mid.start();
-		left_to_mid.start();
+			child.setAnimation(animation); }
+		animation.start();
 	}
 
 }
