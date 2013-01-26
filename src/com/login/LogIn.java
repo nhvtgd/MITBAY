@@ -79,6 +79,8 @@ public class LogIn extends MITBAYActivity {
 			}
 		});
 	}
+	
+
 
 	public boolean isValidLogIn(String user_name, String pass) {
 		ParseUser user = new ParseUser();

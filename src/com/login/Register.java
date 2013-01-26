@@ -16,9 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapp.MITBAYActivity;
+import com.example.myapp.ParseDatabase;
 import com.example.myapp.R;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -115,6 +117,8 @@ public class Register extends MITBAYActivity {
 				}
 			}
 		});
+		ParseObject account = ParseDatabase.createUserObject(name, user_email);
+		account.saveInBackground();
 		return registered;
 	}
 

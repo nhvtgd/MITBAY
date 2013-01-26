@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 
@@ -594,11 +596,24 @@ public class ParseDatabase {
 		String seller = (String) obj.get("seller");
 		String id = (String) obj.getObjectId();
 		User user = new User(seller, seller);
-		String id = obj.getObjectId();
 		Sellable sell = new Sellable(user, name, price, type, description,
 				condition, null);
 		sell.setId(id);
 		return sell;
+	}
+	
+	public static ParseObject createUserObject(String username, String email){
+		ParseObject user = new ParseObject("User");
+		user.put("USERNAME", username);
+		user.put("EMAIL", email);
+		user.put("LOCATION", "Location not set");
+		JSONArray request = new JSONArray();
+		JSONArray selling = new JSONArray();
+		JSONArray buying = new JSONArray();
+		user.put("requesteditems", request);
+		user.put("buyingitems", buying);
+		user.put("sellingitems", selling);
+		return user;
 	}
 
 	/**
