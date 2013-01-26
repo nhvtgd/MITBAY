@@ -18,7 +18,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -51,6 +54,9 @@ public class SellOneItem extends MITBAYActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sell_one_item);
+		// Make start animation
+		makeStartAnimation();
+		// Loading
 		setSpinner(R.id.sell_one_item_Quality, R.array.QualityItem);
 		setSpinner(R.id.sell_one_item_Category, R.array.CategoryItem);
 		Log.d("Load setting data", "start");
@@ -326,6 +332,23 @@ public class SellOneItem extends MITBAYActivity {
 			picCursor.moveToFirst();
 			return picCursor.getString(index);
 		} else return uri.getPath();
+	}
+	
+	/** 
+	 * Make a start animation slide both left and right
+	 */
+	private void makeStartAnimation() {
+		ViewGroup frame = (ViewGroup) findViewById(R.id.sell_one_item_Frame);
+		Animation right_to_mid = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_translate_right_to_mid);
+		Animation left_to_mid = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_translate_left_to_mid);
+		for (int i=0; i<frame.getChildCount()/2; i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(right_to_mid); }
+		for (int i=frame.getChildCount()/2; i<frame.getChildCount(); i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(left_to_mid); }
+		right_to_mid.start();
+		left_to_mid.start();
 	}
 
 }

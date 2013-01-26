@@ -15,6 +15,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +40,9 @@ public class ConfirmSellItem extends SellOneItem {
 		setContentView(R.layout.activity_confirm_sell_item);
 		activity = this; 
 		confirm_button = (Button) findViewById(R.id.Confirm);
+		// Make animation
+		makeStartAnimation();
+		// loading data
 		Bundle bundle = getIntent().getExtras();
 		// Load information
 		item = bundle.getString(ITEM).toString();
@@ -181,6 +187,23 @@ public class ConfirmSellItem extends SellOneItem {
 		} else if (type.equals(R.string.transportation_string)) {
 			return BitmapFactory.decodeResource(getResources(), R.drawable.bike);
 		} else return BitmapFactory.decodeResource(getResources(), R.drawable.miscellaneous);
+	}
+	
+	/** 
+	 * Make a start animation slide both left and right
+	 */
+	private void makeStartAnimation() {
+		ViewGroup frame = (ViewGroup) findViewById(R.id.confirm_sell_item_Frame);
+		Animation right_to_mid = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_translate_right_to_mid);
+		Animation left_to_mid = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_translate_left_to_mid);
+		for (int i=0; i<frame.getChildCount()/2; i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(left_to_mid); }
+		for (int i=frame.getChildCount()/2; i<frame.getChildCount(); i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(right_to_mid); }
+		right_to_mid.start();
+		left_to_mid.start();
 	}
 	
 }

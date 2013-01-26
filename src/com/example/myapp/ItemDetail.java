@@ -1,38 +1,39 @@
 package com.example.myapp;
 
 
-import java.io.ByteArrayOutputStream;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.ParseException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.login.LogInPage;
-import com.parse.ParseFile;
-import com.parse.ProgressCallback;
-import com.parse.SaveCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 public class ItemDetail extends MITBAYActivity {
 
-	private String item, date, type, condition, price, description, username, email, address;
-	private int id;
+	private String item, date, type, condition, price, description, username, email, address, id;
 	private Bitmap image;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item_detail);
+		// make start animation
+		makeStartAnimation();
 		Bundle bundle = getIntent().getExtras();
 		loadTextInformation(bundle);
 		loadPicture(bundle);
@@ -59,7 +60,7 @@ public class ItemDetail extends MITBAYActivity {
 		username = bundle.getString(USERNAME, "Anonymous").toString();
 		email = bundle.getString(EMAIL, "").toString();
 		type = bundle.getString(TYPE, "Misc").toString();
-		id = bundle.getInt(ID, -1);
+		id = bundle.getString(ID, "");
 		// Set item name
 		((TextView) findViewById(R.id.ItemDetail_ItemName))
 		.setText(String.format("%s %n%s",item, date));
@@ -89,11 +90,26 @@ public class ItemDetail extends MITBAYActivity {
 	public void loadPicture(Bundle bundle) {
 		ImageView picView = (ImageView) findViewById(R.id.ItemDetail_Piture);
 		TextView status = (TextView) findViewById(R.id.ItemDetail_status);
+		// Parse object
+		ParseQuery small_query = new ParseQuery("Sellable");
+		small_query.getInBackground(id, new GetCallback() {
+			@Override
+			public void done(ParseObject arg0, ParseException arg1) {
+				image = (Bitmap) arg0.get("pic");
+			}
+		});
+		picView.setImageBitmap(image);
 		// Load small image
-		image = getIntent().getParcelableExtra(IMAGE);
-		Log.d("Image", (image==null) +", ");
+		ParseQuery big_query = new ParseQuery("Sellable");
+		big_query.getInBackground(id, new GetCallback() {
+			@Override
+			public void done(ParseObject arg0, ParseException arg1) {
+				image = (Bitmap) arg0.get("pic");
+			}
+		});
 		picView.setImageBitmap(image);
 		// Load big image
+		
 		if (image == null) status.setText("No picture available");
 		else status.setText("");
 	}
@@ -129,7 +145,8 @@ public class ItemDetail extends MITBAYActivity {
 			// Not yet, go back to Log in page
 			// Build a dialog
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Do you want to log in right now?");
+			builder.setTitle("Dear user");
+			builder.setMessage("Do you want to log in right now?");
 			builder.setPositiveButton("Ok", new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -155,13 +172,25 @@ public class ItemDetail extends MITBAYActivity {
 		SharedPreferences settings = getSharedPreferences(SETTING, 0);
 		return settings.getBoolean(IS_ALREADY_LOG_IN, false);
 	}
+	
+	/**
+	 * Make start animation slide from right to left
+	 */
+	private void makeStartAnimation() {
+		ViewGroup frame = (ViewGroup) findViewById(R.id.ItemDetail_Frame);
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_item_detail);
+		for (int i=0; i<frame.getChildCount(); i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(animation);
+		}
+		animation.start();
+	}
 }
 	
 	
 	
 	
 /* Need more work
-	Theme
 	first load small picture, later load big picture
 */
 	
