@@ -226,6 +226,7 @@ public class ParseDatabase {
 	public ParseQuery getEnabled() {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("enabled", true);
+		query.orderByDescending("createdAt");
 		return query;
 	}
 
@@ -595,7 +596,8 @@ public class ParseDatabase {
 		String condition = (String) obj.get("condition");
 		String seller = (String) obj.get("seller");
 		String id = (String) obj.getObjectId();
-		User user = new User(seller, seller);
+		String email = (String) obj.get("seller");
+		User user = new User(seller, email);
 		Sellable sell = new Sellable(user, name, price, type, description,
 				condition, null);
 		sell.setId(id);
@@ -603,14 +605,18 @@ public class ParseDatabase {
 	}
 	
 	public static ParseObject createUserObject(String username, String email){
-		ParseObject user = new ParseObject("User");
+		ParseObject user = new ParseObject("UserObject");
 		user.put("USERNAME", username);
 		user.put("EMAIL", email);
 		user.put("LOCATION", "Location not set");
 		JSONArray request = new JSONArray();
 		JSONArray selling = new JSONArray();
 		JSONArray buying = new JSONArray();
+		request.put("clicker");
+		request.put("textbook");
+		request.put("cookie");
 		user.put("requesteditems", request);
+
 		user.put("buyingitems", buying);
 		user.put("sellingitems", selling);
 		return user;
