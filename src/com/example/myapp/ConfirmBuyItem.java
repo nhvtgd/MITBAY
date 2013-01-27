@@ -2,9 +2,9 @@ package com.example.myapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,13 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.GetCallback;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
 public class ConfirmBuyItem extends MITBAYActivity {
-
-	private String item, date, condition, price, description, username, email, type, id;
+	
+	private String item, date, condition, price, description, username, email, type;
+	private int id;
 	private Bitmap image;
 	SharedPreferences settings;
 	@Override
@@ -40,14 +37,16 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		loadTextInformation(bundle);
 		loadPicture(bundle);
 	}
-
+	
 	public void loadPicture(Bundle bundle) {
 		ImageView picView = (ImageView) findViewById(R.id.cbi_ItemPicture);
 		image = getIntent().getParcelableExtra(IMAGE);
+//		String imgPath = bundle.getString("imgPath").toString();
+//		Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
 		if (image == null) picView.setImageDrawable(getResources().getDrawable(R.drawable.ic_green_cart));
 		else picView.setImageBitmap(image);
 	}
-
+	
 	/**
 	 * Load Item information from extras of the last activity
 	 * @param bundle
@@ -62,7 +61,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		username = bundle.getString(USERNAME, "Anonymous").toString();
 		email = bundle.getString(EMAIL, "").toString();
 		type = bundle.getString(TYPE, MISC).toString();
-		id = bundle.getString(ID, null);
+		id = bundle.getInt(ID, -1);
 		// Set item name
 		((TextView) findViewById(R.id.cbi_ItemName))
 		.setText(String.format("%s %n%s",item, date));
@@ -80,8 +79,8 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		String seller_information = String.format("%s %n%s", username, email);
 		((TextView) findViewById(R.id.cbi_Seller)).setText(seller_information);
 	}
-
-
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -98,32 +97,20 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		// disable button
 		((Button) findViewById(R.id.cbi_ConfirmBuy)).setEnabled(false);
 		// Send to server
-		ParseQuery query = new ParseQuery("Sellable");
-		query.getInBackground(id, new GetCallback() {
-			@Override
-			public void done(ParseObject obj, com.parse.ParseException e) {
-				if (e == null) {
-					// Put buyer and enabled status for the item
-					obj.put(BUYER, username);
-					obj.put(ENABLED, false);
-					obj.saveEventually();
-					// Visible progress
-					((LinearLayout) findViewById(R.id.cbi_Progress)).setVisibility(LinearLayout.VISIBLE);
-					// Remind sending email
-					new CountDownTimer(1000, 1000) {
-						public void onTick(long millisUntilFinished) {
-							Toast.makeText(getApplicationContext(), "Sending to server", Toast.LENGTH_SHORT).show();
-						}
+		
+		// Visible progress
+		((LinearLayout) findViewById(R.id.cbi_Progress)).setVisibility(LinearLayout.VISIBLE);
+		// Remind sending email
+		new CountDownTimer(1000, 1000) {
+		     public void onTick(long millisUntilFinished) {
+		         Toast.makeText(getApplicationContext(), "Sending to server", Toast.LENGTH_SHORT).show();
+		     }
 
-						public void onFinish() {
-							sendEmail();
-						}
-					}.start();
-				} else {
-					Toast.makeText(getApplicationContext(), "Unfortunately, the item was not found!", Toast.LENGTH_LONG).show();
-				}
-			}
-		});
+		     public void onFinish() {
+		    	 sendEmail();
+		     }
+		  }.start();
+		 
 	}
 	/**
 	 * Send Email to the seller
@@ -134,7 +121,6 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		emailIntent.setType("text/plain");
 		// Put extra seller email
 		String aEmailList[] = { email }; 
-		Log.d("my email", "email");
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, aEmailList);
 		// Put extra subject
 		String subject = "[Buying "+ item +" from you via MITBAY]";
@@ -143,7 +129,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		String content = String.format("%s %n%s",
 				"Hi "+settings.getString(NAME,  "") +",",
 				"Thank you for selling this item. I want to buy "
-						+ item +" from you");
+				+ item +" from you");
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, content);
 		// Start activity
 		startActivity(emailIntent);
@@ -168,9 +154,9 @@ public class ConfirmBuyItem extends MITBAYActivity {
 			public void onClick(DialogInterface dialog, int which) { } // do nothing
 		});
 		builder.create().show();
-
+		
 	}
-
+	
 	private void makeStartAnimation() {
 		ViewGroup frame = (ViewGroup) findViewById(R.id.confirm_buy_item_Frame);
 		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_item_detail);
@@ -183,6 +169,6 @@ public class ConfirmBuyItem extends MITBAYActivity {
 }
 
 
-// Go to buying screen 
-// Get email seller
-
+//Need to confirm cancel to buy this item from server
+// Make Theme
+// Make Dialog button more attractive

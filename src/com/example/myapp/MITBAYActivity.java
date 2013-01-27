@@ -36,8 +36,6 @@ public class MITBAYActivity extends Activity {
 	public static final String ID="id";
 	public static final String IMAGE="pic";
 	public static final String LOCATION = "location";
-	public static final String BUYER = "buyer";
-	public static final String ENABLED = "enabled";
 	// SharedPreferences settings = getSharePreferences(SETTING, 0);
 	public static final String SETTING = "setting";
 	public static final String NAME = "User name";
