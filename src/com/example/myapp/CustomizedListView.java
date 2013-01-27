@@ -10,7 +10,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,16 +28,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.myapp.helper.AlertDialogManager;
+import com.example.myapp.helper.ConnectionDetector;
 import com.example.myapp.helper.ListViewAdapter;
 import com.example.myapp.helper.SortingFunction;
 import com.login.LogInPage;
-import com.parse.GetCallback;
-import com.parse.GetDataCallback;
+import com.parse.CountCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -104,6 +101,12 @@ public class CustomizedListView extends MITBAYActivity implements
 
 	public CharSequence DOWNLOAD_MESSAGE = "Downloading data...";
 
+	ConnectionDetector connection = new ConnectionDetector(this);
+	
+	private final String NETWORK_ERROR_TITLE = "NO CONNECTION";
+	
+	private final String NETWORK_ERROR_MESSAGE = "Please check your connection and try again";
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,7 +115,7 @@ public class CustomizedListView extends MITBAYActivity implements
 		// set navigating icon
 		ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
-		
+
 		Log.d("set up", "Content View created");
 		Boolean SelectOrSearch = getIntent().getExtras().containsKey(
 				INTENT_QUERY);
@@ -122,8 +125,13 @@ public class CustomizedListView extends MITBAYActivity implements
 			Log.d("Search", "get Search term");
 			queryResult = getIntent().getStringExtra(INTENT_SEARCH);
 		}
-		data = new GetData();
-		data.execute(queryResult);
+		if (connection.isConnectingToInternet()) {
+			data = new GetData();
+			data.execute(queryResult);
+		}
+		else{
+			new AlertDialogManager().showAlertDialog(this, NETWORK_ERROR_TITLE, NETWORK_ERROR_MESSAGE, false);
+		}
 		Log.d("No way", "Shouldn't get here right away");
 
 		settings = getSharedPreferences(SETTING, 0);
@@ -133,10 +141,21 @@ public class CustomizedListView extends MITBAYActivity implements
 
 			@Override
 			public void onClick(View v) {
-				data = new GetData();
-				data.execute(queryResult);
+				ParseDatabase newDataBase = new ParseDatabase(act);
+				ParseQuery parseQuery = new ParseQuery(queryResult);
+				
+				parseQuery.countInBackground(new CountCallback() {
 
+					@Override
+					public void done(int arg0, ParseException arg1) {
+						if (arg1 == null)
+							doRefresh(arg0);
+
+					}
+					
+				});
 			}
+
 		});
 
 		ImageButton sort = (ImageButton) findViewById(R.id.sort_by_button);
@@ -172,29 +191,21 @@ public class CustomizedListView extends MITBAYActivity implements
 
 			}
 		});
-		/*
-		 * if (itemList != null && itemList.size() > 0) { for (final Sellable i
-		 * : itemList) { ParseQuery query = new ParseQuery("Sellable");
-		 * query.getInBackground(i.getId(), new GetCallback() {
-		 * 
-		 * @Override public void done(ParseObject arg0, ParseException arg1) {
-		 * if (arg1 == null) { ParseFile file = (ParseFile) arg0.get("pic");
-		 * file.getDataInBackground(new GetDataCallback() { public void
-		 * done(byte[] data, ParseException e) { if (e == null) {
-		 * loadByteImageToArray(i,data); } else { } } });
-		 * 
-		 * } } }); }
-		 * 
-		 * }
-		 */
+
+
 
 	}
+	
+	private void doRefresh(int arg0) {
+		if (arg0 != itemList.size()){
+			Log.d("result", arg0 + " " + itemList.size());
+			GetData data = new GetData();
+			data.execute(queryResult);
+		}
+		
+	}
 
-	// private void loadByteImageToArray(Sellable i,byte[] data){
-	// if (data != null || data.length >0){
-	//
-	// }
-	// }
+
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -241,7 +252,7 @@ public class CustomizedListView extends MITBAYActivity implements
 		inflater.inflate(R.menu.activity_customized_list_view, menu);
 		return true;
 	};
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -460,16 +471,16 @@ public class CustomizedListView extends MITBAYActivity implements
 
 			ArrayList<Sellable> sell = null;
 			try {
-				if (query.equals("all")) {
+				if (query.equals(ItemSelection.ALL)) {
 					sell = newDataBase
-							.returnListInOrderByDescending("createdAt");
-				} else if (query.equals("text")) {
+							.getListEnabled();
+				} else if (query.equals(ItemSelection.TEXTBOOK)) {
 					sell = newDataBase.getListType(TEXTBOOK);
-				} else if (query.equals("fur")) {
+				} else if (query.equals(ItemSelection.FURNITURE)) {
 					sell = newDataBase.getListType(FURNITURE);
-				} else if (query.equals("trans")) {
+				} else if (query.equals(ItemSelection.TRANSPORTATION)) {
 					sell = newDataBase.getListType(TRANSPORTATION);
-				} else if (query.equals("misc")) {
+				} else if (query.equals(ItemSelection.MISC)) {
 					sell = newDataBase.getListType(MISC);
 				} else {
 					sell = newDataBase.getListSellableWithName(queryResult);

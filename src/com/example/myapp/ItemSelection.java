@@ -18,12 +18,12 @@ import com.example.myapp.helper.ItemsAutoCompleteAdapter;
 
 public class ItemSelection extends Activity implements OnClickListener {
 
-	private static final String TEXTBOOK = "text";
-	private static final String FURNITURE = "fur";
-	private static final String TRANSPORTATION = "trans";
-	private static final String MISC = "misc";
-	private static final String ALL= "all";
-	private AutoCompleteTextView searchQuery;
+	public static final String TEXTBOOK = "text";
+	public static final String FURNITURE = "fur";
+	public static final String TRANSPORTATION = "trans";
+	public static final String MISC = "misc";
+	public static final String ALL= "all";
+	public AutoCompleteTextView searchQuery;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
