@@ -20,10 +20,10 @@ import com.parse.ParseUser;
  */
 public class MITBAYActivity extends Activity {
 
-	public static final String TEXTBOOK = "TEXTBOOK";
-	public static final String FURNITURE= "FURNITURE";
-	public static final String TRANSPORTATION = "TRANSPORTATION";
-	public static final String MISC= "MISC";
+	public static final String TEXTBOOK = "Text Book";
+	public static final String FURNITURE= "Furniture";
+	public static final String TRANSPORTATION = "Transportation";
+	public static final String MISC= "Misc";
 	public static final String USERNAME="username";
 	public static final String EMAIL="email";
 	public static final String DATE="date";
