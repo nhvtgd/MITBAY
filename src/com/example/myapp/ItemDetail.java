@@ -82,7 +82,7 @@ public class ItemDetail extends MITBAYActivity {
 		// Get seller information
 		String user_information = String.format("%s %n %s", username, email);
 		((TextView) findViewById(R.id.ItemDetail_Seller)).
-								setText(user_information);
+		setText(user_information);
 		// Load category picture
 		ImageView pic = (ImageView) findViewById(R.id.ItemDetail_ImageForItem);
 		if (type.equals(TEXTBOOK)) pic.setImageResource(R.drawable.textbook);
@@ -90,7 +90,7 @@ public class ItemDetail extends MITBAYActivity {
 		else if (type.equals(TRANSPORTATION)) pic.setImageResource(R.drawable.bike);
 		else pic.setImageResource(R.drawable.miscellaneous);
 	}
-	
+
 	/**
 	 * Load picture from extras of the last activity
 	 * Up date status
@@ -98,7 +98,6 @@ public class ItemDetail extends MITBAYActivity {
 	public void loadPicture(Bundle bundle) {
 		image = null;
 		id = bundle.getString(ID, "");
-		Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
 		// Parse object load small image
 		ParseQuery query = new ParseQuery("Sellable");
 		query.getInBackground(id, new GetCallback() {
@@ -113,35 +112,27 @@ public class ItemDetail extends MITBAYActivity {
 							} else loadPictureFromByteArray(null);	
 						}
 					});
-				}
-				ParseObject bigpicObj = (ParseObject) arg0.get("bigpic");
-				
-				bigpicObj.fetchIfNeededInBackground(new GetCallback() {
-					public void done(ParseObject obj, ParseException e){
-						Toast.makeText(getApplicationContext(), ""+obj.isDataAvailable(), Toast.LENGTH_SHORT).show();
-						ParseFile file = (ParseFile) obj.get("pic");
-						file.getDataInBackground(new GetDataCallback(){
-							public void done(byte[] data, ParseException e){
-								if (e == null){
-									loadPictureFromByteArray(data);
-								} else loadPictureFromByteArray(null);
-							}
-						});
-					}
-				
-				});
-//				ParseFile file = (ParseFile)bigpicObj.get("pic");
-//				file.getDataInBackground(new GetDataCallback(){
-//					public void done(byte[] data, ParseException e){
-//						if (e == null){
-//							loadPictureFromByteArray(data);
-//						} else loadPictureFromByteArray(null);
-//					}
-//				});
+					// load big bitmap
+					Log.d("loading", "bigpic");
+					ParseObject bigpicObj = (ParseObject) arg0.get("bigpic");
+					bigpicObj.fetchIfNeededInBackground(new GetCallback() {
+						public void done(ParseObject obj, ParseException e){
+							ParseFile file = (ParseFile) obj.get("pic");
+							file.getDataInBackground(new GetDataCallback(){
+								public void done(byte[] data, ParseException e){
+									if (e == null){
+										loadPictureFromByteArray(data);
+									} else loadPictureFromByteArray(null);
+								}
+							});
+						}
+
+					});
+				} else loadPictureFromByteArray(null);
 			}
 		});
 		// Load big image
-		
+
 	}
 	public void loadPictureFromByteArray(byte [] data) {
 		if (data == null) {
@@ -153,7 +144,7 @@ public class ItemDetail extends MITBAYActivity {
 		if (image == null) status.setText("No picture available");
 		else status.setText("");
 	}
-	
+
 	/**
 	 * Put extra information for the next activity
 	 * @param intent
@@ -211,7 +202,7 @@ public class ItemDetail extends MITBAYActivity {
 		SharedPreferences settings = getSharedPreferences(SETTING, 0);
 		return settings.getBoolean(IS_ALREADY_LOG_IN, false);
 	}
-	
+
 	/**
 	 * Make start animation slide from right to left
 	 */
@@ -225,19 +216,19 @@ public class ItemDetail extends MITBAYActivity {
 		animation.start();
 	}
 }
-	
-	
-	
-	
+
+
+
+
 /* Need more work
 	first load small picture, later load big picture
-*/
-	
-	
-	
-	
-	
-	
+ */
+
+
+
+
+
+
 //	File file = new File(Environment.getExternalStorageDirectory(), "small_buy.png");
 //	Uri outputFileUri = Uri.fromFile(file);
 //	String imgPath = outputFileUri.getPath();

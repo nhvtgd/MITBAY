@@ -140,7 +140,7 @@ public class Sellable {
 
 		Calendar c = Calendar.getInstance();
 
-		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat df = new SimpleDateFormat("hh:ss, dd-MM-yyyy");
 		String formattedDate = df.format(c.getTime());
 		return formattedDate;
 

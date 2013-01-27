@@ -20,10 +20,10 @@ import com.parse.ParseUser;
  */
 public class MITBAYActivity extends Activity {
 
-	public static final String TEXTBOOK = "TEXTBOOK";
-	public static final String FURNITURE= "FURNITURE";
-	public static final String TRANSPORTATION = "TRANSPORTATION";
-	public static final String MISC= "MISC";
+	public static final String TEXTBOOK = "Text Book";
+	public static final String FURNITURE= "Furniture";
+	public static final String TRANSPORTATION = "Transportation";
+	public static final String MISC= "Miscellaneous";
 	public static final String USERNAME="username";
 	public static final String EMAIL="email";
 	public static final String DATE="date";
@@ -36,6 +36,8 @@ public class MITBAYActivity extends Activity {
 	public static final String ID="id";
 	public static final String IMAGE="pic";
 	public static final String LOCATION = "location";
+	public static final String BUYER = "buyer";
+	public static final String ENABLED = "enabled";
 	// SharedPreferences settings = getSharePreferences(SETTING, 0);
 	public static final String SETTING = "setting";
 	public static final String NAME = "User name";

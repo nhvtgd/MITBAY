@@ -1,5 +1,6 @@
 package com.example.myapp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -8,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,8 +32,13 @@ import android.widget.Toast;
 
 import com.example.myapp.helper.AlertDialogManager;
 import com.example.myapp.helper.ListViewAdapter;
+import com.example.myapp.helper.SortingFunction;
 import com.login.LogInPage;
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 /**
@@ -67,6 +74,8 @@ public class CustomizedListView extends MITBAYActivity implements
 	 */
 	ArrayList<Sellable> filterList = new ArrayList<Sellable>();
 
+	ArrayList<Sellable> sortedList = new ArrayList<Sellable>();
+
 	/**
 	 * This activity
 	 */
@@ -91,6 +100,8 @@ public class CustomizedListView extends MITBAYActivity implements
 	private final String INTENT_QUERY = "query";
 
 	private final String INTENT_SEARCH = "search";
+	
+	
 
 	public CharSequence DOWNLOAD_MESSAGE = "Downloading data...";
 
@@ -111,9 +122,9 @@ public class CustomizedListView extends MITBAYActivity implements
 		data = new GetData();
 		data.execute(queryResult);
 		Log.d("No way", "Shouldn't get here right away");
-		
+
 		settings = getSharedPreferences(SETTING, 0);
-		
+
 		Button refresh = (Button) findViewById(R.id.refresh_button_customized_listView);
 		refresh.setOnClickListener(new OnClickListener() {
 
@@ -132,39 +143,83 @@ public class CustomizedListView extends MITBAYActivity implements
 		search = (EditText) findViewById(R.id.search_bar_customized_listView);
 		search.addTextChangedListener(new TextChangeRecorder());
 		search.setSingleLine();
-		
+
 		// need to login to sell, see notification, or profile
 		Button sell = (Button) findViewById(R.id.sell_button_customized_listView);
-		sell.setOnClickListener(new CustomizedOnClickListener(act, SellOneItem.class));
+		sell.setOnClickListener(new CustomizedOnClickListener(act,
+				SellOneItem.class));
 		ImageButton notification = (ImageButton) findViewById(R.id.notification_by_button);
-		notification.setOnClickListener(new CustomizedOnClickListener(act,NotificationHistory.class));
+		notification.setOnClickListener(new CustomizedOnClickListener(act,
+				NotificationHistory.class));
 
 		ImageButton profile = (ImageButton) findViewById(R.id.profile_by_button);
-		
-		profile.setOnClickListener(new CustomizedOnClickListener(act,UserProfile.class));
+
+		profile.setOnClickListener(new CustomizedOnClickListener(act,
+				UserProfile.class));
 
 		// No need to login to see top requested item
 		ImageButton request = (ImageButton) findViewById(R.id.top_requested_by_button);
-		
+
 		request.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(act,RequestingItems.class);
+				Intent i = new Intent(act, TopRequested.class);
 				startActivity(i);
-				
+
 			}
 		});
-		
+		/*
+		 * if (itemList != null && itemList.size() > 0) { for (final Sellable i
+		 * : itemList) { ParseQuery query = new ParseQuery("Sellable");
+		 * query.getInBackground(i.getId(), new GetCallback() {
+		 * 
+		 * @Override public void done(ParseObject arg0, ParseException arg1) {
+		 * if (arg1 == null) { ParseFile file = (ParseFile) arg0.get("pic");
+		 * file.getDataInBackground(new GetDataCallback() { public void
+		 * done(byte[] data, ParseException e) { if (e == null) {
+		 * loadByteImageToArray(i,data); } else { } } });
+		 * 
+		 * } } }); }
+		 * 
+		 * }
+		 */
+
 	}
+
+	// private void loadByteImageToArray(Sellable i,byte[] data){
+	// if (data != null || data.length >0){
+	//
+	// }
+	// }
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
-		SortData sort = new SortData();
+		// SortData sort = new SortData();
+		//
+		// sort.execute(item.getTitle().toString().toLowerCase());
+		if (search.getText().toString().trim().length() > 0) {
+			sortedList = filterList;
 
-		sort.execute(item.getTitle().toString().toLowerCase());
+		} else {
+			sortedList = itemList;
+		}
+		if (!item.getTitle().toString().trim().toLowerCase()
+				.equalsIgnoreCase(MITBAYActivity.DATE)) {
+			SortingFunction.sort(item.getTitle().toString().trim()
+					.toLowerCase(), sortedList);
+			list = (ListView) findViewById(R.id.my_list);
+			adapter = new ListViewAdapter(act, sortedList);
+			list.setAdapter(adapter);
+			list.setOnItemClickListener(new ItemOnClickListener());
+			adapter.notifyDataSetChanged();
+			progressDialog.cancel();
+		} else {
+			SortData data = new SortData();
+			data.execute(MITBAYActivity.DATE);
+		}
 		return true;
 
 	}
@@ -388,7 +443,8 @@ public class CustomizedListView extends MITBAYActivity implements
 			ArrayList<Sellable> sell = null;
 			try {
 				if (query.equals("all")) {
-					sell = newDataBase.getListAllSellable();
+					sell = newDataBase
+							.returnListInOrderByDescending("createdAt");
 				} else if (query.equals("text")) {
 					sell = newDataBase.getListType(TEXTBOOK);
 				} else if (query.equals("fur")) {
@@ -399,7 +455,6 @@ public class CustomizedListView extends MITBAYActivity implements
 					sell = newDataBase.getListType(MISC);
 				} else {
 					sell = newDataBase.getListSellableWithName(queryResult);
-
 				}
 
 			} catch (ParseException e) {
@@ -415,9 +470,11 @@ public class CustomizedListView extends MITBAYActivity implements
 		protected void onPostExecute(ArrayList<Sellable> result) {
 			if (result.size() > 0) {
 				itemList = result;
+
 				Log.d("post", "at least it returns");
 				list = (ListView) findViewById(R.id.my_list);
 				adapter = new ListViewAdapter(act, result);
+				
 				// bind the adapter with the view
 				list.setAdapter(adapter);
 				list.setOnItemClickListener(new ItemOnClickListener());
@@ -434,6 +491,19 @@ public class CustomizedListView extends MITBAYActivity implements
 
 	}
 
+	private String getCreatedAtDate(Sellable item) throws ParseException {
+		ParseDatabase database = new ParseDatabase(this);
+		ParseQuery sellable = new ParseQuery("Sellable");
+		Log.d("create data base", "OK");
+		ParseObject obj = sellable.get(item.getId());
+		Log.d("create parse obj",obj.getClassName());
+		
+		SimpleDateFormat df = new SimpleDateFormat("hh:ss, dd/MM/yy");
+		
+		return obj.getCreatedAt().toLocaleString();
+
+	}
+
 	public class ItemOnClickListener implements OnItemClickListener {
 
 		@Override
@@ -444,8 +514,7 @@ public class CustomizedListView extends MITBAYActivity implements
 			intent.putExtra(MITBAYActivity.USERNAME, item.getSeller().getName());
 			Log.d("user", item.getSeller().getName());
 			intent.putExtra(EMAIL, item.getSeller().getEmail());
-			intent.putExtra(DATE, item.getDate());
-			Log.d("date", item.getDate());
+			intent.putExtra("date", item.getDate());
 			intent.putExtra("type", item.getType());
 			Log.d("type", item.getType());
 			intent.putExtra(DESCRIPTION, item.getDescription());
