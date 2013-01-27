@@ -160,8 +160,9 @@ public class ConfirmSellItem extends SellOneItem {
 				Log.d("Sending server", ""+System.currentTimeMillis());
 				ParseDatabase parse = new ParseDatabase(getApplicationContext());
 				Log.d("create Parse","Ok");
-				parse.sendSellableToServer(obj);
+				String id = parse.sendSellableToServer(obj);
 				end = System.currentTimeMillis();
+				obj.setId(id);
 				Log.d("Sent server", ""+System.currentTimeMillis());
 				Log.d("Running time", ""+(end - start)); 
 			}

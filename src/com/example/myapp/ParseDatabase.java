@@ -594,8 +594,10 @@ public class ParseDatabase {
 		String condition = (String) obj.get("condition");
 		String seller = (String) obj.get("seller");
 		User user = new User(seller, seller);
+		String id = obj.getObjectId();
 		Sellable sell = new Sellable(user, name, price, type, description,
 				condition, null);
+		sell.setId(id);
 		return sell;
 	}
 
