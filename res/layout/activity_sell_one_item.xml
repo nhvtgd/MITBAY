@@ -82,9 +82,7 @@
         <View style="@style/SeparationForSellOneItem" />
         <!-- Item -->
 
-        <LinearLayout style="@style/LinearLayoutForSellOneItem"
-            android:focusable="true"
-            android:focusableInTouchMode="true" >
+        <LinearLayout style="@style/LinearLayoutForSellOneItem">
 
             <TextView
                 style="@style/TextViewForSellOneItem"

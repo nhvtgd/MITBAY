@@ -190,7 +190,6 @@ public class ItemDetail extends MITBAYActivity {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Intent i = new Intent(getApplicationContext(), LogInPage.class);
-					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(i);
 				} 
 			});

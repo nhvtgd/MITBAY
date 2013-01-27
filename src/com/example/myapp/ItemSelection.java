@@ -3,16 +3,13 @@ package com.example.myapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
 import com.example.myapp.helper.ItemsAutoCompleteAdapter;
 
@@ -44,20 +41,10 @@ public class ItemSelection extends Activity implements OnClickListener {
 		misc.setOnClickListener(this);
 		ImageButton all = (ImageButton) findViewById(R.id.browse_all_selection);
 		all.setOnClickListener(this);
-		final ImageButton search = (ImageButton) findViewById(R.id.search_icon_32);
+		ImageButton search = (ImageButton) findViewById(R.id.search_icon_32);
 		search.setOnClickListener(this);
 		searchQuery = (AutoCompleteTextView) findViewById(R.id.auto_complete_item);
-		searchQuery.setOnEditorActionListener(new OnEditorActionListener() {
-			
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-		            search.performClick();
-		            return true;
-		        }
-		        return false;
-			}
-		});
+		
 		
 
 	}

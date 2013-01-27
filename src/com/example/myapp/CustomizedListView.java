@@ -1,6 +1,5 @@
 package com.example.myapp;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
@@ -32,11 +31,9 @@ import android.widget.ListView;
 import com.example.myapp.helper.AlertDialogManager;
 import com.example.myapp.helper.ConnectionDetector;
 import com.example.myapp.helper.ListViewAdapter;
-import com.example.myapp.helper.SortingFunction;
 import com.login.LogInPage;
 import com.parse.CountCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 /**
@@ -72,8 +69,6 @@ public class CustomizedListView extends MITBAYActivity implements
 	 */
 	ArrayList<Sellable> filterList = new ArrayList<Sellable>();
 
-	ArrayList<Sellable> sortedList = new ArrayList<Sellable>();
-
 	/**
 	 * This activity
 	 */
@@ -102,9 +97,9 @@ public class CustomizedListView extends MITBAYActivity implements
 	public CharSequence DOWNLOAD_MESSAGE = "Downloading data...";
 
 	ConnectionDetector connection = new ConnectionDetector(this);
-	
+
 	private final String NETWORK_ERROR_TITLE = "NO CONNECTION";
-	
+
 	private final String NETWORK_ERROR_MESSAGE = "Please check your connection and try again";
 
 	@Override
@@ -128,9 +123,9 @@ public class CustomizedListView extends MITBAYActivity implements
 		if (connection.isConnectingToInternet()) {
 			data = new GetData();
 			data.execute(queryResult);
-		}
-		else{
-			new AlertDialogManager().showAlertDialog(this, NETWORK_ERROR_TITLE, NETWORK_ERROR_MESSAGE, false);
+		} else {
+			new AlertDialogManager().showAlertDialog(this, NETWORK_ERROR_TITLE,
+					NETWORK_ERROR_MESSAGE, false);
 		}
 		Log.d("No way", "Shouldn't get here right away");
 
@@ -143,7 +138,7 @@ public class CustomizedListView extends MITBAYActivity implements
 			public void onClick(View v) {
 				ParseDatabase newDataBase = new ParseDatabase(act);
 				ParseQuery parseQuery = new ParseQuery(queryResult);
-				
+
 				parseQuery.countInBackground(new CountCallback() {
 
 					@Override
@@ -152,7 +147,7 @@ public class CustomizedListView extends MITBAYActivity implements
 							doRefresh(arg0);
 
 					}
-					
+
 				});
 			}
 
@@ -186,54 +181,30 @@ public class CustomizedListView extends MITBAYActivity implements
 
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(act, TopRequested.class);
+				Intent i = new Intent(act, RequestingItems.class);
 				startActivity(i);
 
 			}
 		});
 
-
-
 	}
-	
+
 	private void doRefresh(int arg0) {
-		if (arg0 != itemList.size()){
+		if (arg0 != itemList.size()) {
 			Log.d("result", arg0 + " " + itemList.size());
 			GetData data = new GetData();
 			data.execute(queryResult);
 		}
-		
+
 	}
-
-
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
-		// SortData sort = new SortData();
-		//
-		// sort.execute(item.getTitle().toString().toLowerCase());
-		if (search.getText().toString().trim().length() > 0) {
-			sortedList = filterList;
+		SortData sort = new SortData();
 
-		} else {
-			sortedList = itemList;
-		}
-		if (!item.getTitle().toString().trim().toLowerCase()
-				.equalsIgnoreCase(MITBAYActivity.DATE)) {
-			SortingFunction.sort(item.getTitle().toString().trim()
-					.toLowerCase(), sortedList);
-			list = (ListView) findViewById(R.id.my_list);
-			adapter = new ListViewAdapter(act, sortedList);
-			list.setAdapter(adapter);
-			list.setOnItemClickListener(new ItemOnClickListener());
-			adapter.notifyDataSetChanged();
-			progressDialog.cancel();
-		} else {
-			SortData data = new SortData();
-			data.execute(MITBAYActivity.DATE);
-		}
+		sort.execute(item.getTitle().toString().toLowerCase());
 		return true;
 
 	}
@@ -399,7 +370,7 @@ public class CustomizedListView extends MITBAYActivity implements
 
 			ArrayList<Sellable> sell = null;
 			try {
-				sell = newDataBase.returnListInOrderByDescending(query);
+				sell = newDataBase.returnListInOrderByAscending(query);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -472,8 +443,7 @@ public class CustomizedListView extends MITBAYActivity implements
 			ArrayList<Sellable> sell = null;
 			try {
 				if (query.equals(ItemSelection.ALL)) {
-					sell = newDataBase
-							.getListEnabled();
+					sell = newDataBase.getListEnabled();
 				} else if (query.equals(ItemSelection.TEXTBOOK)) {
 					sell = newDataBase.getListType(TEXTBOOK);
 				} else if (query.equals(ItemSelection.FURNITURE)) {
@@ -484,6 +454,7 @@ public class CustomizedListView extends MITBAYActivity implements
 					sell = newDataBase.getListType(MISC);
 				} else {
 					sell = newDataBase.getListSellableWithName(queryResult);
+
 				}
 
 			} catch (ParseException e) {
@@ -499,11 +470,9 @@ public class CustomizedListView extends MITBAYActivity implements
 		protected void onPostExecute(ArrayList<Sellable> result) {
 			if (result.size() > 0) {
 				itemList = result;
-
 				Log.d("post", "at least it returns");
 				list = (ListView) findViewById(R.id.my_list);
 				adapter = new ListViewAdapter(act, result);
-
 				// bind the adapter with the view
 				list.setAdapter(adapter);
 				list.setOnItemClickListener(new ItemOnClickListener());
@@ -520,19 +489,6 @@ public class CustomizedListView extends MITBAYActivity implements
 
 	}
 
-	private String getCreatedAtDate(Sellable item) throws ParseException {
-		ParseDatabase database = new ParseDatabase(this);
-		ParseQuery sellable = new ParseQuery("Sellable");
-		Log.d("create data base", "OK");
-		ParseObject obj = sellable.get(item.getId());
-		Log.d("create parse obj", obj.getClassName());
-
-		SimpleDateFormat df = new SimpleDateFormat("hh:ss, dd/MM/yy");
-
-		return obj.getCreatedAt().toLocaleString();
-
-	}
-
 	public class ItemOnClickListener implements OnItemClickListener {
 
 		@Override
@@ -543,7 +499,8 @@ public class CustomizedListView extends MITBAYActivity implements
 			intent.putExtra(MITBAYActivity.USERNAME, item.getSeller().getName());
 			Log.d("user", item.getSeller().getName());
 			intent.putExtra(EMAIL, item.getSeller().getEmail());
-			intent.putExtra("date", item.getDate());
+			intent.putExtra(DATE, item.getDate());
+			Log.d("date", item.getDate());
 			intent.putExtra("type", item.getType());
 			Log.d("type", item.getType());
 			intent.putExtra(DESCRIPTION, item.getDescription());
