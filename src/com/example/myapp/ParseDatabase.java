@@ -301,6 +301,7 @@ public class ParseDatabase {
 	 */
 	public ParseQuery getCondition(String cond) {
 		ParseQuery query = new ParseQuery("Sellable");
+		query.whereEqualTo("enabled", true);
 		query.whereEqualTo("condition", cond);
 		return query;
 	}
@@ -340,6 +341,7 @@ public class ParseDatabase {
 	 */
 	public ParseQuery getDate(Date date) {
 		ParseQuery query = new ParseQuery("Sellable");
+		query.whereEqualTo("enabled", true);
 		query.whereEqualTo("date", date);
 		return query;
 	}
@@ -378,6 +380,17 @@ public class ParseDatabase {
 		ParseQuery query = new ParseQuery("Sellable");
 		return query;
 	}
+	
+	/**
+	 * 
+	 * @return a list of all enabled sellable objects in the parse server
+	 * @throws ParseException
+	 */
+	public ParseQuery getAllEnabledSellable() throws ParseException {
+		ParseQuery query = new ParseQuery("Sellable");
+		query.whereEqualTo("enabled", true);
+		return query;
+	}
 
 	/**
 	 * get All of the Sellable object from the server
@@ -387,6 +400,30 @@ public class ParseDatabase {
 	 */
 	public ArrayList<Sellable> getListAllSellable() throws ParseException {
 		ParseQuery query = getAllSellable();
+		ArrayList<Sellable> result = new ArrayList<Sellable>();
+		int total = 0;
+		try {
+			total = query.count();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (total > 0) {
+			for (ParseObject obj : query.find()) {
+				result.add(ParseDatabase.createSellableWithParse(obj));
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * get All of the enabled Sellable object from the server
+	 * 
+	 * @return an arrayList of all sellable objects in the parse server
+	 * @throws ParseException
+	 */
+	public ArrayList<Sellable> getListAllEnabledSellable() throws ParseException {
+		ParseQuery query = getAllEnabledSellable();
 		ArrayList<Sellable> result = new ArrayList<Sellable>();
 		int total = 0;
 		try {
@@ -412,6 +449,7 @@ public class ParseDatabase {
 	 */
 	public ParseQuery getAllSellableSetSkip(int skip) {
 		ParseQuery query = new ParseQuery("Sellable");
+		query.whereEqualTo("enabled", true);
 		query.setSkip(skip);
 		return query;
 	}
@@ -456,6 +494,20 @@ public class ParseDatabase {
 		ParseQuery query = getAllSellable();
 		return query.count();
 	}
+	
+	/**
+	 * return the total number of enabled sellable object current on the server
+	 * (everything)
+	 * 
+	 * @return an integer represents the total number of Sellable objects from
+	 *         server
+	 * @throws ParseException
+	 */
+	public int getEnabledTotalSellable() throws ParseException {
+		ParseQuery query = getAllEnabledSellable();
+		return query.count();
+	}
+	
 
 	/**
 	 * 
@@ -465,6 +517,7 @@ public class ParseDatabase {
 	 */
 	public ParseQuery getSellableWithName(String name) {
 		ParseQuery query = new ParseQuery("Sellable");
+		query.whereEqualTo("enabled", true);
 		query.whereEqualTo("name", name);
 		return query;
 	}
@@ -506,6 +559,7 @@ public class ParseDatabase {
 	 */
 	public ParseQuery returnInOrderByAscending(String parameter) {
 		ParseQuery query = new ParseQuery("Sellable");
+		query.whereEqualTo("enabled", true);
 		query.orderByAscending(parameter);
 
 		return query;
@@ -548,6 +602,7 @@ public class ParseDatabase {
 	 */
 	public ParseQuery returnInOrderByDescending(String parameter) {
 		ParseQuery query = new ParseQuery("Sellable");
+		query.whereEqualTo("enabled", true);
 		query.orderByDescending(parameter);
 		return query;
 	}
