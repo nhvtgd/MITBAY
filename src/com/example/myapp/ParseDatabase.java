@@ -44,6 +44,7 @@ public class ParseDatabase {
 		obj.put("seller", sell.getSeller().getName());
 		obj.put("enabled", sell.isEnabled());
 		obj.put("description", sell.getDescription());
+		sell.setDate(obj.getCreatedAt().toString());
 		return obj;
 	}
 
@@ -599,10 +600,11 @@ public class ParseDatabase {
 		Sellable sell = new Sellable(user, name, price, type, description,
 				condition, null);
 		sell.setId(id);
+		sell.setDate(obj.getCreatedAt().toString());
 		return sell;
 	}
-	
-	public static ParseObject createUserObject(String username, String email){
+
+	public static ParseObject createUserObject(String username, String email) {
 		ParseObject user = new ParseObject("User");
 		user.put("USERNAME", username);
 		user.put("EMAIL", email);
