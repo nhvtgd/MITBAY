@@ -11,12 +11,13 @@
     <string name="title_activity_item_selection">Item Selection</string>
     <string name="textbook_string">Text Book</string>
     <string name="furniture_string">Furniture</string>
-    <string name="bike_string">Bike</string>
+    <string name="bike_string">Transportation</string>
     <string name="transportation_string">Transportation</string>
     <string name="miscellaneous_string">Miscellaneous</string>
     <string name="title_activity_splash_screen">MITBAY</string>
     <string name="sell_customized_listView">Sell</string>
     <string name="refresh_customized_listView">Refresh</string>
+    <string name="search_for_item">Type your search here ...</string>
 
     <!-- SplashScreen Page -->
     <string name="logo_description">This is the place where MIT students can find the fastest way to buy and sell items </string>
@@ -44,7 +45,7 @@
 
     <string name="title_activity_confirm_sell_item">ConfirmSellItem</string>
     <string name="title_activity_list_view_item">ListViewItem</string>
-    <string name="title_activity_customized_list_view">CustomizedListView</string>
+    <string name="title_activity_customized_list_view">Market</string>
     <string name="title_activity_confirm_buy_item">ConfirmBuyItem</string>
     <string name="title_activity_item_detail">ItemDetail</string>
     <string name="title_activity_setting_preferences">SettingPreferences</string>
@@ -87,7 +88,7 @@
     <string name="sort_by_name">Name</string>
     <string name="sort_by_type">Type</string>
     <string name="sort_by_condition">Condition</string>
-    <string name="title_activity_notification_history">NotificationHistory</string>
-    <string name="title_activity_top_requested">TopRequested</string>
+    <string name="title_activity_notification_history">Notification History</string>
+    <string name="title_activity_top_requested">Top Requested</string>
 
 </resources>

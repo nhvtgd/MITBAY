@@ -23,7 +23,10 @@
         <activity
             android:name="com.example.myapp.CustomizedListView"
             android:label="@string/title_activity_splash_screen"
-            android:theme="@style/mitbay_DropDownListView" >
+            android:theme="@style/mitbay_DropDownListView"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+             >
         </activity>
         <activity
             android:name="com.example.myapp.ItemSelection"

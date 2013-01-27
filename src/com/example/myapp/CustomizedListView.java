@@ -3,6 +3,7 @@ package com.example.myapp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -108,6 +109,10 @@ public class CustomizedListView extends MITBAYActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customized_list_view);
 
+		// set navigating icon
+		ActionBar actionBar = getActionBar();
+		actionBar.setHomeButtonEnabled(true);
+		
 		Log.d("set up", "Content View created");
 		Boolean SelectOrSearch = getIntent().getExtras().containsKey(
 				INTENT_QUERY);
@@ -236,6 +241,21 @@ public class CustomizedListView extends MITBAYActivity implements
 		inflater.inflate(R.menu.activity_customized_list_view, menu);
 		return true;
 	};
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case (android.R.id.home):
+			Intent intent = new Intent(this, ItemSelection.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+
+		}
+	}
 
 	private class TextChangeRecorder implements TextWatcher {
 
