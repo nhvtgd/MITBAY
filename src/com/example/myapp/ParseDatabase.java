@@ -623,7 +623,7 @@ public class ParseDatabase {
 		try {
 			total = query.count();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch blo
 			e.printStackTrace();
 		}
 		if (total > 0) {
