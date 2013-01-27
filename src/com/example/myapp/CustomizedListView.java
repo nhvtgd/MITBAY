@@ -100,8 +100,6 @@ public class CustomizedListView extends MITBAYActivity implements
 	private final String INTENT_QUERY = "query";
 
 	private final String INTENT_SEARCH = "search";
-	
-	
 
 	public CharSequence DOWNLOAD_MESSAGE = "Downloading data...";
 
@@ -370,7 +368,7 @@ public class CustomizedListView extends MITBAYActivity implements
 
 			ArrayList<Sellable> sell = null;
 			try {
-				sell = newDataBase.returnListInOrderByAscending(query);
+				sell = newDataBase.returnListInOrderByDescending(query);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -474,7 +472,7 @@ public class CustomizedListView extends MITBAYActivity implements
 				Log.d("post", "at least it returns");
 				list = (ListView) findViewById(R.id.my_list);
 				adapter = new ListViewAdapter(act, result);
-				
+
 				// bind the adapter with the view
 				list.setAdapter(adapter);
 				list.setOnItemClickListener(new ItemOnClickListener());
@@ -496,10 +494,10 @@ public class CustomizedListView extends MITBAYActivity implements
 		ParseQuery sellable = new ParseQuery("Sellable");
 		Log.d("create data base", "OK");
 		ParseObject obj = sellable.get(item.getId());
-		Log.d("create parse obj",obj.getClassName());
-		
+		Log.d("create parse obj", obj.getClassName());
+
 		SimpleDateFormat df = new SimpleDateFormat("hh:ss, dd/MM/yy");
-		
+
 		return obj.getCreatedAt().toLocaleString();
 
 	}

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    >
 
     <!-- Editext for Search -->
 
@@ -130,6 +131,7 @@
                 android:orientation="vertical" >
 
                 <ImageButton
+                    android:contentDescription="@string/sort_by"
                     android:id="@+id/sort_by_button"
                     style="@style/TextViewElement"
                     android:layout_width="match_parent"
@@ -166,6 +168,7 @@
                 android:orientation="vertical" >
 
                 <ImageButton
+                    android:contentDescription="@string/notification_by_button"
                     android:id="@+id/notification_by_button"
                     style="@style/TextViewElement"
                     android:layout_width="match_parent"
@@ -210,6 +213,7 @@
                 android:orientation="vertical" >
 
                 <ImageButton
+                    android:contentDescription="@string/profile_by_button"
                     android:id="@+id/profile_by_button"
                     style="@style/TextViewElement"
                     android:layout_width="match_parent"
@@ -255,6 +259,7 @@
                 android:orientation="vertical" >
 
                 <ImageButton
+                    android:contentDescription="@string/top_requested_by_button"
                     android:id="@+id/top_requested_by_button"
                     style="@style/TextViewElement"
                     android:layout_width="match_parent"
