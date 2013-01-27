@@ -128,9 +128,9 @@ public class CustomizedListView extends MITBAYActivity implements
 					NETWORK_ERROR_MESSAGE, false);
 		}
 		Log.d("No way", "Shouldn't get here right away");
-
+		
 		settings = getSharedPreferences(SETTING, 0);
-
+		
 		Button refresh = (Button) findViewById(R.id.refresh_button_customized_listView);
 		refresh.setOnClickListener(new OnClickListener() {
 
@@ -160,33 +160,29 @@ public class CustomizedListView extends MITBAYActivity implements
 		search = (EditText) findViewById(R.id.search_bar_customized_listView);
 		search.addTextChangedListener(new TextChangeRecorder());
 		search.setSingleLine();
-
+		
 		// need to login to sell, see notification, or profile
 		Button sell = (Button) findViewById(R.id.sell_button_customized_listView);
-		sell.setOnClickListener(new CustomizedOnClickListener(act,
-				SellOneItem.class));
+		sell.setOnClickListener(new CustomizedOnClickListener(act, SellOneItem.class));
 		ImageButton notification = (ImageButton) findViewById(R.id.notification_by_button);
-		notification.setOnClickListener(new CustomizedOnClickListener(act,
-				NotificationHistory.class));
+		notification.setOnClickListener(new CustomizedOnClickListener(act,NotificationHistory.class));
 
 		ImageButton profile = (ImageButton) findViewById(R.id.profile_by_button);
-
-		profile.setOnClickListener(new CustomizedOnClickListener(act,
-				UserProfile.class));
+		
+		profile.setOnClickListener(new CustomizedOnClickListener(act,UserProfile.class));
 
 		// No need to login to see top requested item
 		ImageButton request = (ImageButton) findViewById(R.id.top_requested_by_button);
-
+		
 		request.setOnClickListener(new OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(act, RequestingItems.class);
 				startActivity(i);
-
+				
 			}
 		});
-
 	}
 
 	private void doRefresh(int arg0) {
@@ -197,6 +193,7 @@ public class CustomizedListView extends MITBAYActivity implements
 		}
 
 	}
+
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -224,6 +221,7 @@ public class CustomizedListView extends MITBAYActivity implements
 		return true;
 	};
 
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -238,6 +236,7 @@ public class CustomizedListView extends MITBAYActivity implements
 
 		}
 	}
+
 
 	private class TextChangeRecorder implements TextWatcher {
 
