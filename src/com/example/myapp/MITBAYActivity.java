@@ -20,39 +20,39 @@ import com.parse.ParseUser;
  */
 public class MITBAYActivity extends Activity {
 
-	public static final String TEXTBOOK = "Text Book";
-	public static final String FURNITURE= "Furniture";
-	public static final String TRANSPORTATION = "Transportation";
-	public static final String MISC= "Miscellaneous";
-	public static final String USERNAME="username";
-	public static final String EMAIL="email";
-	public static final String DATE="date";
-	public static final String TYPE="type";
-	public static final String DESCRIPTION="description";
-	public static final String CONDITION="condition";
-	public static final String PRICE="price";
-	public static final String ITEM="item";
-	public static final String ITEM_NAME="name";
-	public static final String ID="id";
-	public static final String IMAGE="pic";
-	public static final String LOCATION = "location";
-	public static final String SELLER = "seller";
-	public static final String BUYER = "buyer";
-	public static final String ENABLE = "enabled";
-	public static final String SELLABLE = "Sellable";
-	public static final String USERID = "userid";
-	public static final String CONTACT_SELLER = "Please Contact Seller";
+	public static  String TEXTBOOK = "Text Book";
+	public static  String FURNITURE= "Furniture";
+	public static  String TRANSPORTATION = "Transportation";
+	public static  String MISC= "Miscellaneous";
+	public static  String USERNAME="username";
+	public static  String EMAIL="email";
+	public static  String DATE="date";
+	public static  String TYPE="type";
+	public static  String DESCRIPTION="description";
+	public static  String CONDITION="condition";
+	public static  String PRICE="price";
+	public static  String ITEM="item";
+	public static  String ITEM_NAME="name";
+	public static  String ID="id";
+	public static  String IMAGE="pic";
+	public static  String LOCATION = "location";
+	public static  String SELLER = "seller";
+	public static  String BUYER = "buyer";
+	public static  String ENABLE = "enabled";
+	public static  String SELLABLE = "Sellable";
+	public static  String USERID = "userid";
+	public static  String CONTACT_SELLER = "Please Contact Seller";
 	// SharedPreferences settings = getSharePreferences(SETTING, 0);
-	public static final String SETTING = "setting";
-	public static final String NAME = "User name";
+	public static  String SETTING = "setting";
+	public static  String NAME = "User name";
 	// EMAIL is already declared 
-	public static final String ADDRESS = "Address";
-	public static final String PASSWORD = "Password";
+	public static  String ADDRESS = "Address";
+	public static  String PASSWORD = "Password";
 	// Is already log in
-	public static final String IS_ALREADY_LOG_IN = "is_already_log_in";
-	public static final int MINIMUM_LENGTH_PASSWORD = 4;
+	public static  String IS_ALREADY_LOG_IN = "is_already_log_in";
+	public static  int MINIMUM_LENGTH_PASSWORD = 4;
 	// Message
-	public static final String MESSAGE = "Do you want to log in right now?";
+	public static  String MESSAGE = "Do you want to log in right now?";
 	
 	
 	@Override
