@@ -70,8 +70,8 @@ public class BuyingItems extends MITBAYActivity {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
 				Item item = (Item) adapter.getItem(position);
-				intent = new Intent(v.getContext(), ConfirmBuyItem.class);
-				intent.putExtra("isEdit", true);
+				intent = new Intent(v.getContext(), ItemDetail.class);
+				intent.putExtra(EDIT, true);
 				ParseQuery query = new ParseQuery("Sellable");
 				query.getInBackground(item.id, new GetCallback() {
 					@Override
@@ -147,7 +147,7 @@ public class BuyingItems extends MITBAYActivity {
 	 */
 	public void getImageBuyingItems(String username) {
 		ParseQuery query = new ParseQuery("Sellable");
-		query.whereEqualTo("buyer", username);
+		query.whereEqualTo(BUYER, username);
 		query.findInBackground(new FindCallback() {
 			@Override
 			public void done(List<ParseObject> arg0, ParseException arg1) {

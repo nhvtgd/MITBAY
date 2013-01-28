@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,9 @@ public class ItemDetail extends MITBAYActivity {
 	private String item, date, type, condition, price, description, username, email, address, id;
 	private Bitmap image;
 	private ImageView picView;
-	private TextView status; 
+	private TextView status;
+	private boolean isEdit;
+	private Intent intent;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,6 +62,13 @@ public class ItemDetail extends MITBAYActivity {
 	 * @param bundle
 	 */
 	private void loadTextInformation(Bundle bundle) {
+		// is that edit?
+		isEdit = bundle.getBoolean(EDIT, false);
+		if (isEdit) {
+			// change the name of the button
+			Button confirm_buy = (Button) findViewById(R.id.ItemDetail_Buy);
+			confirm_buy.setText("Cancel to buy");
+		}
 		// Load text
 		item = bundle.getString(ITEM, "No named").toString();
 		date = bundle.getString(DATE, "").toString();
@@ -82,7 +92,7 @@ public class ItemDetail extends MITBAYActivity {
 		// Get seller information
 		String user_information = String.format("%s %n %s", username, email);
 		((TextView) findViewById(R.id.ItemDetail_Seller)).
-								setText(user_information);
+		setText(user_information);
 		// Load category picture
 		ImageView pic = (ImageView) findViewById(R.id.ItemDetail_ImageForItem);
 		if (type.equals(TEXTBOOK)) pic.setImageResource(R.drawable.textbook);
@@ -90,7 +100,7 @@ public class ItemDetail extends MITBAYActivity {
 		else if (type.equals(TRANSPORTATION)) pic.setImageResource(R.drawable.bike);
 		else pic.setImageResource(R.drawable.miscellaneous);
 	}
-	
+
 	/**
 	 * Load picture from extras of the last activity
 	 * Up date status
@@ -115,7 +125,7 @@ public class ItemDetail extends MITBAYActivity {
 					});
 				}
 				ParseObject bigpicObj = (ParseObject) arg0.get("bigpic");
-				
+
 				bigpicObj.fetchIfNeededInBackground(new GetCallback() {
 					public void done(ParseObject obj, ParseException e){
 						Toast.makeText(getApplicationContext(), ""+obj.isDataAvailable(), Toast.LENGTH_SHORT).show();
@@ -128,20 +138,20 @@ public class ItemDetail extends MITBAYActivity {
 							}
 						});
 					}
-				
+
 				});
-//				ParseFile file = (ParseFile)bigpicObj.get("pic");
-//				file.getDataInBackground(new GetDataCallback(){
-//					public void done(byte[] data, ParseException e){
-//						if (e == null){
-//							loadPictureFromByteArray(data);
-//						} else loadPictureFromByteArray(null);
-//					}
-//				});
+				//				ParseFile file = (ParseFile)bigpicObj.get("pic");
+				//				file.getDataInBackground(new GetDataCallback(){
+				//					public void done(byte[] data, ParseException e){
+				//						if (e == null){
+				//							loadPictureFromByteArray(data);
+				//						} else loadPictureFromByteArray(null);
+				//					}
+				//				});
 			}
 		});
 		// Load big image
-		
+
 	}
 	public void loadPictureFromByteArray(byte [] data) {
 		if (data == null) {
@@ -153,7 +163,7 @@ public class ItemDetail extends MITBAYActivity {
 		if (image == null) status.setText("No picture available");
 		else status.setText("");
 	}
-	
+
 	/**
 	 * Put extra information for the next activity
 	 * @param intent
@@ -175,11 +185,14 @@ public class ItemDetail extends MITBAYActivity {
 	 * @param view
 	 */
 	public void buyOneItem(View view) {
+		if (isEdit) {
+			cancelToBuy();
+			return ; }
 		// Already log in
 		if (isAlreadyLogIn()) {
-			Intent i = new Intent(view.getContext(), ConfirmBuyItem.class);
-			putExtras(i);
-			startActivity(i);
+			intent = new Intent(view.getContext(), ConfirmBuyItem.class);
+			putExtras(intent);
+			startActivity(intent);
 		} else { 
 			// Not yet, go back to Log in page
 			// Build a dialog
@@ -189,20 +202,49 @@ public class ItemDetail extends MITBAYActivity {
 			builder.setPositiveButton("Ok", new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					Intent i = new Intent(getApplicationContext(), LogInPage.class);
-					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(i);
+					intent = new Intent(getApplicationContext(), LogInPage.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
 				} 
 			});
-			builder.setNegativeButton("Cancel", new OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-				} // do nothing
-			});
+			builder.setNegativeButton("Cancel", null);
 			builder.create().show();
 			Toast.makeText(view.getContext(), "You need to log in to buy items", Toast.LENGTH_SHORT).show();
 		}
 	}
+
+	public void cancelToBuy() {
+		intent = new Intent(getApplicationContext(), BuyingItems.class);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Dear "+ username);
+		builder.setMessage("Do you want to cancel to buy this item?");
+		builder.setPositiveButton("Ok", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// Enable object
+				ParseQuery query = new ParseQuery("Sellable");
+				query.getInBackground(id, new GetCallback() {
+					@Override
+					public void done(ParseObject obj, ParseException e) {
+						if (e == null) {
+							Log.d("set enable ", "ok");
+							obj.put(ENABLE, true);
+							Log.d("set buyer ", "ok");
+							obj.put(BUYER, "");
+							obj.saveInBackground();
+							Log.d("all set ", "ok");
+						} else {
+							Toast.makeText(getApplicationContext(), "Unfortunately, there are some error in server", Toast.LENGTH_SHORT).show();
+						}
+						startActivity(intent);
+					}
+				});
+			} 
+		});
+				builder.setNegativeButton("Cancel", null);
+				builder.create().show();
+	}
+
 	/**
 	 * Check log in
 	 * @return 	true if already log in
@@ -212,7 +254,7 @@ public class ItemDetail extends MITBAYActivity {
 		SharedPreferences settings = getSharedPreferences(SETTING, 0);
 		return settings.getBoolean(IS_ALREADY_LOG_IN, false);
 	}
-	
+
 	/**
 	 * Make start animation slide from right to left
 	 */
@@ -226,19 +268,19 @@ public class ItemDetail extends MITBAYActivity {
 		animation.start();
 	}
 }
-	
-	
-	
-	
+
+
+
+
 /* Need more work
 	first load small picture, later load big picture
-*/
-	
-	
-	
-	
-	
-	
+ */
+
+
+
+
+
+
 //	File file = new File(Environment.getExternalStorageDirectory(), "small_buy.png");
 //	Uri outputFileUri = Uri.fromFile(file);
 //	String imgPath = outputFileUri.getPath();

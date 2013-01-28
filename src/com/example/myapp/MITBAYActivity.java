@@ -43,7 +43,7 @@ public class MITBAYActivity extends Activity {
 	public static  String SELLABLE = "Sellable";
 	public static  String USERID = "userid";
 	public static  String CONTACT_SELLER = "Please Contact Seller";
-
+	public static String EDIT = "edit";
 	// SharedPreferences settings = getSharePreferences(SETTING, 0);
 	public static  String SETTING = "setting";
 	public static  String NAME = "User name";
