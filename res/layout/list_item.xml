@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- Image -->
+
+    <ImageView
+        android:id="@+id/list_item_picture"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/unknown" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:paddingLeft="10dp" 
+        android:paddingRight="5dp" >
+
+        <!-- Information -->
+
+        <TextView
+            android:id="@+id/list_item_information"
+            android:layout_width="0dp" 
+            android:layout_height="wrap_content"
+            android:layout_weight="10" 
+            android:layout_gravity="left|center_vertical"
+            android:text="Information here" />
+        <!-- Price -->
+        <TextView 
+            android:id="@+id/list_item_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="5dp"
+            android:textColor="@color/red"
+            android:layout_gravity="left|center_vertical"
+            android:text="$10"
+            />
+        <!-- next button -->
+        <ImageView 
+            android:id="@+id/list_view_next_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" 
+            android:src="@drawable/ic_navigation_next" />
+
+    </LinearLayout>
+
+</LinearLayout>

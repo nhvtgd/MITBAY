@@ -4,21 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.example.myapp.helper.ListViewAdapter;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.GetDataCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -33,50 +38,39 @@ public class BuyingItems extends MITBAYActivity {
 	/**
 	 * The adapter for the list
 	 */
-	ArrayList<Sellable> sample;
-	private ListViewAdapter adapter;
-	private String username, email;
+	private String username;
 	private SharedPreferences settings;
-	private ArrayList<Sellable> itemsList;
-	private ArrayList<String> IDs;
-	private Bitmap image;
-	private Sellable sell;
+	private ArrayList<Item> Items;
+	private ListView listView;
+	private Activity act;
+	private ItemsAdapter adapter;
+	private ParseObject object;
+	private int number_query;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_buying_items);
+		setContentView(R.layout.activity_buying_items);
 		// initial values
 		settings = getSharedPreferences(SETTING, 0);
 		username = settings.getString(USERNAME, "");
-		email = settings.getString(EMAIL, "");
-		IDs = new ArrayList<String>();
+		listView = (ListView) findViewById(R.id.BuyingItemsList);
+		act = this;
 		// Loading data
-		list = (ListView) findViewById(R.id.BuyingItemsList);
-		// Get ID items
-		Log.d("username", username);
-		itemsList = new ArrayList<Sellable>();
-		// Display on UI thread
-		sample = getBuyingItems();
-		adapter = new ListViewAdapter(this, sample);
-		Log.d("adapter", "adapter running");
-		list.setAdapter(adapter);
-		Log.d("list", "list running");
+		Items = new ArrayList<Item>();
+		Log.d("create Items", "OK");
+		adapter = new ItemsAdapter(act, android.R.layout.simple_list_item_1, Items);
+		Log.d("initiate adapter", "ok");
+		listView.setAdapter(adapter);
+		Log.d("running", "ok");
 		getIDBuyingItems(username);
-		Log.d("running", "...");
-//		long t0 = System.currentTimeMillis();
-//		while (true) {
-//			long t = System.currentTimeMillis();
-//			if (t-t0 > 10000) {
-//				sample.add(new Sellable(new User("Tran","viettran@mit.edu","abc"),"6.006","$30","TEXTBOOK"));
-//			} else t0 = t;
-//		}
-	}
-
-	public ArrayList<Sellable> getBuyingItems() {
-		Sellable item1 = new Sellable(new User("Tran","viettran@mit.edu","abc"),"6.006","$30","TEXTBOOK");
-		ArrayList<Sellable> itemList = new ArrayList<Sellable>();
-		for (int i=0; i<5; i++)  itemList.add(item1);
-		return itemList;
+		Log.d("Running IDs", "Ok");
+		// Set listener
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
+				Item item = (Item) adapter.getItem(position);
+				
+			}
+		});
 	}
 
 	@Override
@@ -85,66 +79,119 @@ public class BuyingItems extends MITBAYActivity {
 		getMenuInflater().inflate(R.menu.activity_buying_items, menu);
 		return true;
 	}
-
-
-
-
+	
+	
+	
 	/**
 	 * Get all IDs of the items
 	 * @param username
 	 */
 	public void getIDBuyingItems(String username) {
-		IDs.clear();
 		ParseQuery query = new ParseQuery("Sellable");
-		query.whereEqualTo("seller", username);
+		query.whereEqualTo("buyer", username);
 		query.findInBackground(new FindCallback() {
 			@Override
 			public void done(List<ParseObject> arg0, ParseException arg1) {
 				if (arg1 == null) {
-					int i = 0;
 					for (ParseObject obj: arg0) {
-						Log.d("ID"+(i++), obj.getObjectId().toString());
-						IDs.add(obj.getObjectId());
+						// Get object Item
+						object = obj;
+						// synchronized it
+						addItemToList();
 					}
 				} else {}
 			}
 		});
 	}
-
-	/**
-	 * Get Sellable object from id
-	 * @param id
-	 * @return
-	 */
-	public Sellable getSellableFromID(String id) {
-		// Parse object load small image
-		ParseQuery query = new ParseQuery("Sellable");
-		query.getInBackground(id, new GetCallback() {
-			@Override
-			public void done(ParseObject obj, ParseException arg1) {
-				if (arg1 == null){
-					// Load picture first
-					//					ParseFile file = (ParseFile) obj.get("pic");
-					//					file.getDataInBackground(new GetDataCallback(){
-					//						public void done(byte[] data, ParseException e){
-					//							image.recycle();
-					//							if (e == null) image = BitmapFactory.decodeByteArray(data, 0, data.length);
-					//							else image = null;
-					//						}
-					//					});
-					image = BitmapFactory.decodeResource(getResources(), R.id.MITGreatDome);
-					sell = new Sellable(new User((String) obj.get("seller"),"mylife", "cuocsong"),
-							(String) obj.get("name"), 
-							(String) obj.get("price"), 
-							(String) obj.get("type"),
-							(String) obj.get("description"),
-							(String) obj.get("condition"),
-							image);
-					itemsList.add(sell);
-				} else sell = null;
+	
+	public synchronized void addItemToList() {
+		ParseFile file = (ParseFile) object.get("pic");
+		file.getDataInBackground(new GetDataCallback(){
+			public void done(byte[] data, ParseException e){
+				if (e == null){ 
+					Item item = new Item((String) object.get("name"), 
+							(String) object.getCreatedAt().toString(), 
+							(String) object.get("type"),
+							(String) object.get("condition"), 
+							(String) object.get("price"),
+							object.getObjectId().toString(), 
+							data);
+					Items.add(item);
+					adapter = new ItemsAdapter(act, android.R.layout.simple_list_item_1, Items);
+					listView.setAdapter(adapter);
+				} else {}
 			}
 		});
-		return sell;
+	}
+	
+	
+	/**
+	 * Item class
+	 * @author Duy
+	 *
+	 */
+	public class Item {
+		public String item, date, type, condition, price,id;
+		public byte[] file;
+
+		// Construction
+		public Item(String item, String date, String type, String condition, String price, String id, byte[] fileBitmap) {
+			this.item = new String(item);
+			this.date = new String(date);
+			this.type = new String(type);
+			this.condition = new String(condition);
+			this.price = new String(price);
+			this.id = new String(id);
+			if (fileBitmap == null) this.file = null;
+			else this.file = fileBitmap.clone();
+		}
+		// Copy
+		public Item getCopy() {
+			return new Item(this.item, this.date, this.type, this.condition, this.price, this.id, this.file);
+		}
 	}
 
+	public class ItemsAdapter extends ArrayAdapter<Item> {
+		public ArrayList<Item> items;
+		public Context context;
+		public ItemsAdapter(Context context, int textViewResourceId, ArrayList<Item> items) {
+			super(context, textViewResourceId, items);
+			this.items = items;
+			this.context = context;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+			if (v == null) {
+				LayoutInflater vi = (LayoutInflater) this.context.
+						getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				v = vi.inflate(R.layout.list_item, null);
+			}
+			Item item = this.items.get(position);
+			if (item != null) {
+				ImageView image = (ImageView) v.findViewById(R.id.list_item_picture);
+				TextView information = (TextView) v.findViewById(R.id.list_item_information);
+				TextView price  = (TextView) v.findViewById(R.id.list_item_price);
+				// Set image
+				Bitmap bitmap = null;
+				if (item.file != null)  bitmap = BitmapFactory.decodeByteArray(item.file, 0, (item.file).length);
+				image.setImageBitmap(bitmap);
+				// Set text
+				String text = String.format("%s %n%s %n%s", item.item,
+						item.condition,item.date);
+				information.setText(text);
+				// Set price
+				price.setText("$"+item.price);
+			}
+			return v;
+		}
+	}
+	
 }
+
+
+/*
+ * Network detection
+ * Home screen
+ */
