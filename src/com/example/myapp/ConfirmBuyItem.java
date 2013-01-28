@@ -1,19 +1,14 @@
 package com.example.myapp;
 
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +20,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 public class ConfirmBuyItem extends MITBAYActivity {
 	
 	private String item, date, condition, price, description, username, email, type, id;
 	private Bitmap image;
 	SharedPreferences settings;
+	private Activity act;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_confirm_buy_item);
 		// Make start animation
 		makeStartAnimation();
+		act = this;
 		// Loading information
 		Bundle bundle = getIntent().getExtras();
 		loadTextInformation(bundle);
@@ -163,6 +165,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 				// Need to confirm cancel to buy this item from server
 				Intent i = new Intent(getApplicationContext(), ItemSelection.class);
 				startActivity(i);
+				act.finish();
 			}
 		});
 		builder.setNegativeButton("Cancel", new OnClickListener() {

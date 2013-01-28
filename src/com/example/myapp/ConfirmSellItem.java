@@ -29,12 +29,12 @@ import com.example.myapp.R;
 public class ConfirmSellItem extends SellOneItem {
 
 	private Activity activity;
-	private String item, condition, price, description, type, username, email, address, password;
-	Bitmap image;
-	User user;
-	Button confirm_button;
-	SharedPreferences settings;
-	
+	private String item, condition, price, description, type, username, email, address, password, id;
+	private Bitmap image;
+	private User user;
+	private Button confirm_button;
+	private SharedPreferences settings;
+	private boolean isEdit; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,6 +47,8 @@ public class ConfirmSellItem extends SellOneItem {
 		// loading data
 		Bundle bundle = getIntent().getExtras();
 		// Load information
+		isEdit = bundle.getBoolean(EDIT, false);
+		if (isEdit) id = bundle.getString(ID, "");
 		item = bundle.getString(ITEM).toString();
 		type = bundle.getString(TYPE).toString();
 		condition = bundle.getString(CONDITION).toString();
@@ -69,7 +71,8 @@ public class ConfirmSellItem extends SellOneItem {
 		((TextView) findViewById(R.id.Seller)).setText(
 				String.format("%s %n%s %n%s", username, email ,address));
 		// Set Images
-		loadImage(bundle);
+		if (!isEdit) loadImage(bundle);
+		else {}
 	}
 	
 	/**
@@ -88,6 +91,14 @@ public class ConfirmSellItem extends SellOneItem {
 		picView.setMinimumHeight(picView.getWidth());
 		picView.setImageBitmap(image);
 		((TextView) findViewById(R.id.Status)).setText(status);
+	}
+	
+	/**
+	 *  Load image from server
+	 */
+	public void loadImageFromServer() {
+		// Disable confirm button
+		
 	}
 
 	@Override
