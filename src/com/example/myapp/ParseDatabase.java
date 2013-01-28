@@ -41,7 +41,7 @@ public class ParseDatabase {
 		obj.put(MITBAYActivity.PRICE, sell.getPrice());
 		obj.put(MITBAYActivity.TYPE, sell.getType());
 		obj.put(MITBAYActivity.CONDITION, sell.getCondition());
-		obj.put(MITBayActivity., sell.getSeller().getName());
+		obj.put("seller", sell.getSeller().getName());
 		obj.put("enabled", sell.isEnabled());
 		obj.put("description", sell.getDescription());
 		return obj;
