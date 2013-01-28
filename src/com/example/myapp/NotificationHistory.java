@@ -32,7 +32,7 @@ public class NotificationHistory extends ListActivity implements
 		OnClickListener {
 
 	ListView listView;
-	// String[] requests;
+	//String[] requests;
 	ArrayList<String> requests = new ArrayList<String>();
 	ArrayAdapter<String> adapter;
 	private SharedPreferences settings;
@@ -44,18 +44,27 @@ public class NotificationHistory extends ListActivity implements
 				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
 		ParseQuery query = ParseUser.getQuery();
 		String id = loadSettingData();
-		requests.add("help");
-		/*
-		 * query.getInBackground(id, new GetCallback() { public void
-		 * done(ParseObject object, ParseException e) { if (e == null) {
-		 * JSONArray jsonArray = object.getJSONArray("requesteditems");
-		 * ArrayList<String> list = new ArrayList<String>(); if (jsonArray !=
-		 * null) { int len = jsonArray.length(); for (int i=0;i<len;i++){ try {
-		 * list.add(jsonArray.get(i).toString()); } catch (JSONException e1) {
-		 * // TODO Auto-generated catch block e1.printStackTrace(); } } }
-		 * 
-		 * } else { } } });
-		 */
+		query.getInBackground(id, new GetCallback() {
+			  public void done(ParseObject object, ParseException e) {
+			    if (e == null) {
+			    	JSONArray jsonArray = object.getJSONArray("requesteditems");
+			    	ArrayList<String> list = new ArrayList<String>();     
+			    	if (jsonArray != null) { 
+			    	   int len = jsonArray.length();
+			    	   for (int i=0;i<len;i++){ 
+			    	    try {
+							requests.add(jsonArray.get(i).toString());
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			    	   } 
+			    	} 
+			    	
+			    } else {
+			    }
+			  }
+			});
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, requests);
 		setListAdapter(adapter);
@@ -67,17 +76,8 @@ public class NotificationHistory extends ListActivity implements
 	public String loadSettingData() {
 		// GetSharedPreferences
 		settings = getSharedPreferences(MITBAYActivity.SETTING, 0);
-		String user_name = settings.getString(MITBAYActivity.USERNAME,
-				"Anonymous");
-		String email = settings.getString(MITBAYActivity.EMAIL, "Not found");
-		String location = settings.getString(MITBAYActivity.LOCATION, "");
 		String id = settings.getString(MITBAYActivity.USERID, "No Id found");
-		if (location.isEmpty())
-			location = "(Add your location)";
-		// Set Text View
-		((TextView) findViewById(R.id.sell_one_item_UserInformation))
-				.setText(String.format("%s %n%s %n%s", user_name, email,
-						location));
+
 		return id;
 	}
 
