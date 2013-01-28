@@ -10,6 +10,7 @@ import com.example.myapp.helper.ConnectionDetector;
 import com.example.myapp.helper.ListViewAdapter;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -32,16 +33,17 @@ public class NotificationHistory extends ListActivity implements
 
 	ListView listView;
 	//String[] requests;
-	ArrayList<String> requests;
+	ArrayList<String> requests = new ArrayList<String>();
 	ArrayAdapter<String> adapter;
 	private SharedPreferences settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Parse.initialize(getApplicationContext(), "2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
+				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
 		ParseQuery query = ParseUser.getQuery();
 		String id = loadSettingData();
-
 		query.getInBackground(id, new GetCallback() {
 			  public void done(ParseObject object, ParseException e) {
 			    if (e == null) {
@@ -74,17 +76,8 @@ public class NotificationHistory extends ListActivity implements
 	public String loadSettingData() {
 		// GetSharedPreferences
 		settings = getSharedPreferences(MITBAYActivity.SETTING, 0);
-		String user_name = settings.getString(MITBAYActivity.USERNAME,
-				"Anonymous");
-		String email = settings.getString(MITBAYActivity.EMAIL, "Not found");
-		String location = settings.getString(MITBAYActivity.LOCATION, "");
 		String id = settings.getString(MITBAYActivity.USERID, "No Id found");
-		if (location.isEmpty())
-			location = "(Add your location)";
-		// Set Text View
-		((TextView) findViewById(R.id.sell_one_item_UserInformation))
-				.setText(String.format("%s %n%s %n%s", user_name, email,
-						location));
+
 		return id;
 	}
 

@@ -25,9 +25,8 @@
         <AutoCompleteTextView
             android:id="@+id/auto_complete_item"
             style="@android:style/Widget.AutoCompleteTextView"
-            android:layout_width="102dp"
+            android:layout_width="165dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.90"
             android:background="@color/white"
             android:completionThreshold="1"
             android:ems="10" />
@@ -39,7 +38,12 @@
             android:layout_height="40dp"
             android:background="@drawable/btn_default_normal_red"
             android:text="Add request" />
-
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/mylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
 
 </LinearLayout>

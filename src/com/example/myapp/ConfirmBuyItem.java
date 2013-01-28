@@ -1,14 +1,14 @@
 package com.example.myapp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +20,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 public class ConfirmBuyItem extends MITBAYActivity {
 	
-	private String item, date, condition, price, description, username, email, type;
-	private int id;
+	private String item, date, condition, price, description, username, email, type, id;
 	private Bitmap image;
 	SharedPreferences settings;
+	private Activity act;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_confirm_buy_item);
 		// Make start animation
 		makeStartAnimation();
+		act = this;
 		// Loading information
 		Bundle bundle = getIntent().getExtras();
 		loadTextInformation(bundle);
@@ -61,7 +67,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		username = bundle.getString(USERNAME, "Anonymous").toString();
 		email = bundle.getString(EMAIL, "").toString();
 		type = bundle.getString(TYPE, MISC).toString();
-		id = bundle.getInt(ID, -1);
+		id = bundle.getString(ID, null);
 		// Set item name
 		((TextView) findViewById(R.id.cbi_ItemName))
 		.setText(String.format("%s %n%s",item, date));
@@ -97,7 +103,19 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		// disable button
 		((Button) findViewById(R.id.cbi_ConfirmBuy)).setEnabled(false);
 		// Send to server
-		
+		ParseQuery query = new ParseQuery("Sellable");
+		query.getInBackground(id, new GetCallback() {
+			@Override
+			public void done(ParseObject obj, ParseException e) {
+				if (e == null) {
+					obj.put(ENABLE, false);
+					obj.put(BUYER, username);
+					obj.saveEventually();
+				} else {
+					Toast.makeText(getApplicationContext(), "Unfortunately, there are some error in server", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 		// Visible progress
 		((LinearLayout) findViewById(R.id.cbi_Progress)).setVisibility(LinearLayout.VISIBLE);
 		// Remind sending email
@@ -147,6 +165,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 				// Need to confirm cancel to buy this item from server
 				Intent i = new Intent(getApplicationContext(), ItemSelection.class);
 				startActivity(i);
+				act.finish();
 			}
 		});
 		builder.setNegativeButton("Cancel", new OnClickListener() {
@@ -169,7 +188,6 @@ public class ConfirmBuyItem extends MITBAYActivity {
 }
 
 
-//Need to confirm cancel to buy this item from server
 // Make Theme
 // Make Dialog button more attractive
 // Send them back th main screen

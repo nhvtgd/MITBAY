@@ -12,6 +12,7 @@
 
         <!-- Text -->
         <TextView
+            android:id="@+id/confirm_sell_item_greeting"
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content"
             android:text="Great! You need to confirm to sell the following item"

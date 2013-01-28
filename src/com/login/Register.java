@@ -1,5 +1,7 @@
 package com.login;
 
+import org.json.JSONArray;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -96,6 +98,14 @@ public class Register extends MITBAYActivity {
 		user.setUsername(name);
 		user.setPassword(pass);
 		user.setEmail(user_email);
+		JSONArray request = new JSONArray();
+		JSONArray selling = new JSONArray();
+		JSONArray buying = new JSONArray();
+		request.put("clicker");
+		request.put("HEHEWclicker");
+		user.put("requesteditems", request);
+		user.put("buyingitems", buying);
+		user.put("sellingitems", selling);
 		user.signUpInBackground(new SignUpCallback() {
 			public void done(ParseException e) {
 				if (e == null) {
