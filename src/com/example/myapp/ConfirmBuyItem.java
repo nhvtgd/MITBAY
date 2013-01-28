@@ -172,3 +172,4 @@ public class ConfirmBuyItem extends MITBAYActivity {
 //Need to confirm cancel to buy this item from server
 // Make Theme
 // Make Dialog button more attractive
+// Send them back th main screen
