@@ -36,14 +36,14 @@ public class ParseDatabase {
 	 * @return a parseobject
 	 */
 	public static ParseObject createSellableParseObj(Sellable sell) {
-		ParseObject obj = new ParseObject("Sellable");
+		ParseObject obj = new ParseObject(MITBAYActivity.SELLABLE);
 		obj.put(MITBAYActivity.NAME, sell.getName());
 		obj.put(MITBAYActivity.PRICE, sell.getPrice());
 		obj.put(MITBAYActivity.TYPE, sell.getType());
 		obj.put(MITBAYActivity.CONDITION, sell.getCondition());
-		obj.put("seller", sell.getSeller().getName());
-		obj.put("enabled", sell.isEnabled());
-		obj.put("description", sell.getDescription());
+		obj.put(MITBAYActivity.SELLER, sell.getSeller().getName());
+		obj.put(MITBAYActivity.ENABLE, sell.isEnabled());
+		obj.put(MITBAYActivity.DESCRIPTION, sell.getDescription());
 		return obj;
 	}
 
@@ -61,7 +61,7 @@ public class ParseDatabase {
 					.getImages());
 			ParseFile file = new ParseFile("picture.png", data);
 			file.saveInBackground();
-			sellobj.put("pic", file);
+			sellobj.put(MITBAYActivity.IMAGE, file);
 			sellobj.put("bigpic", bigpic);
 			sellobj.saveInBackground();
 		}
@@ -96,9 +96,9 @@ public class ParseDatabase {
 	 * @return parsequery you can use to query in parse server
 	 */
 	public ParseQuery getSellableWithNameAndUser(User user, String name) {
-		ParseQuery query = new ParseQuery("Sellable");
-		query.whereEqualTo("seller", user.getName());
-		query.whereEqualTo("name", name);
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
+		query.whereEqualTo(MITBAYActivity.SELLER, user.getName());
+		query.whereEqualTo(MITBAYActivity.ITEM_NAME, name);
 		return query;
 	}
 
@@ -142,8 +142,8 @@ public class ParseDatabase {
 	 * @return a list of sellable objects sold by user
 	 */
 	public ParseQuery getSellableOfUser(User user) {
-		ParseQuery query = new ParseQuery("Sellable");
-		query.whereEqualTo("seller", user.getName());
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
+		query.whereEqualTo(MITBAYActivity.SELLER, user.getName());
 		return query;
 	}
 
@@ -185,8 +185,8 @@ public class ParseDatabase {
 	 * @return a list of sellable objects of that selltype
 	 */
 	public ParseQuery getType(String type) {
-		ParseQuery query = new ParseQuery("Sellable");
-		query.whereEqualTo("type", type);
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
+		query.whereEqualTo(MITBAYActivity.TYPE, type);
 		return query;
 	}
 
@@ -224,8 +224,8 @@ public class ParseDatabase {
 	 * @return a list of sellable objects that are enabled
 	 */
 	public ParseQuery getEnabled() {
-		ParseQuery query = new ParseQuery("Sellable");
-		query.whereEqualTo("enabled", true);
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
+		query.whereEqualTo(MITBAYActivity.ENABLE, true);
 		query.orderByDescending("createdAt");
 		return query;
 	}
@@ -261,8 +261,8 @@ public class ParseDatabase {
 	 * @return a list of sellable objects that are disabled
 	 */
 	public ParseQuery getDisabled() {
-		ParseQuery query = new ParseQuery("Sellable");
-		query.whereEqualTo("enabled", false);
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
+		query.whereEqualTo(MITBAYActivity.ENABLE, false);
 		return query;
 	}
 
@@ -299,8 +299,8 @@ public class ParseDatabase {
 	 * @return a list of sellables that have the specified condition
 	 */
 	public ParseQuery getCondition(String cond) {
-		ParseQuery query = new ParseQuery("Sellable");
-		query.whereEqualTo("condition", cond);
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
+		query.whereEqualTo(MITBAYActivity.CONDITION, cond);
 		return query;
 	}
 
@@ -338,7 +338,7 @@ public class ParseDatabase {
 	 * @return a list of sellable objects created on date
 	 */
 	public ParseQuery getDate(Date date) {
-		ParseQuery query = new ParseQuery("Sellable");
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.whereEqualTo("date", date);
 		return query;
 	}
@@ -374,7 +374,7 @@ public class ParseDatabase {
 	 * @throws ParseException
 	 */
 	public ParseQuery getAllSellable() throws ParseException {
-		ParseQuery query = new ParseQuery("Sellable");
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		return query;
 	}
 
@@ -410,7 +410,7 @@ public class ParseDatabase {
 	 *         entries
 	 */
 	public ParseQuery getAllSellableSetSkip(int skip) {
-		ParseQuery query = new ParseQuery("Sellable");
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.setSkip(skip);
 		return query;
 	}
@@ -463,8 +463,8 @@ public class ParseDatabase {
 	 * @return parsequery you can use to query in parse server
 	 */
 	public ParseQuery getSellableWithName(String name) {
-		ParseQuery query = new ParseQuery("Sellable");
-		query.whereEqualTo("name", name);
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
+		query.whereEqualTo(MITBAYActivity.ITEM_NAME, name);
 		return query;
 	}
 
@@ -504,7 +504,7 @@ public class ParseDatabase {
 	 * @return: a list of objects sorted by parameter
 	 */
 	public ParseQuery returnInOrderByAscending(String parameter) {
-		ParseQuery query = new ParseQuery("Sellable");
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.orderByAscending(parameter);
 
 		return query;
@@ -520,7 +520,7 @@ public class ParseDatabase {
 	 */
 	public ArrayList<Sellable> returnListInOrderByAscending(String parameter)
 			throws ParseException {
-		ParseQuery query = new ParseQuery("Sellable");
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.orderByAscending(parameter);
 		ArrayList<Sellable> result = new ArrayList<Sellable>();
 		int total = 0;
@@ -546,7 +546,7 @@ public class ParseDatabase {
 	 * @return: a list of objects sorted by parameter
 	 */
 	public ParseQuery returnInOrderByDescending(String parameter) {
-		ParseQuery query = new ParseQuery("Sellable");
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.orderByDescending(parameter);
 		return query;
 	}
@@ -561,7 +561,7 @@ public class ParseDatabase {
 	 */
 	public ArrayList<Sellable> returnListInOrderByDescending(String parameter)
 			throws ParseException {
-		ParseQuery query = new ParseQuery("Sellable");
+		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.orderByDescending(parameter);
 		ArrayList<Sellable> result = new ArrayList<Sellable>();
 		int total = 0;
@@ -588,13 +588,13 @@ public class ParseDatabase {
 	 */
 	public static Sellable createSellableWithParse(ParseObject obj) {
 
-		String name = (String) obj.get("name");
-		String price = (String) obj.get("price");
+		String name = (String) obj.get(MITBAYActivity.ITEM_NAME);
+		String price = (String) obj.get(MITBAYActivity.PRICE);
 
-		String description = (String) obj.get("description");
-		String type = (String) obj.get("type");
-		String condition = (String) obj.get("condition");
-		String seller = (String) obj.get("seller");
+		String description = (String) obj.get(MITBAYActivity.DESCRIPTION);
+		String type = (String) obj.get(MITBAYActivity.TYPE);
+		String condition = (String) obj.get(MITBAYActivity.CONDITION);
+		String seller = (String) obj.get(MITBAYActivity.SELLER);
 		String id = (String) obj.getObjectId();
 		User user = new User(seller, seller);
 		Sellable sell = new Sellable(user, name, price, type, description,
@@ -654,7 +654,7 @@ public class ParseDatabase {
 	}
 
 	public String associateParseObjWithParseFile(ParseFile file, ParseObject obj) {
-		obj.put("pic", file);
+		obj.put(MITBAYActivity.IMAGE, file);
 		obj.saveInBackground();
 		return obj.getObjectId();
 	}
