@@ -1,5 +1,7 @@
 package com.login;
 
+import org.json.JSONArray;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,7 +27,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 public class Register extends MITBAYActivity {
-	
+
 	private boolean registered;
 	private SharedPreferences settings;
 	private SharedPreferences.Editor prefEditor;
@@ -33,6 +35,7 @@ public class Register extends MITBAYActivity {
 	private Button confirm;
 	private long timeClick = System.currentTimeMillis();
 	TextView errorMessage;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,41 +53,52 @@ public class Register extends MITBAYActivity {
 			@Override
 			public void onClick(View v) {
 				// Limit one click each second
-				if (System.currentTimeMillis() - timeClick < 1000) return;
-				else timeClick = System.currentTimeMillis();
+				if (System.currentTimeMillis() - timeClick < 1000)
+					return;
+				else
+					timeClick = System.currentTimeMillis();
 				// Clear error message
 				errorMessage.setText("");
 				// User Name
-				username = ((EditText) findViewById(R.id.UserName_Register)).getText().toString();
+				username = ((EditText) findViewById(R.id.UserName_Register))
+						.getText().toString();
 				// Email Address
-				email = ((EditText) findViewById(R.id.EmailAddress_Register)).getText().toString();
+				email = ((EditText) findViewById(R.id.EmailAddress_Register))
+						.getText().toString();
 				// Password
-				password = ((EditText) findViewById(R.id.Password_Register)).getText().toString();
+				password = ((EditText) findViewById(R.id.Password_Register))
+						.getText().toString();
 				// Confirm Password
-				String confirmPassword = ((EditText) findViewById(R.id.ConfirmPassword_Register)).getText().toString();
+				String confirmPassword = ((EditText) findViewById(R.id.ConfirmPassword_Register))
+						.getText().toString();
 				// Update
 				if (checkValidInput(username, password, confirmPassword))
-						registerUserToParse(username, password, email);
+					registerUserToParse(username, password, email);
 			}
 		});
 	}
-	
-	private boolean checkValidInput(String username, String password, String confirmPassword) {
+
+	private boolean checkValidInput(String username, String password,
+			String confirmPassword) {
 		String text = "";
 		if (!isValidUserName(username)) {
 			text = "Your user name cannot be empty";
 			errorMessage.setText(text);
-			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG)
+					.show();
 			return false;
 		} else if (!isMatchPasswords(password, confirmPassword)) {
 			text = "The password and confirmation password do not match";
 			errorMessage.setText(text);
-			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG)
+					.show();
 			return false;
 		} else if (!isValidPassword(password)) {
-			text = "Your password should have at least "+MINIMUM_LENGTH_PASSWORD+" characters";
+			text = "Your password should have at least "
+					+ MINIMUM_LENGTH_PASSWORD + " characters";
 			errorMessage.setText(text);
-			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG)
+					.show();
 			return false;
 		}
 		return true;
@@ -96,10 +110,20 @@ public class Register extends MITBAYActivity {
 		user.setUsername(name);
 		user.setPassword(pass);
 		user.setEmail(user_email);
+		JSONArray request = new JSONArray();
+		JSONArray selling = new JSONArray();
+		JSONArray buying = new JSONArray();
+		user.put("requesteditems", request);
+		user.put("buyingitems", buying);
+		user.put("sellingitems", selling);
+
 		user.signUpInBackground(new SignUpCallback() {
 			public void done(ParseException e) {
 				if (e == null) {
-					Toast.makeText(getApplicationContext(),"A verification email has been sent to your inbox. Please check it!",Toast.LENGTH_LONG).show();
+					Toast.makeText(
+							getApplicationContext(),
+							"A verification email has been sent to your inbox. Please check it!",
+							Toast.LENGTH_LONG).show();
 					// Save data in SharedPreferences
 					settings = getSharedPreferences(SETTING, 0);
 					SharedPreferences.Editor prefEditor = settings.edit();
@@ -113,12 +137,11 @@ public class Register extends MITBAYActivity {
 					registered = true;
 				} else {
 					registered = false;
-					Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), e.toString(),
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
-		ParseObject account = ParseDatabase.createUserObject(name, user_email);
-		account.saveInBackground();
 		return registered;
 	}
 
@@ -128,14 +151,15 @@ public class Register extends MITBAYActivity {
 		getMenuInflater().inflate(R.menu.activity_register, menu);
 		return true;
 	}
-	
+
 	/**
 	 * Make animation move from right to left
 	 */
 	private void makeStartAnimation() {
 		ViewGroup frame = (ViewGroup) findViewById(R.id.Frame_Register);
-		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_to_left_log_in_page);
-		for (int i=0; i<frame.getChildCount(); i++) {
+		Animation animation = AnimationUtils.loadAnimation(
+				getApplicationContext(), R.anim.slide_to_left_log_in_page);
+		for (int i = 0; i < frame.getChildCount(); i++) {
 			View child = frame.getChildAt(i);
 			child.setAnimation(animation);
 		}
@@ -143,8 +167,6 @@ public class Register extends MITBAYActivity {
 	}
 }
 
-/* Need more work
- * 	Theme
- * 	Location
- * 	Register button
+/*
+ * Need more work Theme Location Register button
  */

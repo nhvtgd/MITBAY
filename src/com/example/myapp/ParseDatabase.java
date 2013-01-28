@@ -37,11 +37,11 @@ public class ParseDatabase {
 	 */
 	public static ParseObject createSellableParseObj(Sellable sell) {
 		ParseObject obj = new ParseObject("Sellable");
-		obj.put("name", sell.getName());
-		obj.put("price", sell.getPrice());
-		obj.put("type", sell.getType());
-		obj.put("condition", sell.getCondition());
-		obj.put("seller", sell.getSeller().getName());
+		obj.put(MITBAYActivity.NAME, sell.getName());
+		obj.put(MITBAYActivity.PRICE, sell.getPrice());
+		obj.put(MITBAYActivity.TYPE, sell.getType());
+		obj.put(MITBAYActivity.CONDITION, sell.getCondition());
+		obj.put(MITBayActivity., sell.getSeller().getName());
 		obj.put("enabled", sell.isEnabled());
 		obj.put("description", sell.getDescription());
 		return obj;
@@ -667,11 +667,8 @@ public class ParseDatabase {
 		JSONArray request = new JSONArray();
 		JSONArray selling = new JSONArray();
 		JSONArray buying = new JSONArray();
-		request.put("clicker");
-		request.put("textbook");
-		request.put("cookie");
 		user.put("requesteditems", request);
-
+		user.put("requesteditems", selling);
 		user.put("buyingitems", buying);
 		user.put("sellingitems", selling);
 		return user;
