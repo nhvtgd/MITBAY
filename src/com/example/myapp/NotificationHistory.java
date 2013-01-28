@@ -10,6 +10,7 @@ import com.example.myapp.helper.ConnectionDetector;
 import com.example.myapp.helper.ListViewAdapter;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -31,38 +32,30 @@ public class NotificationHistory extends ListActivity implements
 		OnClickListener {
 
 	ListView listView;
-	//String[] requests;
-	ArrayList<String> requests;
+	// String[] requests;
+	ArrayList<String> requests = new ArrayList<String>();
 	ArrayAdapter<String> adapter;
 	private SharedPreferences settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Parse.initialize(getApplicationContext(), "2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
+				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
 		ParseQuery query = ParseUser.getQuery();
 		String id = loadSettingData();
-
-		query.getInBackground(id, new GetCallback() {
-			  public void done(ParseObject object, ParseException e) {
-			    if (e == null) {
-			    	JSONArray jsonArray = object.getJSONArray("requesteditems");
-			    	ArrayList<String> list = new ArrayList<String>();     
-			    	if (jsonArray != null) { 
-			    	   int len = jsonArray.length();
-			    	   for (int i=0;i<len;i++){ 
-			    	    try {
-							requests.add(jsonArray.get(i).toString());
-						} catch (JSONException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-			    	   } 
-			    	} 
-			    	
-			    } else {
-			    }
-			  }
-			});
+		requests.add("help");
+		/*
+		 * query.getInBackground(id, new GetCallback() { public void
+		 * done(ParseObject object, ParseException e) { if (e == null) {
+		 * JSONArray jsonArray = object.getJSONArray("requesteditems");
+		 * ArrayList<String> list = new ArrayList<String>(); if (jsonArray !=
+		 * null) { int len = jsonArray.length(); for (int i=0;i<len;i++){ try {
+		 * list.add(jsonArray.get(i).toString()); } catch (JSONException e1) {
+		 * // TODO Auto-generated catch block e1.printStackTrace(); } } }
+		 * 
+		 * } else { } } });
+		 */
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, requests);
 		setListAdapter(adapter);

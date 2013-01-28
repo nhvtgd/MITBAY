@@ -36,14 +36,14 @@ public class ParseDatabase {
 	 * @return a parseobject
 	 */
 	public static ParseObject createSellableParseObj(Sellable sell) {
-		ParseObject obj = new ParseObject(MITBAYActivity.SELLABLE);
-		obj.put(MITBAYActivity.NAME, sell.getName());
-		obj.put(MITBAYActivity.PRICE, sell.getPrice());
-		obj.put(MITBAYActivity.TYPE, sell.getType());
-		obj.put(MITBAYActivity.CONDITION, sell.getCondition());
-		obj.put(MITBAYActivity.SELLER, sell.getSeller().getName());
-		obj.put(MITBAYActivity.ENABLE, sell.isEnabled());
-		obj.put(MITBAYActivity.DESCRIPTION, sell.getDescription());
+		ParseObject obj = new ParseObject("Sellable");
+		obj.put("name", sell.getName());
+		obj.put(MITBAYActivity.PRICE.toString(), sell.getPrice());
+		obj.put(MITBAYActivity.TYPE.toString(), sell.getType());
+		obj.put(MITBAYActivity.CONDITION.toString(), sell.getCondition());
+		obj.put(MITBAYActivity.SELLER.toString(), sell.getSeller().getName());
+		obj.put(MITBAYActivity.ENABLE.toString(), sell.isEnabled());
+		obj.put(MITBAYActivity.DESCRIPTION.toString(), sell.getDescription());
 		return obj;
 	}
 
