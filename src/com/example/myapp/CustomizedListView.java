@@ -102,9 +102,9 @@ public class CustomizedListView extends MITBAYActivity implements
 	public CharSequence DOWNLOAD_MESSAGE = "Downloading data...";
 
 	ConnectionDetector connection = new ConnectionDetector(this);
-	
+
 	private final String NETWORK_ERROR_TITLE = "NO CONNECTION";
-	
+
 	private final String NETWORK_ERROR_MESSAGE = "Please check your connection and try again";
 
 	@Override
@@ -128,9 +128,9 @@ public class CustomizedListView extends MITBAYActivity implements
 		if (connection.isConnectingToInternet()) {
 			data = new GetData();
 			data.execute(queryResult);
-		}
-		else{
-			new AlertDialogManager().showAlertDialog(this, NETWORK_ERROR_TITLE, NETWORK_ERROR_MESSAGE, false);
+		} else {
+			new AlertDialogManager().showAlertDialog(this, NETWORK_ERROR_TITLE,
+					NETWORK_ERROR_MESSAGE, false);
 		}
 		Log.d("No way", "Shouldn't get here right away");
 
@@ -143,7 +143,7 @@ public class CustomizedListView extends MITBAYActivity implements
 			public void onClick(View v) {
 				ParseDatabase newDataBase = new ParseDatabase(act);
 				ParseQuery parseQuery = new ParseQuery(queryResult);
-				
+
 				parseQuery.countInBackground(new CountCallback() {
 
 					@Override
@@ -152,7 +152,7 @@ public class CustomizedListView extends MITBAYActivity implements
 							doRefresh(arg0);
 
 					}
-					
+
 				});
 			}
 
@@ -192,20 +192,16 @@ public class CustomizedListView extends MITBAYActivity implements
 			}
 		});
 
-
-
 	}
-	
+
 	private void doRefresh(int arg0) {
-		if (arg0 != itemList.size()){
+		if (arg0 != itemList.size()) {
 			Log.d("result", arg0 + " " + itemList.size());
 			GetData data = new GetData();
 			data.execute(queryResult);
 		}
-		
+
 	}
-
-
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -234,6 +230,13 @@ public class CustomizedListView extends MITBAYActivity implements
 			SortData data = new SortData();
 			data.execute(MITBAYActivity.DATE);
 		}
+//		SortingFunction.sort(item.getTitle().toString().trim().toLowerCase(),
+//				sortedList);
+//		list = (ListView) findViewById(R.id.my_list);
+//		adapter = new ListViewAdapter(act, sortedList);
+//		list.setAdapter(adapter);
+//		list.setOnItemClickListener(new ItemOnClickListener());
+//		adapter.notifyDataSetChanged();
 		return true;
 
 	}
@@ -472,8 +475,7 @@ public class CustomizedListView extends MITBAYActivity implements
 			ArrayList<Sellable> sell = null;
 			try {
 				if (query.equals(ItemSelection.ALL)) {
-					sell = newDataBase
-							.getListEnabled();
+					sell = newDataBase.getListEnabled();
 				} else if (query.equals(ItemSelection.TEXTBOOK)) {
 					sell = newDataBase.getListType(TEXTBOOK);
 				} else if (query.equals(ItemSelection.FURNITURE)) {

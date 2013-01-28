@@ -11,6 +11,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.util.Log;
+
 import com.example.myapp.MITBAYActivity;
 import com.example.myapp.Sellable;
 
@@ -81,31 +83,46 @@ public class SortingFunction {
 	static Comparator<Sellable> dateComparator = new Comparator<Sellable>() {
 		@Override
 		public int compare(Sellable o1, Sellable o2) {
-			SimpleDateFormat format = new SimpleDateFormat();
+			Log.d("date", o1.getDate().toString());
+			
 			String[] date1 = o1.getDate().split("-");
 			String[] date2 = o2.getDate().split("-");
-			if (Integer.valueOf(date1[2]) < Integer.valueOf(date2[2]))
-				return -1;
-			else if (Integer.valueOf(date1[2]) > Integer.valueOf(date2[2]))
-				return 1;
-			else {
-				for (int i = 0; i < month.size(); i++) {
-					monthToInt.put(month.get(i), i + 1);
-				}
-				if (monthToInt.get(date1[1]) < monthToInt.get(date2[1]))
-					return -1;
-				else if (monthToInt.get(date1[1]) > monthToInt.get(date2[1]))
-					return 1;
-				else {
-					return Integer.valueOf(date1[0]).compareTo(
-							Integer.valueOf(date2[0]));
-				}
-
-			}
+//			if (Integer.valueOf(date1[2]) < Integer.valueOf(date2[2]))
+//				return -1;
+//			else if (Integer.valueOf(date1[2]) > Integer.valueOf(date2[2]))
+//				return 1;
+//			else {
+//				for (int i = 0; i < month.size(); i++) {
+//					monthToInt.put(month.get(i), i + 1);
+//				}
+//				if (monthToInt.get(date1[1]) < monthToInt.get(date2[1]))
+//					return -1;
+//				else if (monthToInt.get(date1[1]) > monthToInt.get(date2[1]))
+//					return 1;
+//				else {
+//					return Integer.valueOf(date1[0]).compareTo(
+//							Integer.valueOf(date2[0]));
+//				}
+//
+//			}
+			return SortingFunction.compare(date1,date2,4);
 
 		}
 
 	};
+	
+	private static int compare(String[] date1, String[] date2,int n){
+		if (n == 0)
+			return Integer.valueOf(date1[0]).compareTo(Integer.valueOf(date2[0]));
+		else{
+			if (Integer.valueOf(date1[n]) < Integer.valueOf(date2[n]))
+				return -1;
+			else if (Integer.valueOf(date1[n]) > Integer.valueOf(date2[n]))
+				return 1;
+			else
+				return compare(date1,date2,n-1);
+		}
+	}
 
 	/**
 	 * Sort the sellableList depending on the parameter field

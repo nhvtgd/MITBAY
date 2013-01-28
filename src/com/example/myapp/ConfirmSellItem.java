@@ -33,6 +33,8 @@ public class ConfirmSellItem extends SellOneItem {
 	Bitmap image;
 	User user;
 	Button confirm_button;
+	SharedPreferences settings;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -154,6 +156,9 @@ public class ConfirmSellItem extends SellOneItem {
 				confirm_button.setEnabled(false);
 				// Create a Sellable object
 				Sellable obj = new Sellable(user, item, price, type, description, condition, image);
+				SharedPreferences settings = getSharedPreferences(SETTING, 0);
+				String location = settings.getString(LOCATION, CONTACT_SELLER);
+				obj.setLocation(location);
 				Log.d("Image == null", image.getByteCount()+"");
 				// Send to server
 				start = System.currentTimeMillis();
