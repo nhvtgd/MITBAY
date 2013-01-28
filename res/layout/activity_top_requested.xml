@@ -1,14 +1,69 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TopRequested" >
+    android:background="@color/silver"
+    android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            style="@style/TextViewElement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.5"
+            android:gravity="center_horizontal"
+            android:text="@string/top_requested_by_button" />
+
+        <TextView
+            style="@style/TextViewElement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.5"
+            android:gravity="center_horizontal"
+            android:text="@string/item_frequency_top_requested" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/frequency_listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+    <!--
+    <TableLayout
+        android:id="@+id/Frequency_Table"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
+        android:stretchColumns="*" >
 
-</RelativeLayout>
+        <TableRow
+            android:id="@+id/frequency_row01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/top_requested_by_button" 
+                android:layout_weight="0.5"
+                android:gravity="center_horizontal"
+                style="@style/TextViewElement"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/item_frequency_top_requested" 
+                android:layout_weight="0.5"
+                android:gravity="center_horizontal"
+                style="@style/TextViewElement"/>
+        </TableRow>
+    </TableLayout>
+    -->
+
+</LinearLayout>

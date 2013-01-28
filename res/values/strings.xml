@@ -88,7 +88,10 @@
     <string name="sort_by_name">Name</string>
     <string name="sort_by_type">Type</string>
     <string name="sort_by_condition">Condition</string>
+    <string name="sort_by_location">Location</string>
     <string name="title_activity_notification_history">Notification History</string>
     <string name="title_activity_top_requested">Top Requested</string>
+    
+    <string name="item_frequency_top_requested">Requests</string>
 
 </resources>
