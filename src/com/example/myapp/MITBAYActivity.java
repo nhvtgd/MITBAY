@@ -20,6 +20,7 @@ import com.parse.ParseUser;
  */
 public class MITBAYActivity extends Activity {
 
+
 	public static  String TEXTBOOK = "Text Book";
 	public static  String FURNITURE= "Furniture";
 	public static  String TRANSPORTATION = "Transportation";
@@ -42,6 +43,7 @@ public class MITBAYActivity extends Activity {
 	public static  String SELLABLE = "Sellable";
 	public static  String USERID = "userid";
 	public static  String CONTACT_SELLER = "Please Contact Seller";
+
 	// SharedPreferences settings = getSharePreferences(SETTING, 0);
 	public static  String SETTING = "setting";
 	public static  String NAME = "User name";
@@ -51,10 +53,9 @@ public class MITBAYActivity extends Activity {
 	// Is already log in
 	public static  String IS_ALREADY_LOG_IN = "is_already_log_in";
 	public static  int MINIMUM_LENGTH_PASSWORD = 4;
-	// Message
 	public static  String MESSAGE = "Do you want to log in right now?";
 	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

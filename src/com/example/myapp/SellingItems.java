@@ -7,6 +7,7 @@ import com.example.myapp.BuyingItems.Item;
 import com.example.myapp.BuyingItems.ItemsAdapter;
 import com.example.myapp.helper.ListViewAdapter;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -16,6 +17,7 @@ import com.parse.ParseQuery;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class SellingItems extends MITBAYActivity {
@@ -47,6 +50,8 @@ public class SellingItems extends MITBAYActivity {
 	private Activity act;
 	private ItemsAdapter adapter;
 	private ParseObject object;
+	private int number_query;
+	private Intent intent;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,17 +68,42 @@ public class SellingItems extends MITBAYActivity {
 		Log.d("initiate adapter", "ok");
 		listView.setAdapter(adapter);
 		Log.d("running", "ok");
-		getIDBuyingItems(username);
+		getBuyingItems(username);
+		getImageBuyingItems(username);
 		Log.d("Running IDs", "Ok");
 		// Set listener
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
 				Item item = (Item) adapter.getItem(position);
-				
+				intent = new Intent(v.getContext(), ConfirmBuyItem.class);
+				intent.putExtra("isEdit", true);
+				ParseQuery query = new ParseQuery("Sellable");
+				query.getInBackground(item.id, new GetCallback() {
+					@Override
+					public void done(ParseObject obj, ParseException e) {
+						if (e == null) {
+							Sellable item = ParseDatabase.createSellableWithParse(obj);
+							// Put extras item, date, condition, price, description, username, email, type, id;
+							intent.putExtra(ITEM, item.getName());
+							intent.putExtra(DATE, item.getDate());
+							intent.putExtra(CONDITION, item.getCondition());
+							intent.putExtra(PRICE, item.getPrice());
+							intent.putExtra(DESCRIPTION, item.getDescription());
+							intent.putExtra(USERNAME, item.getSeller().getName());
+							intent.putExtra(EMAIL, item.getSeller().getEmail());
+							intent.putExtra(TYPE, item.getType());
+							intent.putExtra(ID, item.getId());
+							startActivity(intent);
+						} else {
+							Toast.makeText(getApplicationContext(), "There is a problem with server", Toast.LENGTH_SHORT).show();
+							startActivity(intent);
+						}
+					}
+				});
 			}
 		});
 	}
-	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -81,12 +111,13 @@ public class SellingItems extends MITBAYActivity {
 		getMenuInflater().inflate(R.menu.activity_selling_items, menu);
 		return true;
 	}
-	
+
 	/**
 	 * Get all IDs of the items
 	 * @param username
 	 */
-	public void getIDBuyingItems(String username) {
+	public void getBuyingItems(String username) {
+		Log.d("find buying item", "ok");
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("seller", username);
 		query.findInBackground(new FindCallback() {
@@ -94,37 +125,70 @@ public class SellingItems extends MITBAYActivity {
 			public void done(List<ParseObject> arg0, ParseException arg1) {
 				if (arg1 == null) {
 					for (ParseObject obj: arg0) {
-						// Get object Item
-						object = obj;
-						// synchronized it
-						addItemToList();
+						Log.d("create object", "Ok");
+						Item item = new Item((String) obj.get("name"), 
+								(String) obj.getCreatedAt().toString(), 
+								(String) obj.get("type"),
+								(String) obj.get("condition"), 
+								(String) obj.get("price"),
+								obj.getObjectId().toString(), 
+								null);
+						Log.d("finish","");
+						Items.add(item);
+						Log.d("added", "ok");
+						adapter = new ItemsAdapter(act, android.R.layout.simple_list_item_1, Items);
+						listView.setAdapter(adapter);
+						Log.d("UI thread", "ok");
+
+					} 
+				} else {}
+			}
+		});
+	}
+
+	/**
+	 * Get all images of the items
+	 * @param username
+	 */
+	public void getImageBuyingItems(String username) {
+		ParseQuery query = new ParseQuery("Sellable");
+		query.whereEqualTo("buyer", username);
+		query.findInBackground(new FindCallback() {
+			@Override
+			public void done(List<ParseObject> arg0, ParseException arg1) {
+				if (arg1 == null) {
+					for (ParseObject obj: arg0) {
+						Log.d("load file", "Ok");
+						ParseFile file = (ParseFile) obj.get("pic");
+						file.getDataInBackground(new GetDataCallback(){
+							public void done(byte[] data, ParseException e){
+								Bitmap image = null;
+								if (e == null) {
+									Log.d("create bitmap", "Ok");
+									image = BitmapFactory.decodeByteArray(data, 0, data.length);
+								} else {
+									image = BitmapFactory.decodeResource(getResources(), R.drawable.unknown);
+								}
+								Log.d("update picture", "ok");
+								Log.d("picture == null", ""+(image==null));
+								for (Item item:Items) {
+									if (item.bitmap == null) {
+										item.bitmap = Bitmap.createBitmap(image);
+										break;
+									}
+								}
+								Log.d("update UI", "ok");
+								adapter = new ItemsAdapter(act, android.R.layout.simple_list_item_1, Items);
+								listView.setAdapter(adapter);
+							}
+						});
+						
 					}
-				} else {}
+				}else {}
 			}
 		});
 	}
-	
-	public synchronized void addItemToList() {
-		ParseFile file = (ParseFile) object.get("pic");
-		file.getDataInBackground(new GetDataCallback(){
-			public void done(byte[] data, ParseException e){
-				if (e == null){ 
-					Item item = new Item((String) object.get("name"), 
-							(String) object.getCreatedAt().toString(), 
-							(String) object.get("type"),
-							(String) object.get("condition"), 
-							(String) object.get("price"),
-							object.getObjectId().toString(), 
-							data);
-					Items.add(item);
-					adapter = new ItemsAdapter(act, android.R.layout.simple_list_item_1, Items);
-					listView.setAdapter(adapter);
-				} else {}
-			}
-		});
-	}
-	
-	
+
 	/**
 	 * Item class
 	 * @author Duy
@@ -132,22 +196,22 @@ public class SellingItems extends MITBAYActivity {
 	 */
 	public class Item {
 		public String item, date, type, condition, price,id;
-		public byte[] file;
+		public Bitmap bitmap;
 
 		// Construction
-		public Item(String item, String date, String type, String condition, String price, String id, byte[] fileBitmap) {
+		public Item(String item, String date, String type, String condition, String price, String id, Bitmap bitmap) {
 			this.item = new String(item);
 			this.date = new String(date);
 			this.type = new String(type);
 			this.condition = new String(condition);
 			this.price = new String(price);
 			this.id = new String(id);
-			if (fileBitmap == null) this.file = null;
-			else this.file = fileBitmap.clone();
+			if (bitmap != null) this.bitmap = Bitmap.createBitmap(bitmap);
+			else this.bitmap = null;
 		}
 		// Copy
 		public Item getCopy() {
-			return new Item(this.item, this.date, this.type, this.condition, this.price, this.id, this.file);
+			return new Item(this.item, this.date, this.type, this.condition, this.price, this.id, this.bitmap);
 		}
 	}
 
@@ -174,9 +238,7 @@ public class SellingItems extends MITBAYActivity {
 				TextView information = (TextView) v.findViewById(R.id.list_item_information);
 				TextView price  = (TextView) v.findViewById(R.id.list_item_price);
 				// Set image
-				Bitmap bitmap = null;
-				if (item.file != null)  bitmap = BitmapFactory.decodeByteArray(item.file, 0, (item.file).length);
-				image.setImageBitmap(bitmap);
+				image.setImageBitmap(item.bitmap);
 				// Set text
 				String text = String.format("%s %n%s %n%s", item.item,
 						item.condition,item.date);
@@ -187,5 +249,5 @@ public class SellingItems extends MITBAYActivity {
 			return v;
 		}
 	}
-	
+
 }
