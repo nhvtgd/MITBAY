@@ -98,6 +98,7 @@ public class LogIn extends MITBAYActivity {
 						prefEditor.putString(EMAIL, user.getEmail());
 						prefEditor.putString(USERNAME, user.getUsername());
 						prefEditor.putString(PASSWORD, password);
+						prefEditor.putString(USERID, user.getObjectId());
 						prefEditor.commit();
 						confirm.setEnabled(true);
 						Intent i = new Intent(getApplicationContext(), ItemSelection.class);
