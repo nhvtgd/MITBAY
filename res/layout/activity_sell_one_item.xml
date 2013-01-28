@@ -62,7 +62,7 @@
                 android:background="@drawable/btn_default_normal"
                 android:text="Done"
                 android:textColor="@color/red"
-                android:textStyle="b`old" 
+                android:textStyle="bold" 
                 android:onClick="doneEditLocation" />
             <EditText
                 android:id="@+id/sell_one_item_EditLocation"
