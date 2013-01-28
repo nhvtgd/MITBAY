@@ -46,8 +46,6 @@ public class BuyingItems extends MITBAYActivity {
 	private ListView listView;
 	private Activity act;
 	private ItemsAdapter adapter;
-	private ParseObject object;
-	private int number_query;
 	private Intent intent;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,23 +70,24 @@ public class BuyingItems extends MITBAYActivity {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
 				Item item = (Item) adapter.getItem(position);
-				intent = new Intent(v.getContext(), ItemDetail.class);
+				intent = new Intent(v.getContext(), ConfirmBuyItem.class);
+				intent.putExtra("isEdit", true);
 				ParseQuery query = new ParseQuery("Sellable");
 				query.getInBackground(item.id, new GetCallback() {
 					@Override
 					public void done(ParseObject obj, ParseException e) {
 						if (e == null) {
 							Sellable item = ParseDatabase.createSellableWithParse(obj);
-							intent.putExtra(USERNAME, item.getSeller().getName());
-							intent.putExtra(EMAIL, item.getSeller().getEmail());
-							intent.putExtra("date", item.getDate());
-							intent.putExtra("type", item.getType());
-							intent.putExtra(DESCRIPTION, item.getDescription());
-							intent.putExtra(ID, item.getId());
+							// Put extras item, date, condition, price, description, username, email, type, id;
+							intent.putExtra(ITEM, item.getName());
+							intent.putExtra(DATE, item.getDate());
 							intent.putExtra(CONDITION, item.getCondition());
 							intent.putExtra(PRICE, item.getPrice());
-							intent.putExtra(ITEM, item.getName());
-							intent.putExtra(LOCATION, item.getLocation());
+							intent.putExtra(DESCRIPTION, item.getDescription());
+							intent.putExtra(USERNAME, item.getSeller().getName());
+							intent.putExtra(EMAIL, item.getSeller().getEmail());
+							intent.putExtra(TYPE, item.getType());
+							intent.putExtra(ID, item.getId());
 							startActivity(intent);
 						} else {
 							Toast.makeText(getApplicationContext(), "There is a problem with server", Toast.LENGTH_SHORT).show();

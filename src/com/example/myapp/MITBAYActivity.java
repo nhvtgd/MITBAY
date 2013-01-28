@@ -42,6 +42,7 @@ public class MITBAYActivity extends Activity {
 	public static final String SELLABLE = "Sellable";
 	public static final String USERID = "userid";
 	public static final String CONTACT_SELLER = "Please Contact Seller";
+	public static final String EDIT = "edit";
 	// SharedPreferences settings = getSharePreferences(SETTING, 0);
 	public static final String SETTING = "setting";
 	public static final String NAME = "User name";
@@ -53,7 +54,7 @@ public class MITBAYActivity extends Activity {
 	public static final int MINIMUM_LENGTH_PASSWORD = 4;
 	// Message
 	public static final String MESSAGE = "Do you want to log in right now?";
-	
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
