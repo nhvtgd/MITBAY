@@ -1,8 +1,6 @@
 package com.example.myapp;
 
 
-import java.io.ByteArrayOutputStream;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,8 +21,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.example.myapp.R;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 public class ConfirmSellItem extends SellOneItem {
 
@@ -35,6 +37,10 @@ public class ConfirmSellItem extends SellOneItem {
 	private Button confirm_button;
 	private SharedPreferences settings;
 	private boolean isEdit; 
+	private ImageView picView;
+	private TextView Status;
+	private Intent intent;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,7 +54,7 @@ public class ConfirmSellItem extends SellOneItem {
 		Bundle bundle = getIntent().getExtras();
 		// Load information
 		isEdit = bundle.getBoolean(EDIT, false);
-		if (isEdit) id = bundle.getString(ID, "");
+		id = bundle.getString(ID, "");
 		item = bundle.getString(ITEM).toString();
 		type = bundle.getString(TYPE).toString();
 		condition = bundle.getString(CONDITION).toString();
@@ -60,9 +66,9 @@ public class ConfirmSellItem extends SellOneItem {
 		((TextView) findViewById(R.id.Quality)).setText(condition);
 		((TextView) findViewById(R.id.Price)).setText("$"+price);
 		((TextView) findViewById(R.id.Description)).setText(description);
-		
+
 		// Set Seller
-		SharedPreferences settings = getSharedPreferences(SETTING, 0);
+		settings = getSharedPreferences(SETTING, 0);
 		username = settings.getString(USERNAME, "Anonymous");
 		email = settings.getString(EMAIL, "No email available");
 		address = settings.getString(LOCATION, "");
@@ -71,10 +77,20 @@ public class ConfirmSellItem extends SellOneItem {
 		((TextView) findViewById(R.id.Seller)).setText(
 				String.format("%s %n%s %n%s", username, email ,address));
 		// Set Images
+		Status = (TextView) findViewById(R.id.Status);
+		picView = (ImageView)findViewById(R.id.Picture);
+		Log.d("is edit?", ""+(isEdit));
 		if (!isEdit) loadImage(bundle);
-		else {}
+		else  {
+			loadImageFromServer(bundle); 
+			TextView greeting  = (TextView) findViewById(R.id.confirm_sell_item_greeting);
+			greeting.setText("Hi "+ username +", You are selling the following item");
+			Button confirm = (Button) findViewById(R.id.Confirm);
+			confirm.setEnabled(false);
+			confirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_default_disabled_holo_dark));
+		}
 	}
-	
+
 	/**
 	 * Load image, if image is null, assign it as one default image
 	 * @param bundle
@@ -82,7 +98,6 @@ public class ConfirmSellItem extends SellOneItem {
 	private void loadImage(Bundle bundle) {
 		image = null;
 		String status = "Default picture";
-		ImageView picView = (ImageView)findViewById(R.id.Picture);
 		String imgPath = bundle.getString("imgPath").toString();
 		image = loadingBitmapEfficiently(imgPath, WIDTH, HEIGHT);
 		// Set Image
@@ -90,15 +105,61 @@ public class ConfirmSellItem extends SellOneItem {
 		else image = setDefaultImage(type);
 		picView.setMinimumHeight(picView.getWidth());
 		picView.setImageBitmap(image);
-		((TextView) findViewById(R.id.Status)).setText(status);
+		Status.setText(status);
 	}
-	
+
 	/**
 	 *  Load image from server
 	 */
-	public void loadImageFromServer() {
-		// Disable confirm button
-		
+	public void loadImageFromServer(Bundle bundle) {
+		image = null;
+		id = bundle.getString(ID, "");
+		// Parse object load small image
+		Log.d("create query", "ok");
+		ParseQuery query = new ParseQuery("Sellable");
+		query.getInBackground(id, new GetCallback() {
+			@Override
+			public void done(ParseObject arg0, ParseException arg1) {
+				if (arg1 == null){
+					Log.d("arg1", "ok, not null");
+					ParseFile file = (ParseFile) arg0.get("pic");
+					file.getDataInBackground(new GetDataCallback(){
+						public void done(byte[] data, ParseException e){
+							if (e == null){
+								loadPictureFromByteArray(data);
+							} else loadPictureFromByteArray(null);	
+						}
+					});
+				}
+				Log.d("create big pic", "ok");
+				ParseObject bigpicObj = (ParseObject) arg0.get("bigpic");
+
+				bigpicObj.fetchIfNeededInBackground(new GetCallback() {
+					public void done(ParseObject obj, ParseException e){
+						Toast.makeText(getApplicationContext(), ""+obj.isDataAvailable(), Toast.LENGTH_SHORT).show();
+						ParseFile file = (ParseFile) obj.get("pic");
+						file.getDataInBackground(new GetDataCallback(){
+							public void done(byte[] data, ParseException e){
+								if (e == null){
+									loadPictureFromByteArray(data);
+								} else loadPictureFromByteArray(null);
+							}
+						});
+					}
+				});
+			}
+		});
+		Log.d("finish", "ok");
+	}
+
+	public void loadPictureFromByteArray(byte [] data) {
+		if (data == null) {
+			image = null;
+			return; }
+		image = BitmapFactory.decodeByteArray(data, 0, data.length);
+		picView.setImageBitmap(image);
+		if (image == null) Status.setText("No picture available");
+		else Status.setText("");
 	}
 
 	@Override
@@ -107,7 +168,7 @@ public class ConfirmSellItem extends SellOneItem {
 		getMenuInflater().inflate(R.menu.activity_confirm_sell_item, menu);
 		return true;
 	}
-	
+
 	/**
 	 * Handle cancel button 
 	 * @param view
@@ -121,17 +182,33 @@ public class ConfirmSellItem extends SellOneItem {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// Need to confirm cancel to buy this item from server
-				activity.finish();
-				Intent i = new Intent(getApplicationContext(), ItemSelection.class);
-				startActivity(i);
+				if (!isEdit) {
+					activity.finish();
+					Intent i = new Intent(getApplicationContext(), ItemSelection.class);
+					startActivity(i);
+					
+				} else {
+					ParseQuery query = new ParseQuery("Sellable");
+					query.getInBackground(id, new GetCallback() {
+						@Override
+						public void done(ParseObject obj, ParseException e) {
+							// Cancel object
+							obj.deleteInBackground();
+							Toast.makeText(getApplicationContext(), "You have deleted the item", Toast.LENGTH_LONG).show();
+							intent = new Intent(getApplicationContext(), SellingItems.class);
+							startActivity(intent);
+						}
+					});
+				}
 			}
 		});
-		builder.setNegativeButton("Cancel", new OnClickListener() {
+		builder.setNegativeButton("No", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) { } // do nothing
 		});
 		builder.create().show();
 	}
+
 	/**
 	 * Handle Edit button
 	 * @param view
@@ -139,14 +216,19 @@ public class ConfirmSellItem extends SellOneItem {
 	 */
 	public void editSellItem(View view) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Do you want to cancel to buy this item");
+		builder.setTitle("Do you want to edit this item?");
 		builder.setPositiveButton("Ok", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				activity.finish(); 
+				intent = new Intent(getApplicationContext(), SellOneItem.class);
+				// Put EDIT and ID for the next screen
+				intent.putExtra(EDIT, true);
+				intent.putExtra(ID, id);
+				startActivity(intent);
+				activity.finish();
 			}
 		});
-		builder.setNegativeButton("Cancel", new OnClickListener() {
+		builder.setNegativeButton("No", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) { } // do nothing
 		});
@@ -159,7 +241,7 @@ public class ConfirmSellItem extends SellOneItem {
 	 */
 	public void confirmSellItem(View view) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Do you want to confirm to sell this item");
+		builder.setTitle("Do you want to confirm to sell this item?");
 		builder.setPositiveButton("Ok", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -183,14 +265,14 @@ public class ConfirmSellItem extends SellOneItem {
 				Log.d("Running time", ""+(end - start)); 
 			}
 		});
-		builder.setNegativeButton("Cancel", new OnClickListener() {
+		builder.setNegativeButton("No", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) { } // do nothing
 		});
 		builder.create().show();
 	}
-	
-	
+
+
 	/**
 	 * Load default image by type
 	 * @param type
@@ -205,7 +287,7 @@ public class ConfirmSellItem extends SellOneItem {
 			return BitmapFactory.decodeResource(getResources(), R.drawable.bike);
 		} else return BitmapFactory.decodeResource(getResources(), R.drawable.miscellaneous);
 	}
-	
+
 	/** 
 	 * Make a start animation slide both left and right
 	 */
@@ -222,5 +304,5 @@ public class ConfirmSellItem extends SellOneItem {
 		right_to_mid.start();
 		left_to_mid.start();
 	}
-	
+
 }

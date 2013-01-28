@@ -108,7 +108,6 @@ public class ItemDetail extends MITBAYActivity {
 	public void loadPicture(Bundle bundle) {
 		image = null;
 		id = bundle.getString(ID, "");
-		Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
 		// Parse object load small image
 		ParseQuery query = new ParseQuery("Sellable");
 		query.getInBackground(id, new GetCallback() {
@@ -157,7 +156,6 @@ public class ItemDetail extends MITBAYActivity {
 		if (data == null) {
 			image = null;
 			return; }
-		Toast.makeText(getApplicationContext(), ""+data.length, Toast.LENGTH_SHORT).show();
 		image = BitmapFactory.decodeByteArray(data, 0, data.length);
 		picView.setImageBitmap(image);
 		if (image == null) status.setText("No picture available");
