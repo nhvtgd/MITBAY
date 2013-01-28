@@ -85,10 +85,10 @@ public class ItemDetail extends MITBAYActivity {
 								setText(user_information);
 		// Load category picture
 		ImageView pic = (ImageView) findViewById(R.id.ItemDetail_ImageForItem);
-		if (type.equals(TEXTBOOK)) pic.setImageResource(R.drawable.text_book);
-		else if (type.equals(FURNITURE)) pic.setImageResource(R.drawable.furniture_icon);
+		if (type.equals(TEXTBOOK)) pic.setImageResource(R.drawable.textbook);
+		else if (type.equals(FURNITURE)) pic.setImageResource(R.drawable.furniture);
 		else if (type.equals(TRANSPORTATION)) pic.setImageResource(R.drawable.bike);
-		else pic.setImageResource(R.drawable.misc);
+		else pic.setImageResource(R.drawable.miscellaneous);
 	}
 	
 	/**
@@ -190,6 +190,7 @@ public class ItemDetail extends MITBAYActivity {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Intent i = new Intent(getApplicationContext(), LogInPage.class);
+					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(i);
 				} 
 			});

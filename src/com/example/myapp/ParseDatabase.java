@@ -37,14 +37,13 @@ public class ParseDatabase {
 	 */
 	public static ParseObject createSellableParseObj(Sellable sell) {
 		ParseObject obj = new ParseObject("Sellable");
-		obj.put("name", sell.getName());
-		obj.put("price", sell.getPrice());
-		obj.put("type", sell.getType());
-		obj.put("condition", sell.getCondition());
+		obj.put(MITBAYActivity.NAME, sell.getName());
+		obj.put(MITBAYActivity.PRICE, sell.getPrice());
+		obj.put(MITBAYActivity.TYPE, sell.getType());
+		obj.put(MITBAYActivity.CONDITION, sell.getCondition());
 		obj.put("seller", sell.getSeller().getName());
 		obj.put("enabled", sell.isEnabled());
 		obj.put("description", sell.getDescription());
-		sell.setDate(obj.getCreatedAt().toString());
 		return obj;
 	}
 
@@ -227,11 +226,12 @@ public class ParseDatabase {
 	public ParseQuery getEnabled() {
 		ParseQuery query = new ParseQuery("Sellable");
 		query.whereEqualTo("enabled", true);
+		query.orderByDescending("createdAt");
 		return query;
 	}
 
 	/**
-	 * Return an ArrayList of Sellable Objects that still active but not yet
+	 * Return an ArrayList of Sellable Objects THAT still active but not yet
 	 * delete from the server)
 	 * 
 	 * @return a list of sellable objects that are enabled or empty ArrayList if
