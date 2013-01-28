@@ -92,6 +92,12 @@
     <string name="title_activity_notification_history">Notification History</string>
     <string name="title_activity_top_requested">Top Requested</string>
     
-    <string name="item_frequency_top_requested">Requests</string>
+    <!-- Top Requested Item -->
+    <string name="item_frequency_top_requested">No. of Requests</string>
+    <string name="show_5">Top 5</string>
+    <string name="show_10">Top 10</string>
+    <string name="show_20">Top 20</string>
+    <string name="show_everything">Everything</string>
+    
 
 </resources>

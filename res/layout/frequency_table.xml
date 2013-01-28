@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg"
+    android:divider="@color/black"
+    android:dividerPadding="1dp"
     android:orientation="horizontal"
     android:weightSum="1.0" >
 
-    
     <TextView
         android:id="@+id/top_item"
         style="@style/TextViewElement"
@@ -13,8 +15,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.5"
-        android:gravity="center_horizontal"
-        android:text="@string/top_requested_by_button" />
+        android:gravity="center"
+        android:text="@string/top_requested_by_button"
+        android:textColor="@color/red"
+        android:textStyle="bold" 
+        android:background="@drawable/border_right"/>
 
     <TextView
         android:id="@+id/frequency_item"
@@ -23,7 +28,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.5"
-        android:gravity="center_horizontal"
-        android:text="@string/item_frequency_top_requested" />
+        android:gravity="center"
+        android:text="@string/item_frequency_top_requested"
+        android:textColor="@color/red"
+        android:textStyle="bold" 
+        android:background="@drawable/border_right"/>
 
 </LinearLayout>

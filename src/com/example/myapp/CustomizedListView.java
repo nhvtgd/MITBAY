@@ -103,9 +103,9 @@ public class CustomizedListView extends MITBAYActivity implements
 
 	ConnectionDetector connection = new ConnectionDetector(this);
 
-	private final String NETWORK_ERROR_TITLE = "NO CONNECTION";
+	public final String NETWORK_ERROR_TITLE = "NO CONNECTION";
 
-	private final String NETWORK_ERROR_MESSAGE = "Please check your connection and try again";
+	public final String NETWORK_ERROR_MESSAGE = "Please check your connection and try again";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
