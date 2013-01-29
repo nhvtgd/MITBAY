@@ -42,6 +42,7 @@ public class ParseDatabase {
 		obj.put("type", sell.getType());
 		obj.put("condition", sell.getCondition());
 		obj.put("seller", sell.getSeller().getName());
+		obj.put("seller_email", sell.getSeller().getEmail());
 		obj.put("enabled", sell.isEnabled());
 		obj.put("description", sell.getDescription());
 		obj.put("location", sell.getLocation());
@@ -607,8 +608,11 @@ public class ParseDatabase {
 		
 		String location = (String) obj.get(MITBAYActivity.LOCATION);
 	
+
+		String email = (String) obj.get(MITBAYActivity.SELLER_EMAIL);
+
 		String id = (String) obj.getObjectId();
-		User user = new User(seller, seller);
+		User user = new User(seller, email);
 		Sellable sell = new Sellable(user, name, price, type, description,
 				condition, null);
 		sell.setId(id);

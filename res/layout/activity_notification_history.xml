@@ -6,6 +6,7 @@
     android:orientation="vertical"
     tools:context=".NotificationHistory" >
 
+    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,5 +46,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>
+    -->
+
+    <LinearLayout
+        style="@android:style/Widget.CompoundButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/silver"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/search_bar_notification_history"
+            style="@android:style/Widget.EditText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="Filter result" />
+
+        <Button
+            android:maxLines="1"
+            android:id="@+id/request_button_notification_history"
+            style="@style/ButtonText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:background="@drawable/red_background_button"
+            android:text="@string/request_notification_history">
+        </Button>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_notification_history"
+        style="@style/mitbay_DropDownListView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp"
+        android:listSelector="@android:drawable/list_selector_background" />
 
 </LinearLayout>

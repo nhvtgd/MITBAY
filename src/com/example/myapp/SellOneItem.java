@@ -1,5 +1,6 @@
 package com.example.myapp;
 import java.io.File;
+import java.io.FileOutputStream;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,6 +32,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 
 public class SellOneItem extends MITBAYActivity {
 	// Keep track of camera request
@@ -48,17 +56,43 @@ public class SellOneItem extends MITBAYActivity {
 	private boolean isChangingLocation = false;
 	private SharedPreferences settings;
 	private SharedPreferences.Editor prefEdit;
+	private boolean isEdit;
+	private Bundle bundle;
+	private TextView user_information, item_name, item_price, item_description, status;
+	private String username, email, location, id, name, price, type, condition, description;
+	private Spinner item_type, item_condition;
+	private ImageView picView;
 	
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sell_one_item);
 		// Make start animation
 		makeStartAnimation();
-		// Loading
+		// Setting constant values
+		Log.d("initialize data", "1");
+		bundle =  getIntent().getExtras();
+		if (this.getIntent().hasExtra(EDIT)) isEdit = bundle.getBoolean(EDIT, false);
+		else isEdit = false;
+		Log.d("initialize data", "3");
+		user_information = (TextView) findViewById(R.id.sell_one_item_UserInformation);
+		Log.d("initialize data", "4");
+		item_name = (TextView) findViewById(R.id.sell_one_item_Item);
+		item_price = (TextView) findViewById(R.id.sell_one_item_Price);
+		item_description = (TextView) findViewById(R.id.sell_one_item_Description);
+		item_condition = (Spinner) findViewById(R.id.sell_one_item_Quality);
+		item_type = (Spinner) findViewById(R.id.sell_one_item_Category);
+		status = (TextView) findViewById(R.id.sell_one_item_status);
+		picView = (ImageView) findViewById(R.id.sell_one_item_Piture);
+		Log.d("initialize data", "ok");
 		setSpinner(R.id.sell_one_item_Quality, R.array.QualityItem);
+		Log.d("initialize data", "ok");
 		setSpinner(R.id.sell_one_item_Category, R.array.CategoryItem);
+		Log.d("initialize data", "ok");
+		// Loading data
+		Log.d("editting data", "ok");
+		loadingEditingData(bundle);
 		Log.d("Load setting data", "start");
 		loadSettingData(); 	// Load setting data from user
 		Log.d("load ser view user", "2");
@@ -74,13 +108,12 @@ public class SellOneItem extends MITBAYActivity {
 	public void loadSettingData() {
 		// GetSharedPreferences
 		settings = getSharedPreferences(SETTING, 0);
-		String user_name = settings.getString(USERNAME, "Anonymous");
-		String email = settings.getString(EMAIL, "Not found");
-		String location = settings.getString(LOCATION, "");
+		username = settings.getString(USERNAME, "Anonymous");
+		email = settings.getString(EMAIL, "Not found");
+		location = settings.getString(LOCATION, "");
 		if (location.isEmpty()) location = "(Add you location)";
 		// Set Text View
-		((TextView) findViewById(R.id.sell_one_item_UserInformation))
-		.setText(String.format("%s %n%s %n%s", user_name, email, location));
+		user_information.setText(String.format("%s %n%s %n%s", username, email, location));
 	}
 
 	/**
@@ -252,6 +285,11 @@ public class SellOneItem extends MITBAYActivity {
 		// Create intent for the next activity
 		Intent intent = new Intent(view.getContext(), ConfirmSellItem.class);
 		putExtras(intent);
+		if (isEdit) {
+			intent.putExtra(ID, id);
+			intent.putExtra(DONE_EDIT, true);
+			intent.putExtra(EDIT, false);
+		}
 		startActivity(intent);
 		Log.d("load Ok", "------------------");
 	}
@@ -274,23 +312,7 @@ public class SellOneItem extends MITBAYActivity {
 		intent.putExtra(CONDITION, condition);
 		intent.putExtra(TYPE, type);
 		intent.putExtra(DESCRIPTION, description);
-		intent.putExtra("imgPath", imgPath);
-	}
-
-	/**
-	 * Put extra information of Sellable object to intent for the next activity
-	 * @param intent intent need to put extra information
-	 * @param obj Sellable object
-	 */
-	public void putExtraIntent(Intent intent, Sellable obj) {
-		// Put Images
-		intent.putExtra("imgPath", imgPath);
-		// Put item, price, condition, category, description
-		intent.putExtra(ITEM, obj.getName());
-		intent.putExtra(PRICE, obj.getPrice());
-		intent.putExtra(CONDITION, ((Spinner)findViewById(R.id.sell_one_item_Quality)).getSelectedItem().toString());
-		intent.putExtra(TYPE, ((Spinner)findViewById(R.id.sell_one_item_Category)).getSelectedItem().toString());
-		intent.putExtra(DESCRIPTION, obj.getDescription());
+		intent.putExtra(IMAGE_PATH, imgPath);
 	}
 
 	/**
@@ -301,6 +323,7 @@ public class SellOneItem extends MITBAYActivity {
 			if (resultCode == Activity.RESULT_CANCELED) return;
 			// Load image in appropriate size
 			IMAGE = loadingBitmapEfficiently(imgPath, WIDTH, HEIGHT);
+			Toast.makeText(getApplicationContext(), imgPath, Toast.LENGTH_SHORT).show();
 			// Put image in ImageView
 			setView();
 		} else if (requestCode == PICK_PHOTO) {
@@ -310,6 +333,7 @@ public class SellOneItem extends MITBAYActivity {
 			imgPath = getPathFromUri(uri);
 			// Load image in appropriate size
 			IMAGE = loadingBitmapEfficiently(imgPath, WIDTH, HEIGHT);
+			Toast.makeText(getApplicationContext(), imgPath, Toast.LENGTH_SHORT).show();
 			setView();
 		}		
 	}
@@ -361,7 +385,81 @@ public class SellOneItem extends MITBAYActivity {
 			child.setAnimation(animation); }
 		animation.start();
 	}
+	
+	/**
+	 * Just in case editing,need to loading all data from previous screen
+	 * @param bundle
+	 */
+	private void loadingEditingData(Bundle bundle) {
+		// Get ID
+		if (this.getIntent().hasExtra(ID)) id = bundle.getString(ID, "");
+		else return ;
+		if (id == "") return ;
+		// Get object
+		ParseQuery query = new ParseQuery("Sellable");
+		query.getInBackground(id, new GetCallback() {
+			@Override
+			public void done(ParseObject obj, ParseException e) {
+				if (e != null) {
+					Toast.makeText(getApplicationContext(), "Unfortunately, there is probably an error on server", Toast.LENGTH_LONG).show();
+					return; }
+				// Load item, price, condition, type, description, picture
+				name = obj.get(ITEM_NAME).toString();
+				price = obj.get(PRICE).toString();
+				condition = obj.get(CONDITION).toString();
+				type = obj.get(TYPE).toString();
+				description = obj.get(DESCRIPTION).toString();
+				// Set information on UI
+				item_name.setText(name);
+				item_price.setText(price);
+				item_description.setText(description);
+				// Set Spinner
+				String[] conditions = getResources().getStringArray(R.array.QualityItem);
+				for (int i=0; i<condition.length(); i++) {
+					if (condition.equals(conditions[i])) item_condition.setSelection(i);
+				}
+				String[] types = getResources().getStringArray(R.array.CategoryItem);
+				for (int i=0; i<types.length; i++) {
+					if (type.equals(types[i])) item_type.setSelection(i);
+				}
+				// Load small image
+				ParseFile file = (ParseFile) obj.get("pic");
+				file.getDataInBackground(new GetDataCallback(){
+					public void done(byte[] data, ParseException e){
+						if (e == null){
+							loadPictureFromByteArray(data);
+						} else loadPictureFromByteArray(null);	
+					}
+				});
+				ParseObject bigpicObj = (ParseObject) obj.get("bigpic");
 
+				bigpicObj.fetchIfNeededInBackground(new GetCallback() {
+					public void done(ParseObject obj, ParseException e){
+						Toast.makeText(getApplicationContext(), ""+obj.isDataAvailable(), Toast.LENGTH_SHORT).show();
+						ParseFile file = (ParseFile) obj.get("pic");
+						file.getDataInBackground(new GetDataCallback(){
+							public void done(byte[] data, ParseException e){
+								if (e == null){
+									loadPictureFromByteArray(data);
+								} else loadPictureFromByteArray(null);
+							}
+						});
+					}
+
+				});
+			}
+		});
+	}
+	
+	public void loadPictureFromByteArray(byte [] data) {
+		if (data == null) {
+			IMAGE= null;
+			return; }
+		IMAGE = BitmapFactory.decodeByteArray(data, 0, data.length);
+		picView.setImageBitmap(IMAGE);
+		if (IMAGE == null) status.setText("No picture available");
+		else status.setText("");
+	}
 }
 
 // add location for item

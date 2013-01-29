@@ -36,7 +36,7 @@ public class ConfirmSellItem extends SellOneItem {
 	private User user;
 	private Button confirm_button;
 	private SharedPreferences settings;
-	private boolean isEdit; 
+	private boolean isEdit = false, isDoneEdit =false; 
 	private ImageView picView;
 	private TextView Status;
 	private Intent intent;
@@ -53,7 +53,10 @@ public class ConfirmSellItem extends SellOneItem {
 		// loading data
 		Bundle bundle = getIntent().getExtras();
 		// Load information
-		isEdit = bundle.getBoolean(EDIT, false);
+		if (getIntent().hasExtra(EDIT)) isEdit = bundle.getBoolean(EDIT);
+		else isEdit = false;
+		if (getIntent().hasExtra(DONE_EDIT)) isDoneEdit = bundle.getBoolean(DONE_EDIT);
+		else isDoneEdit = false;
 		id = bundle.getString(ID, "");
 		item = bundle.getString(ITEM).toString();
 		type = bundle.getString(TYPE).toString();
@@ -80,14 +83,21 @@ public class ConfirmSellItem extends SellOneItem {
 		Status = (TextView) findViewById(R.id.Status);
 		picView = (ImageView)findViewById(R.id.Picture);
 		Log.d("is edit?", ""+(isEdit));
-		if (!isEdit) loadImage(bundle);
+		Log.d("is done edit?", ""+isDoneEdit);
+		if (!isEdit || isDoneEdit) {
+			Log.d("loading picture from bundle", "ok");
+			loadImage(bundle);
+		}
 		else  {
+			Log.d("Doing crazy with editing", "");
 			loadImageFromServer(bundle); 
 			TextView greeting  = (TextView) findViewById(R.id.confirm_sell_item_greeting);
 			greeting.setText("Hi "+ username +", You are selling the following item");
 			Button confirm = (Button) findViewById(R.id.Confirm);
-			confirm.setEnabled(false);
-			confirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_default_disabled_holo_dark));
+			if (!isDoneEdit) {
+				confirm.setEnabled(false);
+				confirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_default_disabled_holo_dark));
+			}
 		}
 	}
 
@@ -98,11 +108,12 @@ public class ConfirmSellItem extends SellOneItem {
 	private void loadImage(Bundle bundle) {
 		image = null;
 		String status = "Default picture";
-		String imgPath = bundle.getString("imgPath").toString();
+		String imgPath = bundle.getString(IMAGE_PATH);
 		image = loadingBitmapEfficiently(imgPath, WIDTH, HEIGHT);
 		// Set Image
+		type = bundle.getString(TYPE).toString();
 		if (image != null) status = "";
-		else image = setDefaultImage(type);
+		else image = setDefaultImage();
 		picView.setMinimumHeight(picView.getWidth());
 		picView.setImageBitmap(image);
 		Status.setText(status);
@@ -136,7 +147,6 @@ public class ConfirmSellItem extends SellOneItem {
 
 				bigpicObj.fetchIfNeededInBackground(new GetCallback() {
 					public void done(ParseObject obj, ParseException e){
-						Toast.makeText(getApplicationContext(), ""+obj.isDataAvailable(), Toast.LENGTH_SHORT).show();
 						ParseFile file = (ParseFile) obj.get("pic");
 						file.getDataInBackground(new GetDataCallback(){
 							public void done(byte[] data, ParseException e){
@@ -183,10 +193,10 @@ public class ConfirmSellItem extends SellOneItem {
 			public void onClick(DialogInterface dialog, int which) {
 				// Need to confirm cancel to buy this item from server
 				if (!isEdit) {
-					activity.finish();
 					Intent i = new Intent(getApplicationContext(), ItemSelection.class);
 					startActivity(i);
-					
+					activity.finish();
+
 				} else {
 					ParseQuery query = new ParseQuery("Sellable");
 					query.getInBackground(id, new GetCallback() {
@@ -197,15 +207,13 @@ public class ConfirmSellItem extends SellOneItem {
 							Toast.makeText(getApplicationContext(), "You have deleted the item", Toast.LENGTH_LONG).show();
 							intent = new Intent(getApplicationContext(), SellingItems.class);
 							startActivity(intent);
+							activity.finish();
 						}
 					});
 				}
 			}
 		});
-		builder.setNegativeButton("No", new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) { } // do nothing
-		});
+		builder.setNegativeButton("No", null);
 		builder.create().show();
 	}
 
@@ -220,18 +228,17 @@ public class ConfirmSellItem extends SellOneItem {
 		builder.setPositiveButton("Ok", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				intent = new Intent(getApplicationContext(), SellOneItem.class);
-				// Put EDIT and ID for the next screen
-				intent.putExtra(EDIT, true);
-				intent.putExtra(ID, id);
-				startActivity(intent);
-				activity.finish();
+				if (isEdit) {
+					intent = new Intent(getApplicationContext(), SellOneItem.class);
+					// Put EDIT and ID for the next screen
+					intent.putExtra(EDIT, true);
+					intent.putExtra(ID, id);
+					startActivity(intent);
+					activity.finish();
+				} else activity.finish();
 			}
 		});
-		builder.setNegativeButton("No", new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) { } // do nothing
-		});
+		builder.setNegativeButton("No", null);
 		builder.create().show();
 	}
 	/**
@@ -253,22 +260,30 @@ public class ConfirmSellItem extends SellOneItem {
 				String location = settings.getString(LOCATION, CONTACT_SELLER);
 				obj.setLocation(location);
 				Log.d("Image == null", image.getByteCount()+"");
+				// If is editing, delete object
+				if  (isDoneEdit) {
+					ParseQuery query = new ParseQuery("Sellable");
+					query.getInBackground(id, new GetCallback() {
+						@Override
+						public void done(ParseObject obj, ParseException e) {
+							// Cancel object
+							obj.deleteInBackground();
+							Toast.makeText(getApplicationContext(), "You have deleted the item", Toast.LENGTH_LONG).show();
+						}
+					});
+				}
 				// Send to server
-				start = System.currentTimeMillis();
-				Log.d("Sending server", ""+System.currentTimeMillis());
 				ParseDatabase parse = new ParseDatabase(getApplicationContext());
-				Log.d("create Parse","Ok");
-				String id = parse.sendSellableToServer(obj);
-				end = System.currentTimeMillis();
-				obj.setId(id);
+				parse.sendSellableToServer(obj);
 				Log.d("Sent server", ""+System.currentTimeMillis());
-				Log.d("Running time", ""+(end - start)); 
+				Log.d("Running time", ""+(end - start));
+				intent = new Intent(getApplicationContext(), CustomizedListView.class);
+				intent.putExtra("query", ItemSelection.ALL);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 			}
 		});
-		builder.setNegativeButton("No", new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) { } // do nothing
-		});
+		builder.setNegativeButton("No", null);
 		builder.create().show();
 	}
 
@@ -278,14 +293,16 @@ public class ConfirmSellItem extends SellOneItem {
 	 * @param type
 	 * @return
 	 */
-	private Bitmap setDefaultImage(String type) {
-		if (type.equals(R.string.textbook_string)) {
+	private Bitmap setDefaultImage() {
+		if (type.equals(TEXTBOOK)) {
 			return BitmapFactory.decodeResource(getResources(), R.drawable.text_book);
-		} else if (type.equals(R.string.furniture_string)) {
-			return BitmapFactory.decodeResource(getResources(), R.drawable.furniture);
-		} else if (type.equals(R.string.transportation_string)) {
+		} else if (type.equals(FURNITURE)) {
+			return BitmapFactory.decodeResource(getResources(), R.drawable.furniture_icon);
+		} else if (type.equals(TRANSPORTATION)) {
 			return BitmapFactory.decodeResource(getResources(), R.drawable.bike);
-		} else return BitmapFactory.decodeResource(getResources(), R.drawable.miscellaneous);
+		} else {
+			return BitmapFactory.decodeResource(getResources(), R.drawable.misc);
+		}
 	}
 
 	/** 

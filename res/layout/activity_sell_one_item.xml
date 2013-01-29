@@ -25,7 +25,7 @@
                 android:id="@+id/sell_one_item_UserPhoto"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_default_normal"
+                android:background="@drawable/round_edit_text_bound"
                 android:src="@drawable/ic_user" 
                 android:adjustViewBounds="true"
                 android:onClick="changeUserInformation" />
@@ -59,7 +59,7 @@
                 android:layout_width="@dimen/icon_for_buy_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/btn_default_normal"
+                android:background="@drawable/round_edit_text_bound"
                 android:text="Done"
                 android:textColor="@color/red"
                 android:textStyle="bold" 
@@ -127,6 +127,7 @@
         <LinearLayout 
             style="@style/LinearLayoutForSellOneItem" >
             <TextView 
+                android:padding="10dp"
                 style="@style/TextViewForSellOneItem"
                 android:text="Condition" />
             <TextView
@@ -191,6 +192,7 @@
                     />
             </LinearLayout>
             <TextView
+                android:id="@+id/sell_one_item_status"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

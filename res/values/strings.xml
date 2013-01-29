@@ -99,5 +99,7 @@
     <string name="show_20">Top 20</string>
     <string name="show_everything">Everything</string>
     
+    <string name="request_notification_history">Request Item</string>
+    
 
 </resources>

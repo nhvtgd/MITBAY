@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapp.helper.AlertDialogManager;
+import com.example.myapp.helper.ConnectionDetector;
 import com.login.LogInPage;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
@@ -36,6 +38,8 @@ public class ItemDetail extends MITBAYActivity {
 	private TextView status;
 	private boolean isEdit;
 	private Intent intent;
+	private ConnectionDetector connection = new ConnectionDetector(this);
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,7 +90,7 @@ public class ItemDetail extends MITBAYActivity {
 		((TextView) findViewById(R.id.ItemDetail_Condition)).setText(condition);
 		// Set price
 		((TextView) findViewById(R.id.ItemDetail_Price))
-		.setText(price);;
+		.setText("$"+price);;
 		// Set description
 		((TextView) findViewById(R.id.ItemDetail_Description)).setText(description);
 		// Get seller information
@@ -95,10 +99,10 @@ public class ItemDetail extends MITBAYActivity {
 		setText(user_information);
 		// Load category picture
 		ImageView pic = (ImageView) findViewById(R.id.ItemDetail_ImageForItem);
-		if (type.equals(TEXTBOOK)) pic.setImageResource(R.drawable.textbook);
-		else if (type.equals(FURNITURE)) pic.setImageResource(R.drawable.furniture);
+		if (type.equals(TEXTBOOK)) pic.setImageResource(R.drawable.text_book);
+		else if (type.equals(FURNITURE)) pic.setImageResource(R.drawable.furniture_icon);
 		else if (type.equals(TRANSPORTATION)) pic.setImageResource(R.drawable.bike);
-		else pic.setImageResource(R.drawable.miscellaneous);
+		else pic.setImageResource(R.drawable.misc);
 	}
 
 	/**
@@ -106,6 +110,11 @@ public class ItemDetail extends MITBAYActivity {
 	 * Up date status
 	 */
 	public void loadPicture(Bundle bundle) {
+		if (!connection.isConnectingToInternet()) {
+			new AlertDialogManager().showAlertDialog(this, NETWORK_ERROR_TITLE,
+					NETWORK_ERROR_MESSAGE, false);
+			return ;
+		}
 		image = null;
 		id = bundle.getString(ID, "");
 		// Parse object load small image

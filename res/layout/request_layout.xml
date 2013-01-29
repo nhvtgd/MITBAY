@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    <TextView 
-        android:id="@+id/RequestText"
-        android:layout_width="fill_parent"
-        android:layout_height="30sp"
-        android:gravity="center_vertical|left"
-        android:text="request information"
-        />
+    android:background="@drawable/gradient_bg" >
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/edit_text_notification_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="Requested Item Here" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_notification_history" >
+
+        <Button
+            style="@style/ButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center"
+            android:background="@drawable/red_background_button"
+            android:gravity="right|center"
+            android:text="Edit  "
+            android:textSize="16sp" />
+
+        <Button
+            android:background="@drawable/red_background_button"
+            android:textSize="16sp"
+            style="@style/ButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:gravity="right|center"
+            android:text="Delete" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -12,6 +12,7 @@
 	    android:layout_height="30sp"
 	    android:src="@drawable/ic_input_add"/>
 	<TextView
+	    android:id="@+id/RequestText"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_vertical|left"
