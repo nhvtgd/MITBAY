@@ -1,16 +1,19 @@
 package com.example.myapp.helper;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.example.myapp.MITBAYActivity;
@@ -84,28 +87,23 @@ public class SortingFunction {
 		@Override
 		public int compare(Sellable o1, Sellable o2) {
 			Log.d("date", o1.getDate().toString());
-			
-			String[] date1 = o1.getDate().split("-");
-			String[] date2 = o2.getDate().split("-");
-//			if (Integer.valueOf(date1[2]) < Integer.valueOf(date2[2]))
-//				return -1;
-//			else if (Integer.valueOf(date1[2]) > Integer.valueOf(date2[2]))
-//				return 1;
-//			else {
-//				for (int i = 0; i < month.size(); i++) {
-//					monthToInt.put(month.get(i), i + 1);
-//				}
-//				if (monthToInt.get(date1[1]) < monthToInt.get(date2[1]))
-//					return -1;
-//				else if (monthToInt.get(date1[1]) > monthToInt.get(date2[1]))
-//					return 1;
-//				else {
-//					return Integer.valueOf(date1[0]).compareTo(
-//							Integer.valueOf(date2[0]));
-//				}
-//
-//			}
-			return SortingFunction.compare(date1,date2,4);
+			SimpleDateFormat formater = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+			Date formattedDate1 = null;
+			Date formattedDate2 = null;
+			try {
+				formattedDate1 = formater.parse(o1.getDate());
+				formattedDate2 = formater.parse(o2.getDate());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			SimpleDateFormat formater2 = new SimpleDateFormat("HH-mm-ss-dd-MM-yyyy");
+			String[] date1 = formater2.format(formattedDate1).split("-");
+			String[] date2 = formater2.format(formattedDate2).split("-");
+			for (String i: date1){
+				Log.d("date", i);
+			}
+			return SortingFunction.compare(date1,date2,date1.length-1);
 
 		}
 
@@ -116,9 +114,9 @@ public class SortingFunction {
 			return Integer.valueOf(date1[0]).compareTo(Integer.valueOf(date2[0]));
 		else{
 			if (Integer.valueOf(date1[n]) < Integer.valueOf(date2[n]))
-				return -1;
-			else if (Integer.valueOf(date1[n]) > Integer.valueOf(date2[n]))
 				return 1;
+			else if (Integer.valueOf(date1[n]) > Integer.valueOf(date2[n]))
+				return -1;
 			else
 				return compare(date1,date2,n-1);
 		}
@@ -140,8 +138,8 @@ public class SortingFunction {
 				comparator = nameComparator;
 			} else if (field.equals(MITBAYActivity.PRICE)) {
 				comparator = priceComparator;
-//			} else if (field.equalsIgnoreCase(MITBAYActivity.DATE)) {
-//				comparator = dateComparator;
+			} else if (field.equalsIgnoreCase(MITBAYActivity.DATE)) {
+				comparator = dateComparator;
 			} else if (field.equalsIgnoreCase(MITBAYActivity.CONDITION)) {
 				comparator = conditionComparator;
 			} else if (field.equalsIgnoreCase(MITBAYActivity.LOCATION)) {

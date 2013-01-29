@@ -207,36 +207,34 @@ public class CustomizedListView extends MITBAYActivity implements
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
-		// SortData sort = new SortData();
-		//
-		// sort.execute(item.getTitle().toString().toLowerCase());
 		if (search.getText().toString().trim().length() > 0) {
 			sortedList = filterList;
 
 		} else {
 			sortedList = itemList;
 		}
-		if (!item.getTitle().toString().trim().toLowerCase()
-				.equalsIgnoreCase(MITBAYActivity.DATE)) {
-			SortingFunction.sort(item.getTitle().toString().trim()
-					.toLowerCase(), sortedList);
-			list = (ListView) findViewById(R.id.my_list);
-			adapter = new ListViewAdapter(act, sortedList);
-			list.setAdapter(adapter);
-			list.setOnItemClickListener(new ItemOnClickListener());
-			adapter.notifyDataSetChanged();
-			progressDialog.cancel();
-		} else {
-			SortData data = new SortData();
-			data.execute(MITBAYActivity.DATE);
-		}
-//		SortingFunction.sort(item.getTitle().toString().trim().toLowerCase(),
-//				sortedList);
-//		list = (ListView) findViewById(R.id.my_list);
-//		adapter = new ListViewAdapter(act, sortedList);
-//		list.setAdapter(adapter);
-//		list.setOnItemClickListener(new ItemOnClickListener());
-//		adapter.notifyDataSetChanged();
+		// if (!item.getTitle().toString().trim().toLowerCase()
+		// .equalsIgnoreCase(MITBAYActivity.DATE)) {
+		// SortingFunction.sort(item.getTitle().toString().trim()
+		// .toLowerCase(), sortedList);
+		// list = (ListView) findViewById(R.id.my_list);
+		// adapter = new ListViewAdapter(act, sortedList);
+		// list.setAdapter(adapter);
+		// list.setOnItemClickListener(new ItemOnClickListener());
+		// adapter.notifyDataSetChanged();
+		// progressDialog.cancel();
+		// } else {
+		// SortData data = new SortData();
+		// data.execute(MITBAYActivity.DATE);
+		// }
+		SortingFunction.sort(item.getTitle().toString().trim().toLowerCase(),
+				sortedList);
+		list = (ListView) findViewById(R.id.my_list);
+		adapter = new ListViewAdapter(act, sortedList);
+		list.setAdapter(adapter);
+		list.setOnItemClickListener(new ItemOnClickListener());
+		adapter.notifyDataSetChanged();
+		progressDialog.cancel();
 		return true;
 
 	}
@@ -346,6 +344,7 @@ public class CustomizedListView extends MITBAYActivity implements
 							public void onClick(DialogInterface dialog,
 									int which) {
 								Intent i = new Intent(act, LogInPage.class);
+								i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(i);
 
 							}
