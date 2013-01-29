@@ -191,6 +191,7 @@
                     />
             </LinearLayout>
             <TextView
+                android:id="@+id/sell_one_item_status"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -60,7 +62,8 @@
         </activity>
         <activity
             android:name="com.example.myapp.SellOneItem"
-            android:label="@string/title_activity_sell_one_item" >
+            android:label="@string/title_activity_sell_one_item" 
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.myapp.SplashScreen"
