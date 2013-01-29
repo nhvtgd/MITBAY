@@ -57,21 +57,6 @@ public class ListViewAdapter extends BaseAdapter {
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		// imageLoader = new ImageLoader(a.getApplicationContext());
-		final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-
-		// Use 1/8th of the available memory for this memory cache.
-		final int cacheSize = maxMemory / 8;
-
-		mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-			@Override
-			protected int sizeOf(String key, Bitmap bitmap) {
-				// The cache size will be measured in kilobytes rather than
-				// number of items.
-				return bitmap.getByteCount() / 1024;
-			}
-		};
-		ParseDatabase database = new ParseDatabase(a);
-
 	}
 
 	public int getCount() {
@@ -105,7 +90,7 @@ public class ListViewAdapter extends BaseAdapter {
 		// Setting all values in listview
 		name.setText(item.getName() + " (" + item.getCondition() + ")");
 		// category.setText(item.getType().toString());
-		
+
 		location.setText(item.getLocation());
 		description.setText(item.getDescription());
 		priceValue.setText(item.getPrice());
@@ -123,25 +108,11 @@ public class ListViewAdapter extends BaseAdapter {
 				image.setImageResource(R.drawable.misc);
 			} else
 				image.setImageResource(R.drawable.unknown);
-		} else{
+		} else {
 			Log.d("Image not null", item.getId());
 			image.setImageBitmap(item.getImages());
 		}
 
-		// ParseQuery query = new ParseQuery("Sellable");
-		// query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
-		// ParseObject obj = null;
-		// try {
-		// Log.d("fuck here", "doom");
-		//
-		// obj = query.getInBackground(objectId, callback)
-		// } catch (ParseException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// Log.d("before", "fuck");
-		// ParseFile file = (ParseFile) obj.get("pic");
-		// Log.d("URL", file.getUrl());
 		return vi;
 	}
 
@@ -189,15 +160,5 @@ public class ListViewAdapter extends BaseAdapter {
 			Log.d("URL", file.getUrl());
 
 		}
-		// private class ImageLoader {
-		// Activity activity;
-		// public ImageLoader(Activity a) {
-		// activity = a;
-		// }
-		//
-		// public void displayImage(ImageView imaview,String id){
-		// File file = open()
-		// }
-		// }
 	}
 }

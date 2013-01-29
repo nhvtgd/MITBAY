@@ -31,9 +31,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.example.myapp.BuyingItems.Item;
-import com.example.myapp.BuyingItems.ItemsAdapter;
 import com.example.myapp.helper.AlertDialogManager;
 import com.example.myapp.helper.ConnectionDetector;
 import com.example.myapp.helper.ListViewAdapter;
@@ -125,6 +124,15 @@ public class CustomizedListView extends MITBAYActivity implements
 		// set navigating icon
 		ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
+
+		settings = getSharedPreferences(SETTING, 0);
+		if (settings.getBoolean(IS_ALREADY_LOG_IN, false)) {
+			TextView profileTextView = (TextView) findViewById(R.id.profile_text_view);
+			profileTextView.setText("Profile");
+		} else {
+			TextView profileTextView = (TextView) findViewById(R.id.profile_text_view);
+			profileTextView.setText("Login");
+		}
 
 		Log.d("set up", "Content View created");
 		Boolean SelectOrSearch = getIntent().getExtras().containsKey(
@@ -289,20 +297,6 @@ public class CustomizedListView extends MITBAYActivity implements
 		} else {
 			sortedList = itemList;
 		}
-		// if (!item.getTitle().toString().trim().toLowerCase()
-		// .equalsIgnoreCase(MITBAYActivity.DATE)) {
-		// SortingFunction.sort(item.getTitle().toString().trim()
-		// .toLowerCase(), sortedList);
-		// list = (ListView) findViewById(R.id.my_list);
-		// adapter = new ListViewAdapter(act, sortedList);
-		// list.setAdapter(adapter);
-		// list.setOnItemClickListener(new ItemOnClickListener());
-		// adapter.notifyDataSetChanged();
-		// progressDialog.cancel();
-		// } else {
-		// SortData data = new SortData();
-		// data.execute(MITBAYActivity.DATE);
-		// }
 		SortingFunction.sort(item.getTitle().toString().trim().toLowerCase(),
 				sortedList);
 		list = (ListView) findViewById(R.id.my_list);
@@ -339,6 +333,9 @@ public class CustomizedListView extends MITBAYActivity implements
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			return true;
+		case (R.id.menu_settings): {
+			moveToNewActivity(this, UserProfile.class);
+		}
 		default:
 			return super.onOptionsItemSelected(item);
 
@@ -375,7 +372,9 @@ public class CustomizedListView extends MITBAYActivity implements
 								.getDescription())
 						|| isSubString(searchText, itemList.get(i).getType())
 						|| isSubString(searchText, itemList.get(i)
-								.getCondition()))
+								.getCondition())
+						|| isSubString(searchText, itemList.get(i)
+								.getLocation()))
 					filterList.add(itemList.get(i));
 
 			}
@@ -384,6 +383,42 @@ public class CustomizedListView extends MITBAYActivity implements
 
 		}
 
+	}
+
+	private void moveToNewActivity(Activity origin, Class<?> toActivity) {
+		if (settings.getBoolean(IS_ALREADY_LOG_IN, false)) {
+			Intent i = new Intent(origin, toActivity);
+			Log.d("sellOneItem", "here");
+			startActivity(i);
+		} else {
+			AlertDialog alertDialog = new AlertDialog.Builder(origin).create();
+
+			// Setting Dialog Title
+			alertDialog.setTitle(GREETING);
+
+			// Setting Dialog Message
+			alertDialog.setMessage(MESSAGE);
+
+			alertDialog.setIcon(R.drawable.fail);
+
+			// Setting OK Button
+			alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					Intent i = new Intent(act, LogInPage.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(i);
+
+				}
+			});
+			alertDialog.setButton2("Cancel",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+
+						}
+					});
+
+			alertDialog.show();
+		}
 	}
 
 	private class CustomizedOnClickListener implements OnClickListener {
@@ -398,44 +433,7 @@ public class CustomizedListView extends MITBAYActivity implements
 
 		@Override
 		public void onClick(View v) {
-			if (settings.getBoolean(IS_ALREADY_LOG_IN, false)) {
-				Intent i = new Intent(origin, toActivity);
-				Log.d("sellOneItem", "here");
-				startActivity(i);
-			} else {
-				AlertDialog alertDialog = new AlertDialog.Builder(origin)
-						.create();
-
-				// Setting Dialog Title
-				alertDialog.setTitle(GREETING);
-
-				// Setting Dialog Message
-				alertDialog.setMessage(MESSAGE);
-
-				alertDialog.setIcon(R.drawable.fail);
-
-				// Setting OK Button
-				alertDialog.setButton("OK",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								Intent i = new Intent(act, LogInPage.class);
-								i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								startActivity(i);
-
-							}
-						});
-				alertDialog.setButton2("Cancel",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-							}
-						});
-
-				alertDialog.show();
-			}
-
+			moveToNewActivity(origin, toActivity);
 		}
 
 	}
@@ -597,19 +595,6 @@ public class CustomizedListView extends MITBAYActivity implements
 
 	}
 
-	private String getCreatedAtDate(Sellable item) throws ParseException {
-		ParseDatabase database = new ParseDatabase(this);
-		ParseQuery sellable = new ParseQuery("Sellable");
-		Log.d("create data base", "OK");
-		ParseObject obj = sellable.get(item.getId());
-		Log.d("create parse obj", obj.getClassName());
-
-		SimpleDateFormat df = new SimpleDateFormat("hh:ss, dd/MM/yy");
-
-		return obj.getCreatedAt().toLocaleString();
-
-	}
-
 	public class ItemOnClickListener implements OnItemClickListener {
 
 		@Override
@@ -617,7 +602,7 @@ public class CustomizedListView extends MITBAYActivity implements
 				long arg3) {
 			Sellable item = (Sellable) adapter.getItem(arg2);
 			Intent intent = new Intent(arg1.getContext(), ItemDetail.class);
-			intent.putExtra(MITBAYActivity.USERNAME, item.getSeller().getName());
+			intent.putExtra(USERNAME, item.getSeller().getName());
 			Log.d("user", item.getSeller().getName());
 			intent.putExtra(EMAIL, item.getSeller().getEmail());
 			intent.putExtra("date", item.getDate());

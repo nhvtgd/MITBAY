@@ -1,13 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_alert"
-        android:icon="@drawable/alert_icon_32"
-        android:orderInCategory="3"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/menu_notification"/>
-    
-    <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/settings_icon_32"
         android:orderInCategory="3"
