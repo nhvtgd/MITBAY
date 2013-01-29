@@ -27,6 +27,7 @@
             android:textSize="16sp" />
 
         <Button
+            android:id="@+id/delete_button"
             android:background="@drawable/red_background_button"
             android:textSize="16sp"
             style="@style/ButtonText"

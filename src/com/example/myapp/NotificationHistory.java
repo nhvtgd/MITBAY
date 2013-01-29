@@ -8,6 +8,8 @@ import org.json.JSONException;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -41,6 +44,8 @@ public class NotificationHistory extends ListActivity implements
 				"2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
 				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
 		settingUpData();
+		
+						
 	}
 
 	private void settingUpData() {
@@ -72,8 +77,7 @@ public class NotificationHistory extends ListActivity implements
 		}
 
 		listView = (ListView) findViewById(R.id.list_notification_history);
-		ArrayAdapter<String> adapter = new MySimpleArrayAdapter(this,
-				requests);
+		adapter = new MySimpleArrayAdapter(this, requests);
 		setListAdapter(adapter);
 
 	}
@@ -96,9 +100,28 @@ public class NotificationHistory extends ListActivity implements
 					false);
 			EditText textView = (EditText) rowView
 					.findViewById(R.id.edit_text_notification_history);
+			Button delete = (Button) rowView.findViewById(R.id.delete_button);
+			makeEditable(false, textView);
 			textView.setText(values.get(position));
-			// Change the icon for Windows and iPhonex
+			
 			return rowView;
+		}
+	}
+
+	private void makeEditable(boolean isEditable, EditText et) {
+		if (isEditable) {
+
+			et.setFocusable(true);
+			et.setEnabled(true);
+			et.setClickable(true);
+			et.setFocusableInTouchMode(true);
+		} else {
+			et.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+			et.setFocusable(false);
+			et.setClickable(false);
+			et.setFocusableInTouchMode(false);
+			et.setEnabled(false);
+			et.setKeyListener(null);
 		}
 	}
 
