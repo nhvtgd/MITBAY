@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -30,6 +33,8 @@ public class ItemSelection extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_item_selection);
+		// Make start animation
+		makeStartAnimation();
 
 		searchQuery = (AutoCompleteTextView) findViewById(R.id.auto_complete_item);
 		searchQuery.setAdapter(new ItemsAutoCompleteAdapter(this,
@@ -108,6 +113,25 @@ public class ItemSelection extends Activity implements OnClickListener {
 			break;
 		}
 		}
+	}
+	
+	/**
+	 * Make animation move from right to left
+	 */
+	private void makeStartAnimation() {
+		ViewGroup frame = (ViewGroup) findViewById(R.id.item_selection_frame);
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_translate_right_to_mid);
+		Animation counter_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_translate_left_to_mid);
+		for (int i=0; i<frame.getChildCount()/2; i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(animation);
+		}
+		for (int i=frame.getChildCount()/2; i<frame.getChildCount(); i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(counter_animation);
+		}
+		animation.start();
+		counter_animation.start();
 	}
 
 }
