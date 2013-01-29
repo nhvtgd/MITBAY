@@ -70,6 +70,7 @@ public class ListViewAdapter extends BaseAdapter {
         Log.d("view", "create view successfully");
         Sellable item = data.get(position);
         
+        Log.d("View", "create view at position" + position);
         
         // Setting all values in listview
         name.setText(item.getName() + " (" + item.getCondition()+")");
