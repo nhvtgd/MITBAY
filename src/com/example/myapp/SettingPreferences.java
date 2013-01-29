@@ -1,12 +1,10 @@
 package com.example.myapp;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
@@ -27,18 +26,20 @@ public class SettingPreferences extends MITBAYActivity {
 	private boolean isChangingLocation = false;
 	private String username;
 	private String email;
+	private String password;
 	private String location;
 	private SharedPreferences settings;
 	private SharedPreferences.Editor prefEditor;
 	private User current_user;
 	private String newPassword;
-	
+	private Intent intent;
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case (android.R.id.home):
-			Intent intent = new Intent(this, ItemSelection.class);
+			intent = new Intent(this, ItemSelection.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			return true;
@@ -47,7 +48,7 @@ public class SettingPreferences extends MITBAYActivity {
 
 		}
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,6 +58,9 @@ public class SettingPreferences extends MITBAYActivity {
 		actionBar.setHomeButtonEnabled(true);
 		settings = getSharedPreferences(SETTING, 0);
 		prefEditor = settings.edit();
+		username = settings.getString(USERNAME, "Anonymous");
+		email = settings.getString(EMAIL, "");
+		password = settings.getString(PASSWORD, "");
 		setView();
 	}
 
@@ -86,18 +90,29 @@ public class SettingPreferences extends MITBAYActivity {
 	 */
 	public void confirmEditLocation(View view) {
 		isChangingLocation = ! isChangingLocation;
-		String new_location = ((EditText) findViewById(R.id.setting_preferences_EditLocation)).getText().toString();
-		((TextView) findViewById(R.id.setting_preferences_Location)).setText(new_location);
+		location = ((EditText) findViewById(R.id.setting_preferences_EditLocation)).getText().toString();
+		((TextView) findViewById(R.id.setting_preferences_Location)).setText(location);
 		// Save in SharedPreferences
 		settings = getSharedPreferences(SETTING, 0);
 		prefEditor = settings.edit();
-		prefEditor.putString(LOCATION, new_location);
+		prefEditor.putString(LOCATION, location);
 		prefEditor.commit();
+		// save in user
+		ParseUser.logInInBackground(username, password, new LogInCallback() {
+			  public void done(ParseUser user, ParseException e) {
+			    if (user != null) {
+			      user.put(LOCATION, location);
+			      user.saveInBackground();
+			    } else {
+			    	Toast.makeText(getApplicationContext(), "Unfortunately, there are some problem with server", Toast.LENGTH_LONG).show();
+			    }
+			  }
+			});
 		setView();
 	}
-	
-	
-	
+
+
+
 	/*
 	 *  Change password option
 	 */
@@ -110,7 +125,7 @@ public class SettingPreferences extends MITBAYActivity {
 		isChangingPassword = ! isChangingPassword;
 		setView();
 	}
-	
+
 	/**
 	 * Confirm to change password
 	 * 	Check password
@@ -134,7 +149,7 @@ public class SettingPreferences extends MITBAYActivity {
 			return ; }
 		isValidLogIn(username, currentPassword);
 	}
-	
+
 	/**
 	 * Check valid log in
 	 * @param email
@@ -151,6 +166,7 @@ public class SettingPreferences extends MITBAYActivity {
 					isValidLogIn = true;
 					// Set new password
 					user.setPassword(newPassword);
+					user.saveInBackground();
 					// Remember
 					prefEditor.putString(PASSWORD, newPassword);
 					prefEditor.commit();
@@ -166,7 +182,7 @@ public class SettingPreferences extends MITBAYActivity {
 		});
 		return isValidLogIn;
 	}
-	
+
 	/**
 	 * Create a remind a dialog with a text and Ok button
 	 * @param text
@@ -181,8 +197,8 @@ public class SettingPreferences extends MITBAYActivity {
 		});
 		builder.create().show();
 	}
-	
-	
+
+
 	/**
 	 * Set view
 	 * @param view
@@ -204,15 +220,13 @@ public class SettingPreferences extends MITBAYActivity {
 			frameLocation.setLayoutParams(new LayoutParams(0, 0));
 		}
 		// Loading preferences data
-		username = settings.getString(USERNAME, "Anonymous");
-		email = settings.getString(EMAIL, "");
 		location = settings.getString(LOCATION, "(Add your location?)");
 		// Set text
 		((TextView)findViewById(R.id.setting_preferences_UserName)).setText(username);
 		((TextView)findViewById(R.id.setting_preferences_Email)).setText(email);
 		((TextView)findViewById(R.id.setting_preferences_Location)).setText(location);
 	}
-	
+
 }
 
 

@@ -1,6 +1,5 @@
 package com.example.myapp;
 import java.io.File;
-import java.io.FileOutputStream;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -34,14 +33,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapp.helper.AlertDialogManager;
-import com.example.myapp.helper.ConnectionDetector;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 
 public class SellOneItem extends MITBAYActivity {
@@ -63,7 +62,7 @@ public class SellOneItem extends MITBAYActivity {
 	private boolean isEdit;
 	private Bundle bundle;
 	private TextView user_information, item_name, item_price, item_description, status;
-	private String username, email, location, id, name, price, type, condition, description;
+	private String username, email, password, location, id, name, price, type, condition, description;
 	private Spinner item_type, item_condition;
 	private ImageView picView;
 	
@@ -132,6 +131,7 @@ public class SellOneItem extends MITBAYActivity {
 		settings = getSharedPreferences(SETTING, 0);
 		username = settings.getString(USERNAME, "Anonymous");
 		email = settings.getString(EMAIL, "Not found");
+		password = settings.getString(PASSWORD, "");
 		location = settings.getString(LOCATION, "");
 		if (location.isEmpty()) location = "(Add you location)";
 		// Set Text View
@@ -152,9 +152,20 @@ public class SellOneItem extends MITBAYActivity {
 	public void doneEditLocation(View view) {
 		// Update 
 		prefEdit = settings.edit();
-		prefEdit.putString(LOCATION, ((EditText)
-				findViewById(R.id.sell_one_item_EditLocation)).getText().toString());
+		location = ((EditText) findViewById(R.id.sell_one_item_EditLocation)).getText().toString();
+		prefEdit.putString(LOCATION, location);
 		prefEdit.commit();
+		// save in user
+		ParseUser.logInInBackground(username, password, new LogInCallback() {
+			  public void done(ParseUser user, ParseException e) {
+			    if (user != null) {
+			      user.put(LOCATION, location);
+			      user.saveInBackground();
+			    } else {
+			    	Toast.makeText(getApplicationContext(), "Unfortunately, there are some problem with server", Toast.LENGTH_LONG).show();
+			    }
+			  }
+			});
 		isChangingLocation = !isChangingLocation;
 		setViewUserInformation();
 		loadSettingData();
