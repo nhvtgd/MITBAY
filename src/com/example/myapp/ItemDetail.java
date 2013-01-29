@@ -156,7 +156,6 @@ public class ItemDetail extends MITBAYActivity {
 
 				bigpicObj.fetchIfNeededInBackground(new GetCallback() {
 					public void done(ParseObject obj, ParseException e){
-						Toast.makeText(getApplicationContext(), ""+obj.isDataAvailable(), Toast.LENGTH_SHORT).show();
 						ParseFile file = (ParseFile) obj.get("pic");
 						file.getDataInBackground(new GetDataCallback(){
 							public void done(byte[] data, ParseException e){
