@@ -2,6 +2,7 @@ package com.example.myapp;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -10,6 +11,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,13 +32,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.example.myapp.BuyingItems.Item;
+import com.example.myapp.BuyingItems.ItemsAdapter;
 import com.example.myapp.helper.AlertDialogManager;
 import com.example.myapp.helper.ConnectionDetector;
 import com.example.myapp.helper.ListViewAdapter;
 import com.example.myapp.helper.SortingFunction;
 import com.login.LogInPage;
 import com.parse.CountCallback;
+import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -107,11 +115,13 @@ public class CustomizedListView extends MITBAYActivity implements
 
 	public final String NETWORK_ERROR_MESSAGE = "Please check your connection and try again";
 
+	ParseDatabase newDataBase;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customized_list_view);
-
+		newDataBase = new ParseDatabase(act);
 		// set navigating icon
 		ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
@@ -128,6 +138,7 @@ public class CustomizedListView extends MITBAYActivity implements
 		if (connection.isConnectingToInternet()) {
 			data = new GetData();
 			data.execute(queryResult);
+			getImageItem(queryResult);
 		} else {
 			new AlertDialogManager().showAlertDialog(this, NETWORK_ERROR_TITLE,
 					NETWORK_ERROR_MESSAGE, false);
@@ -141,8 +152,7 @@ public class CustomizedListView extends MITBAYActivity implements
 
 			@Override
 			public void onClick(View v) {
-				ParseDatabase newDataBase = new ParseDatabase(act);
-				ParseQuery parseQuery = new ParseQuery(queryResult);
+				ParseQuery parseQuery = getParseQuery(queryResult);
 
 				parseQuery.countInBackground(new CountCallback() {
 
@@ -194,11 +204,77 @@ public class CustomizedListView extends MITBAYActivity implements
 
 	}
 
+	private ParseQuery getParseQuery(String query) {
+		ParseQuery sell;
+		if (query.equals(ItemSelection.ALL)) {
+			sell = newDataBase.getEnabled();
+		} else if (query.equals(ItemSelection.TEXTBOOK)) {
+			sell = newDataBase.getType(TEXTBOOK);
+		} else if (query.equals(ItemSelection.FURNITURE)) {
+			sell = newDataBase.getType(FURNITURE);
+		} else if (query.equals(ItemSelection.TRANSPORTATION)) {
+			sell = newDataBase.getType(TRANSPORTATION);
+		} else if (query.equals(ItemSelection.MISC)) {
+			sell = newDataBase.getType(MISC);
+		} else {
+			sell = newDataBase.getSellableWithName(query);
+		}
+		return sell;
+	}
+
+	private void getImageItem(String query) {
+		ParseQuery sell = getParseQuery(query);
+
+		sell.findInBackground(new FindCallback() {
+
+			@Override
+			public void done(List<ParseObject> arg0, ParseException arg1) {
+				for (final ParseObject obj : arg0) {
+					ParseFile file = (ParseFile) obj.get("pic");
+					file.getDataInBackground(new GetDataCallback() {
+
+						@Override
+						public void done(byte[] data, ParseException arg1) {
+							Bitmap image = null;
+							if (arg1 == null) {
+								Log.d("create bitmap", "Ok");
+								image = BitmapFactory.decodeByteArray(data, 0,
+										data.length);
+							} else {
+								image = BitmapFactory.decodeResource(
+										getResources(), R.drawable.unknown);
+							}
+							Log.d("update picture", "ok");
+							Log.d("picture == null", "" + (image == null));
+							for (Sellable item : itemList) {
+								Log.d(item.getId(), obj.getObjectId());
+								if (item.getId().toString()
+										.equals(obj.getObjectId().toString())) {
+
+									item.setImages(image);
+									break;
+								}
+							}
+							Log.d("update UI", "ok");
+							adapter = new ListViewAdapter(act, itemList);
+							list.setAdapter(adapter);
+							adapter.notifyDataSetChanged();
+
+						}
+					});
+				}
+
+			}
+		});
+
+	}
+
 	private void doRefresh(int arg0) {
 		if (arg0 != itemList.size()) {
 			Log.d("result", arg0 + " " + itemList.size());
 			GetData data = new GetData();
 			data.execute(queryResult);
+			getImageItem(queryResult);
 		}
 
 	}
@@ -466,7 +542,7 @@ public class CustomizedListView extends MITBAYActivity implements
 		protected ArrayList<Sellable> doInBackground(String... params) {
 			String query = params[0];// get the activity
 			// create the data base to initialize things
-			ParseDatabase newDataBase = new ParseDatabase(act);
+
 			ParseQuery parseQuery = new ParseQuery(query);
 
 			Log.d("dataBase", "Creat data base");

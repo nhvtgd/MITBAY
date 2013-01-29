@@ -43,7 +43,8 @@ public class ParseDatabase {
 		obj.put("condition", sell.getCondition());
 		obj.put("seller", sell.getSeller().getName());
 		obj.put("enabled", sell.isEnabled());
-		obj.put("desciption", sell.getDescription());
+		obj.put("description", sell.getDescription());
+		obj.put("location", sell.getLocation());
 		return obj;
 	}
 
@@ -603,12 +604,19 @@ public class ParseDatabase {
 		String type = (String) obj.get(MITBAYActivity.TYPE);
 		String condition = (String) obj.get(MITBAYActivity.CONDITION);
 		String seller = (String) obj.get(MITBAYActivity.SELLER);
+		
+		String location = (String) obj.get(MITBAYActivity.LOCATION);
+	
 		String id = (String) obj.getObjectId();
 		User user = new User(seller, seller);
 		Sellable sell = new Sellable(user, name, price, type, description,
 				condition, null);
 		sell.setId(id);
 		sell.setDate(obj.getCreatedAt().toString());
+		if (location == null)
+			sell.setLocation(MITBAYActivity.CONTACT_SELLER);
+		else
+			sell.setLocation(location);
 		return sell;
 	}
 
