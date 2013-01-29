@@ -3,35 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/silver"
+    android:divider="@color/black"
+    android:dividerPadding="1dp"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:divider="@color/black"
+        android:dividerPadding="1dp" >
 
-        <TextView
-            style="@style/TextViewElement"
+        <Button
+            android:id="@+id/show_top_requested"
+            style="@style/ButtonText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
-            android:gravity="center_horizontal"
-            android:text="@string/top_requested_by_button" />
+            android:background="@drawable/red_background_button"
+            android:drawableLeft="@drawable/hot_icon"
+            android:gravity="center"
+            android:text="@string/top_requested_by_button"
+            android:textSize="16sp" />
 
         <TextView
-            style="@style/TextViewElement"
+            style="@style/ButtonText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
-            android:gravity="center_horizontal"
+            android:background="@drawable/red_background_button"
+            android:drawableLeft="@drawable/frequency_icon"
+            android:gravity="center"
             android:text="@string/item_frequency_top_requested" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/frequency_listView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:divider="@color/black"
+        android:dividerHeight="1dp" >
     </ListView>
 
     <!--

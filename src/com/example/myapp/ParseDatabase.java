@@ -37,13 +37,13 @@ public class ParseDatabase {
 	 */
 	public static ParseObject createSellableParseObj(Sellable sell) {
 		ParseObject obj = new ParseObject("Sellable");
-		obj.put(MITBAYActivity.NAME.toString(), sell.getName());
-		obj.put(MITBAYActivity.PRICE.toString(), sell.getPrice());
-		obj.put(MITBAYActivity.TYPE.toString(), sell.getType());
-		obj.put(MITBAYActivity.CONDITION.toString(), sell.getCondition());
-		obj.put(MITBAYActivity.SELLER.toString(), sell.getSeller().getName());
-		obj.put(MITBAYActivity.ENABLE.toString(), sell.isEnabled());
-		obj.put(MITBAYActivity.DESCRIPTION.toString(), sell.getDescription());
+		obj.put("name", sell.getName());
+		obj.put("price", sell.getPrice());
+		obj.put("type", sell.getType());
+		obj.put("condition", sell.getCondition());
+		obj.put("seller", sell.getSeller().getName());
+		obj.put("enabled", sell.isEnabled());
+		obj.put("desciption", sell.getDescription());
 		return obj;
 	}
 
@@ -99,6 +99,7 @@ public class ParseDatabase {
 		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.whereEqualTo(MITBAYActivity.SELLER, user.getName());
 		query.whereEqualTo(MITBAYActivity.ITEM_NAME, name);
+		query.whereEqualTo(MITBAYActivity.ENABLE, true);
 		return query;
 	}
 
@@ -144,6 +145,7 @@ public class ParseDatabase {
 	public ParseQuery getSellableOfUser(User user) {
 		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.whereEqualTo(MITBAYActivity.SELLER, user.getName());
+		query.whereEqualTo(MITBAYActivity.ENABLE, true);
 		return query;
 	}
 
@@ -187,6 +189,7 @@ public class ParseDatabase {
 	public ParseQuery getType(String type) {
 		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.whereEqualTo(MITBAYActivity.TYPE, type);
+		query.whereEqualTo(MITBAYActivity.ENABLE, true);
 		return query;
 	}
 
@@ -301,6 +304,7 @@ public class ParseDatabase {
 	public ParseQuery getCondition(String cond) {
 		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.whereEqualTo(MITBAYActivity.CONDITION, cond);
+		query.whereEqualTo(MITBAYActivity.ENABLE, true);
 		return query;
 	}
 
@@ -340,6 +344,7 @@ public class ParseDatabase {
 	public ParseQuery getDate(Date date) {
 		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.whereEqualTo("date", date);
+		query.whereEqualTo(MITBAYActivity.ENABLE, true);
 		return query;
 	}
 
@@ -465,6 +470,7 @@ public class ParseDatabase {
 	public ParseQuery getSellableWithName(String name) {
 		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.whereEqualTo(MITBAYActivity.ITEM_NAME, name);
+		query.whereEqualTo(MITBAYActivity.ENABLE, true);
 		return query;
 	}
 
@@ -506,6 +512,7 @@ public class ParseDatabase {
 	public ParseQuery returnInOrderByAscending(String parameter) {
 		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.orderByAscending(parameter);
+		query.whereEqualTo(MITBAYActivity.ENABLE, true);
 
 		return query;
 	}
@@ -548,6 +555,7 @@ public class ParseDatabase {
 	public ParseQuery returnInOrderByDescending(String parameter) {
 		ParseQuery query = new ParseQuery(MITBAYActivity.SELLABLE);
 		query.orderByDescending(parameter);
+		query.whereEqualTo(MITBAYActivity.ENABLE, true);
 		return query;
 	}
 

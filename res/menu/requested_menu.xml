@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/show_5"
+        android:title="@string/show_5"/>
+    <item
+        android:id="@+id/show_10"
+        android:title="@string/show_10"/>
+    <item
+        android:id="@+id/show_20"
+        android:title="@string/show_20"/>
+    <item
+        android:id="@+id/show_everything"
+        android:title="@string/show_everything"/>
+
+</menu>
