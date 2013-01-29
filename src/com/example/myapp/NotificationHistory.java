@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -29,7 +30,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-public class NotificationHistory extends ListActivity implements
+public class NotificationHistory extends MITBAYActivity implements
 		OnClickListener {
 
 	ListView listView;
@@ -37,23 +38,36 @@ public class NotificationHistory extends ListActivity implements
 	ArrayList<String> requests = new ArrayList<String>();
 	ArrayAdapter<String> adapter;
 	private SharedPreferences settings;
+	
+	 EditText newRequest;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notification_history);
+		Log.d("set content View", "Ok");
 		Parse.initialize(getApplicationContext(),
 				"2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
 				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
 		settingUpData();
 
-		EditText newRequest = (EditText) findViewById(R.id.new_request_notification_history);
+		newRequest = (EditText) findViewById(R.id.new_request_notification_history);
 		Button addRequest = (Button) findViewById(R.id.request_button_notification_history);
+		Log.d("setting up", "okay");
 		addRequest.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-
+				Log.d("click", "Ok");
+				String requestItem = newRequest.getText().toString().trim();
+				Log.d("getting request item","Okay");
+				if (requestItem.length() > 0){
+					requests.add(requestItem);
+					Log.d("adding to array", "okay");
+					changeOnServer(requests);
+					Log.d("changing on server", "okay");
+					newRequest.setText("");					
+				}
 			}
 		});
 
@@ -74,15 +88,15 @@ public class NotificationHistory extends ListActivity implements
 
 	}
 
-	private void deleteOnServer(final ArrayList<String> request) {
+	private void changeOnServer(final ArrayList<String> request) {
 		ParseQuery query = ParseUser.getQuery();
 		String id = loadSettingData();
 		query.getInBackground(id, new GetCallback() {
 			public void done(ParseObject object, ParseException e) {
 				if (e == null) {
-
 					object.put("requesteditems", request);
 					object.saveInBackground();
+					adapter.notifyDataSetChanged();
 				} else {
 				}
 			}
@@ -104,7 +118,7 @@ public class NotificationHistory extends ListActivity implements
 
 		listView = (ListView) findViewById(R.id.list_notification_history);
 		adapter = new MySimpleArrayAdapter(this, requests);
-		setListAdapter(adapter);
+		listView.setAdapter(adapter);
 
 	}
 
@@ -123,7 +137,8 @@ public class NotificationHistory extends ListActivity implements
 				ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.request_layout, parent,false);
+			View rowView = inflater.inflate(R.layout.request_layout, parent,
+					false);
 			TextView textView = (TextView) rowView
 					.findViewById(R.id.text_view_notification_history);
 			Button delete = (Button) rowView.findViewById(R.id.delete_button);
@@ -132,8 +147,7 @@ public class NotificationHistory extends ListActivity implements
 				@Override
 				public void onClick(View v) {
 					requests.remove(position);
-					deleteOnServer(requests);
-					adapter.notifyDataSetChanged();
+					changeOnServer(requests);					
 
 				}
 			});

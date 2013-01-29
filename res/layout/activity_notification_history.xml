@@ -65,7 +65,7 @@
             android:layout_weight="0.4"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:hint="Filter result" />
+            android:hint="Request new Item" />
 
         <Button
             android:maxLines="1"
