@@ -1,8 +1,5 @@
 package com.login;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,11 +12,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapp.ItemSelection;
 import com.example.myapp.MITBAYActivity;
 import com.example.myapp.R;
+import com.example.myapp.helper.AlertDialogManager;
+import com.example.myapp.helper.ConnectionDetector;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;

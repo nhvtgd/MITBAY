@@ -4,4 +4,7 @@
     style="?android:attr/spinnerItemStyle"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="center" />
+    android:gravity="center" 
+    android:textSize="20sp" 
+    android:padding="10dp"
+    ></TextView>

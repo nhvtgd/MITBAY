@@ -47,6 +47,7 @@ public class MITBAYActivity extends Activity {
 	public static String EDIT = "edit";
 	public static String IMAGE_PATH = "imgPath";
 	public static String DONE_EDIT = "done_edit";
+	public static String SELLER_EMAIL = "seller_email";
 	// SharedPreferences settings = getSharePreferences(SETTING, 0);
 	public static String SETTING = "setting";
 	public static String NAME = "User name";

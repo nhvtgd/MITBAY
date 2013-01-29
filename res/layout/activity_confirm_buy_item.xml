@@ -160,51 +160,34 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/btn_default_normal"
                 android:onClick="cancelBuyItem"
                 android:text="Cancel"
-                android:textStyle="bold"
-                android:background="@drawable/btn_default_normal" 
-                />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/cbi_ConfirmBuy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/btn_default_normal"
                 android:onClick="confirmBuyItem"
                 android:text="Confirm"
                 android:textColor="@color/red"
-                android:textStyle="bold"
-                android:background="@drawable/btn_default_normal" 
-                />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Confirm Message -->
 
-        <LinearLayout
-            android:id="@+id/cbi_Progress"
-            android:layout_width="fill_parent"
+        <ProgressBar
+            android:id="@+id/confirm_buy_item_ProgressBar"
+            style="Widget.ProgressBar.Large"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible" >
-
-            <ProgressBar
-                style="Widget.ProgressBar.Large"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/silver"
-                android:focusable="true" />
-
-            <TextView
-                android:id="@+id/cbi_RemindText"
-                android:layout_width="0sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:layout_gravity="center"
-                android:paddingLeft="@dimen/paddingLeft_for_buy"
-                android:text="Excellent! It would be great if you send email for the seller" />
-        </LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:background="@color/silver"
+            android:visibility="invisible"
+            android:focusable="true" />
     </LinearLayout>
 
 </ScrollView>

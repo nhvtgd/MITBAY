@@ -108,12 +108,12 @@ public class ConfirmSellItem extends SellOneItem {
 	private void loadImage(Bundle bundle) {
 		image = null;
 		String status = "Default picture";
-		Toast.makeText(getApplicationContext(), imgPath, Toast.LENGTH_SHORT).show();
 		String imgPath = bundle.getString(IMAGE_PATH);
 		image = loadingBitmapEfficiently(imgPath, WIDTH, HEIGHT);
 		// Set Image
+		type = bundle.getString(TYPE).toString();
 		if (image != null) status = "";
-		else image = setDefaultImage(type);
+		else image = setDefaultImage();
 		picView.setMinimumHeight(picView.getWidth());
 		picView.setImageBitmap(image);
 		Status.setText(status);
@@ -147,7 +147,6 @@ public class ConfirmSellItem extends SellOneItem {
 
 				bigpicObj.fetchIfNeededInBackground(new GetCallback() {
 					public void done(ParseObject obj, ParseException e){
-						Toast.makeText(getApplicationContext(), ""+obj.isDataAvailable(), Toast.LENGTH_SHORT).show();
 						ParseFile file = (ParseFile) obj.get("pic");
 						file.getDataInBackground(new GetDataCallback(){
 							public void done(byte[] data, ParseException e){
@@ -261,7 +260,7 @@ public class ConfirmSellItem extends SellOneItem {
 				String location = settings.getString(LOCATION, CONTACT_SELLER);
 				obj.setLocation(location);
 				Log.d("Image == null", image.getByteCount()+"");
-				// If is editting, delete object
+				// If is editing, delete object
 				if  (isDoneEdit) {
 					ParseQuery query = new ParseQuery("Sellable");
 					query.getInBackground(id, new GetCallback() {
@@ -270,9 +269,6 @@ public class ConfirmSellItem extends SellOneItem {
 							// Cancel object
 							obj.deleteInBackground();
 							Toast.makeText(getApplicationContext(), "You have deleted the item", Toast.LENGTH_LONG).show();
-							intent = new Intent(getApplicationContext(), SellingItems.class);
-							startActivity(intent);
-							activity.finish();
 						}
 					});
 				}
@@ -280,7 +276,11 @@ public class ConfirmSellItem extends SellOneItem {
 				ParseDatabase parse = new ParseDatabase(getApplicationContext());
 				parse.sendSellableToServer(obj);
 				Log.d("Sent server", ""+System.currentTimeMillis());
-				Log.d("Running time", ""+(end - start)); 
+				Log.d("Running time", ""+(end - start));
+				intent = new Intent(getApplicationContext(), CustomizedListView.class);
+				intent.putExtra("query", ItemSelection.ALL);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 			}
 		});
 		builder.setNegativeButton("No", null);
@@ -293,14 +293,16 @@ public class ConfirmSellItem extends SellOneItem {
 	 * @param type
 	 * @return
 	 */
-	private Bitmap setDefaultImage(String type) {
-		if (type.equals(R.string.textbook_string)) {
+	private Bitmap setDefaultImage() {
+		if (type.equals(TEXTBOOK)) {
 			return BitmapFactory.decodeResource(getResources(), R.drawable.text_book);
-		} else if (type.equals(R.string.furniture_string)) {
-			return BitmapFactory.decodeResource(getResources(), R.drawable.furniture);
-		} else if (type.equals(R.string.transportation_string)) {
+		} else if (type.equals(FURNITURE)) {
+			return BitmapFactory.decodeResource(getResources(), R.drawable.furniture_icon);
+		} else if (type.equals(TRANSPORTATION)) {
 			return BitmapFactory.decodeResource(getResources(), R.drawable.bike);
-		} else return BitmapFactory.decodeResource(getResources(), R.drawable.miscellaneous);
+		} else {
+			return BitmapFactory.decodeResource(getResources(), R.drawable.misc);
+		}
 	}
 
 	/** 

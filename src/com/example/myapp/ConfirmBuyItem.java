@@ -16,7 +16,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,11 +25,13 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class ConfirmBuyItem extends MITBAYActivity {
-	
+
 	private String item, date, condition, price, description, username, email, type, id;
 	private Bitmap image;
 	SharedPreferences settings;
 	private Activity act;
+	private int AFTER_SEND_EMAIL = 123456;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,16 +44,16 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		loadTextInformation(bundle);
 		loadPicture(bundle);
 	}
-	
+
 	public void loadPicture(Bundle bundle) {
 		ImageView picView = (ImageView) findViewById(R.id.cbi_ItemPicture);
 		image = getIntent().getParcelableExtra(IMAGE);
-//		String imgPath = bundle.getString("imgPath").toString();
-//		Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
+		//		String imgPath = bundle.getString("imgPath").toString();
+		//		Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
 		if (image == null) picView.setImageDrawable(getResources().getDrawable(R.drawable.ic_green_cart));
 		else picView.setImageBitmap(image);
 	}
-	
+
 	/**
 	 * Load Item information from extras of the last activity
 	 * @param bundle
@@ -74,7 +75,7 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		// Set condition
 		((TextView) findViewById(R.id.cbi_Condition)).setText(condition);
 		// Set price
-		((TextView) findViewById(R.id.cbi_Price)).setText(price);
+		((TextView) findViewById(R.id.cbi_Price)).setText("$"+price);
 		// Buyer information
 		settings = getSharedPreferences(SETTING, 0);
 		((TextView) findViewById(R.id.cbi_Buyer)).setText(String.format("%s %n%s %n%s",
@@ -85,8 +86,8 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		String seller_information = String.format("%s %n%s", username, email);
 		((TextView) findViewById(R.id.cbi_Seller)).setText(seller_information);
 	}
-	
-	
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -117,24 +118,33 @@ public class ConfirmBuyItem extends MITBAYActivity {
 			}
 		});
 		// Visible progress
-		((LinearLayout) findViewById(R.id.cbi_Progress)).setVisibility(LinearLayout.VISIBLE);
+		((View) findViewById(R.id.confirm_buy_item_ProgressBar)).setVisibility(View.VISIBLE);
 		// Remind sending email
 		new CountDownTimer(1000, 1000) {
-		     public void onTick(long millisUntilFinished) {
-		         Toast.makeText(getApplicationContext(), "Sending to server", Toast.LENGTH_SHORT).show();
-		     }
+			public void onTick(long millisUntilFinished) {
+				Toast.makeText(getApplicationContext(), "Sending to server", Toast.LENGTH_SHORT).show();
+			}
 
-		     public void onFinish() {
-		    	 sendEmail();
-		     }
-		  }.start();
-		 
+			public void onFinish() {
+				AlertDialog.Builder builder = new AlertDialog.Builder(act);
+				builder.setTitle("Excellent! That would be great if you send email to seller!");
+				builder.setPositiveButton("Ok", new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Need to confirm cancel to buy this item from server
+						sendEmail();
+					}
+				});
+				builder.setNegativeButton("No. Thanks", null);
+				builder.create().show();
+			}
+		}.start();
+
 	}
 	/**
 	 * Send Email to the seller
 	 */
 	public void sendEmail() {
-		((LinearLayout) findViewById(R.id.cbi_Progress)).setVisibility(LinearLayout.INVISIBLE);
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("text/plain");
 		// Put extra seller email
@@ -146,11 +156,24 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		// Put extra content
 		String content = String.format("%s %n%s",
 				"Hi "+settings.getString(NAME,  "") +",",
-				"Thank you for selling this item. I want to buy "
-				+ item +" from you");
+				"Thank you for selling this item. I would like to buy "
+						+ item +" from you");
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, content);
 		// Start activity
-		startActivity(emailIntent);
+		startActivityForResult(emailIntent, AFTER_SEND_EMAIL);
+	}
+	
+	/**
+	 * Come back the the main screen
+	 */
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == AFTER_SEND_EMAIL) {
+			Toast.makeText(getApplicationContext(), "you just bought item "+item, Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(getApplicationContext(), CustomizedListView.class);
+			intent.putExtra("query", ItemSelection.ALL);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+		}
 	}
 	/**
 	 * Cancel to buy, come back to the home screen (ItemSelection)
@@ -173,9 +196,9 @@ public class ConfirmBuyItem extends MITBAYActivity {
 			public void onClick(DialogInterface dialog, int which) { } // do nothing
 		});
 		builder.create().show();
-		
+
 	}
-	
+
 	private void makeStartAnimation() {
 		ViewGroup frame = (ViewGroup) findViewById(R.id.confirm_buy_item_Frame);
 		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_animation_item_detail);
@@ -190,4 +213,4 @@ public class ConfirmBuyItem extends MITBAYActivity {
 
 // Make Theme
 // Make Dialog button more attractive
-// Send them back th main screen
+// Send them back the main screen
