@@ -58,7 +58,7 @@
         android:orientation="horizontal" >
 
         <EditText
-            android:id="@+id/search_bar_notification_history"
+            android:id="@+id/new_request_notification_history"
             style="@android:style/Widget.EditText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

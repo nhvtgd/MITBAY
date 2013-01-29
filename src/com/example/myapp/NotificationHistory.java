@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -40,12 +41,22 @@ public class NotificationHistory extends ListActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_notification_history);
 		Parse.initialize(getApplicationContext(),
 				"2TGrIyvNfLwNy3kM8OnZLAQGtSW2f6cR3k9oxHak",
 				"Y8xlSKdSilJBepTNIJqthpbJ9KeppDWCdNUQdYFX");
 		settingUpData();
-		
-						
+
+		EditText newRequest = (EditText) findViewById(R.id.new_request_notification_history);
+		Button addRequest = (Button) findViewById(R.id.request_button_notification_history);
+		addRequest.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+
 	}
 
 	private void settingUpData() {
@@ -61,6 +72,21 @@ public class NotificationHistory extends ListActivity implements
 			}
 		});
 
+	}
+
+	private void deleteOnServer(final ArrayList<String> request) {
+		ParseQuery query = ParseUser.getQuery();
+		String id = loadSettingData();
+		query.getInBackground(id, new GetCallback() {
+			public void done(ParseObject object, ParseException e) {
+				if (e == null) {
+
+					object.put("requesteditems", request);
+					object.saveInBackground();
+				} else {
+				}
+			}
+		});
 	}
 
 	protected void updatingAdapter(ParseObject object) {
@@ -93,17 +119,26 @@ public class NotificationHistory extends ListActivity implements
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView,
+				ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.request_layout, parent,
-					false);
-			EditText textView = (EditText) rowView
-					.findViewById(R.id.edit_text_notification_history);
+			View rowView = inflater.inflate(R.layout.request_layout, parent,false);
+			TextView textView = (TextView) rowView
+					.findViewById(R.id.text_view_notification_history);
 			Button delete = (Button) rowView.findViewById(R.id.delete_button);
-			makeEditable(false, textView);
+			delete.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					requests.remove(position);
+					deleteOnServer(requests);
+					adapter.notifyDataSetChanged();
+
+				}
+			});
 			textView.setText(values.get(position));
-			
+
 			return rowView;
 		}
 	}
