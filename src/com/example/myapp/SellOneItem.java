@@ -356,7 +356,6 @@ public class SellOneItem extends MITBAYActivity {
 			if (resultCode == Activity.RESULT_CANCELED) return;
 			// Load image in appropriate size
 			IMAGE = loadingBitmapEfficiently(imgPath, WIDTH, HEIGHT);
-			Toast.makeText(getApplicationContext(), imgPath, Toast.LENGTH_SHORT).show();
 			// Put image in ImageView
 			setView();
 		} else if (requestCode == PICK_PHOTO) {
@@ -366,7 +365,6 @@ public class SellOneItem extends MITBAYActivity {
 			imgPath = getPathFromUri(uri);
 			// Load image in appropriate size
 			IMAGE = loadingBitmapEfficiently(imgPath, WIDTH, HEIGHT);
-			Toast.makeText(getApplicationContext(), imgPath, Toast.LENGTH_SHORT).show();
 			setView();
 		}		
 	}
