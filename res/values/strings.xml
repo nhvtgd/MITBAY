@@ -57,7 +57,7 @@
 
     <!-- Customized list View -->
     <string name="sort_by_button">Sort by...</string>
-    <string name="notification_by_button">Notification</string>
+    <string name="notification_by_button">Request</string>
     <string name="profile_by_button">Profile</string>
     <string name="top_requested_by_button">Top Items</string>
     <string name="sort_by">Sort By</string>

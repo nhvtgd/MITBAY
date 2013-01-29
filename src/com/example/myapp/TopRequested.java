@@ -81,6 +81,7 @@ public class TopRequested extends MITBAYActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_top_requested);
+		
 		connection = new ConnectionDetector(this);
 		if (connection.isConnectingToInternet()) {
 

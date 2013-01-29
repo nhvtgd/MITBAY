@@ -63,7 +63,7 @@
             style="@style/ButtonText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.35"
+            android:layout_weight="0.39"
             android:text="@string/sell_customized_listView" >
         </Button>
 
@@ -73,7 +73,7 @@
             style="@style/ButtonText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.35"
+            android:layout_weight="0.39"
             android:text="@string/refresh_customized_listView"
             >
         </Button>
@@ -229,6 +229,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/profile_text_view"
                     style="@android:style/TextAppearance.DeviceDefault.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
