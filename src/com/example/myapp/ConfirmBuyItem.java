@@ -1,5 +1,6 @@
 package com.example.myapp;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -33,9 +35,27 @@ public class ConfirmBuyItem extends MITBAYActivity {
 	private int AFTER_SEND_EMAIL = 123456;
 	
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case (android.R.id.home):
+			Intent intent = new Intent(this, ItemSelection.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+
+		}
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_confirm_buy_item);
+		// set navigating icon
+		ActionBar actionBar = getActionBar();
+		actionBar.setHomeButtonEnabled(true);
 		// Make start animation
 		makeStartAnimation();
 		act = this;
@@ -135,7 +155,17 @@ public class ConfirmBuyItem extends MITBAYActivity {
 						sendEmail();
 					}
 				});
-				builder.setNegativeButton("No. Thanks", null);
+				builder.setNegativeButton("No. Thanks", new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplicationContext(), "you just bought item "+item, Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(getApplicationContext(), ItemSelection.class);
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(intent);
+					}
+				});
 				builder.create().show();
 			}
 		}.start();
@@ -162,15 +192,14 @@ public class ConfirmBuyItem extends MITBAYActivity {
 		// Start activity
 		startActivityForResult(emailIntent, AFTER_SEND_EMAIL);
 	}
-	
+
 	/**
 	 * Come back the the main screen
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == AFTER_SEND_EMAIL) {
 			Toast.makeText(getApplicationContext(), "you just bought item "+item, Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(getApplicationContext(), CustomizedListView.class);
-			intent.putExtra("query", ItemSelection.ALL);
+			Intent intent = new Intent(getApplicationContext(), ItemSelection.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 		}

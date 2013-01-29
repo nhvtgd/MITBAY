@@ -1,9 +1,11 @@
 package com.login;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -34,10 +36,29 @@ public class LogIn extends MITBAYActivity {
 	private Button confirm;
 	private TextView errorMessage;
 	private long timeClick = 0;
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case (android.R.id.home):
+			Intent intent = new Intent(this, ItemSelection.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_log_in);
+		// set navigating icon
+		ActionBar actionBar = getActionBar();
+		actionBar.setHomeButtonEnabled(true);
 		// Animation
 		makeAnimation();
 		// SharedPreferences
@@ -81,6 +102,12 @@ public class LogIn extends MITBAYActivity {
 
 
 	public boolean isValidLogIn(String user_name, String pass) {
+		ConnectionDetector connection = new ConnectionDetector(this);
+		if (!connection.isConnectingToInternet()) {
+			new AlertDialogManager().showAlertDialog(this, NETWORK_ERROR_TITLE,
+					NETWORK_ERROR_MESSAGE, false);
+			return false;
+		}
 		ParseUser user = new ParseUser();
 		user.setUsername(user_name);
 		user.setPassword(pass);

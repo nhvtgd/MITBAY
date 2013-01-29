@@ -55,31 +55,7 @@
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
         <!-- Requesting -->
-        <RelativeLayout
-            android:onClick="goRequesting"
-            style="@style/RelativeLayoutElement" >
-            <TextView
-                android:id="@+id/Requesting"
-                style="@style/TextViewElement"
-                android:text="Requesting Items" />
-            <ImageView
-                android:id="@+id/GoRequesting"
-                style="@style/ImageViewElement"
-                android:src="@drawable/ic_arrow" />
-        </RelativeLayout>
         <!-- History -->
-        <RelativeLayout
-            android:onClick="goHistory"
-            style="@style/RelativeLayoutElement" >
-            <TextView
-                android:id="@+id/History"
-                style="@style/TextViewElement"
-                android:text="History" />
-            <ImageView
-                android:id="@+id/GoHistory"
-                style="@style/ImageViewElement"
-                android:src="@drawable/ic_arrow" />
-        </RelativeLayout>
      
     </LinearLayout>
 

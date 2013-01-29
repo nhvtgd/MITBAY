@@ -2,6 +2,7 @@ package com.example.myapp;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -32,6 +34,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapp.helper.AlertDialogManager;
+import com.example.myapp.helper.ConnectionDetector;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -63,11 +67,29 @@ public class SellOneItem extends MITBAYActivity {
 	private Spinner item_type, item_condition;
 	private ImageView picView;
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case (android.R.id.home):
+			Intent intent = new Intent(this, ItemSelection.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+
+		}
+	}
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sell_one_item);
+		// set navigating icon
+		ActionBar actionBar = getActionBar();
+		actionBar.setHomeButtonEnabled(true);
 		// Make start animation
 		makeStartAnimation();
 		// Setting constant values

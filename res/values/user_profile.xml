@@ -32,7 +32,7 @@
 
     <style name="RelativeLayoutElement">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_margin">2sp</item>
+        <item name="android:layout_margin">3dp</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">20sp</item>

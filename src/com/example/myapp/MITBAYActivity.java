@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -147,6 +149,24 @@ public class MITBAYActivity extends Activity {
 			return false;
 		else
 			return true;
+	}
+	
+	/**
+	 * Enable option bar comming back to home
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case (android.R.id.home):
+			Intent intent = new Intent(this, ItemSelection.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+
+		}
 	}
 
 }

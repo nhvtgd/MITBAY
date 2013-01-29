@@ -1,13 +1,16 @@
 package com.example.myapp;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,10 +30,31 @@ public class SettingPreferences extends MITBAYActivity {
 	private String location;
 	private SharedPreferences settings;
 	private SharedPreferences.Editor prefEditor;
+	private User current_user;
+	private String newPassword;
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case (android.R.id.home):
+			Intent intent = new Intent(this, ItemSelection.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting_preferences);
+		// set navigating icon
+		ActionBar actionBar = getActionBar();
+		actionBar.setHomeButtonEnabled(true);
 		settings = getSharedPreferences(SETTING, 0);
 		prefEditor = settings.edit();
 		setView();
@@ -96,29 +120,19 @@ public class SettingPreferences extends MITBAYActivity {
 	 */
 	public void confirmChangePassword(View view) {
 		String currentPassword = ((EditText) findViewById(R.id.setting_preferences_CurrentPassword)).getText().toString();
-		String newPassword = ((EditText) findViewById(R.id.setting_preferences_NewPassword)).getText().toString();
+		newPassword = ((EditText) findViewById(R.id.setting_preferences_NewPassword)).getText().toString();
 		String newConfirmPassword = ((EditText) findViewById(R.id.setting_preferences_NewConfirmPassword)).getText().toString();
 		// Get preferences, email
 		settings = getSharedPreferences("settings", 0);
 		prefEditor = settings.edit();
-		String email = settings.getString(EMAIL, "");
 		// Check Password criteria
 		if (!isValidPassword(newPassword)) {
-			remindDialog("Your new password should have at least "+MINIMUM_LENGTH_PASSWORD+" characters");
+			remindDialog("Your new password should have at least " + MINIMUM_LENGTH_PASSWORD +" characters");
 			return ; }
 		if (!isMatchPasswords(newPassword, newConfirmPassword)) {
 			remindDialog("Your new password and confirmed password do not match");
 			return ; }
-		if (isValidLogIn(email, currentPassword)) {
-			// Satisfy
-			// Send to server to change
-			// Remember
-			prefEditor.putString(PASSWORD, newPassword);
-			prefEditor.commit();
-			// Close frame
-			isChangingPassword = ! isChangingPassword;
-			setView();
-		}
+		isValidLogIn(username, currentPassword);
 	}
 	
 	/**
@@ -127,17 +141,26 @@ public class SettingPreferences extends MITBAYActivity {
 	 * @param password
 	 * @return If the email and password match with one user
 	 */
-	private boolean isValidLogIn(String email, String password) {
+	private boolean isValidLogIn(String username, String password) {
 		ParseUser user = new ParseUser();
-		user.setUsername(email);
+		user.setUsername(username);
 		user.setPassword(password);
-		ParseUser.logInInBackground(email, password, new LogInCallback() {
+		ParseUser.logInInBackground(username, password, new LogInCallback() {
 			public void done(ParseUser user, ParseException e) {
 				if (user != null) {
 					isValidLogIn = true;
+					// Set new password
+					user.setPassword(newPassword);
+					// Remember
+					prefEditor.putString(PASSWORD, newPassword);
+					prefEditor.commit();
+					// Close frame
+					isChangingPassword = ! isChangingPassword;
+					setView();
+					remindDialog("Your new password has updated successfully");
 				} else {
 					isValidLogIn = false;
-					remindDialog("Your current password and email do not match");
+					remindDialog("Your current password and user name do not match");
 				}
 			}
 		});
@@ -150,7 +173,7 @@ public class SettingPreferences extends MITBAYActivity {
 	 */
 	private void remindDialog(String text) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(text);
+		builder.setMessage(text);
 		builder.setPositiveButton("Ok", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
