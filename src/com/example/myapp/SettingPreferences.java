@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -53,6 +56,8 @@ public class SettingPreferences extends MITBAYActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting_preferences);
+		// Make start animation
+		makeStartAnimation();
 		// set navigating icon
 		ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
@@ -225,6 +230,19 @@ public class SettingPreferences extends MITBAYActivity {
 		((TextView)findViewById(R.id.setting_preferences_UserName)).setText(username);
 		((TextView)findViewById(R.id.setting_preferences_Email)).setText(email);
 		((TextView)findViewById(R.id.setting_preferences_Location)).setText(location);
+	}
+	
+	/**
+	 * Make animation move from right to left
+	 */
+	private void makeStartAnimation() {
+		ViewGroup frame = (ViewGroup) findViewById(R.id.setting_preferences_frame);
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_to_left_log_in_page);
+		for (int i=0; i<frame.getChildCount(); i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(animation);
+		}
+		animation.start();
 	}
 
 }

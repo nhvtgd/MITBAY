@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 public class UserProfile extends MITBAYActivity {
@@ -45,6 +48,8 @@ public class UserProfile extends MITBAYActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
+		// Make start animation
+		makeStartAnimation();
 		settings = getSharedPreferences(SETTING, 0);
 		prefEditor = settings.edit();
 		// set navigating icon
@@ -82,5 +87,17 @@ public class UserProfile extends MITBAYActivity {
 	public void goHistory(View view) {
 		Intent intent = new Intent(view.getContext(), History.class);
 		startActivity(intent);
+	}
+	/**
+	 * Make animation move from right to left
+	 */
+	private void makeStartAnimation() {
+		ViewGroup frame = (ViewGroup) findViewById(R.id.user_profie_frame);
+		Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_to_left_log_in_page);
+		for (int i=0; i<frame.getChildCount(); i++) {
+			View child = frame.getChildAt(i);
+			child.setAnimation(animation);
+		}
+		animation.start();
 	}
 }
